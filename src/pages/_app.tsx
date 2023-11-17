@@ -1,3 +1,4 @@
+import '@/styles/globals.css'
 import React, { type FC } from 'react'
 import { type AppProps } from 'next/app'
 import { NextUIProvider } from '@nextui-org/react'
