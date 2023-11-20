@@ -23,13 +23,13 @@ export default function FourOhFour() {
           <h1
             className="font-black"
             style={{
-              fontSize: '200px',
+              fontSize: '100px',
               letterSpacing: '5px',
               width: '200px',
               color: '#7828C8'
             }}
           >
-            404
+            OOPS!
           </h1>
           <h3
             className="text-2xl font-bold"
@@ -44,7 +44,7 @@ export default function FourOhFour() {
             onPress={() => {
               back()
             }}
-            color="warning"
+            color="secondary"
             startContent={<TbArrowBigLeftFilled />}
           >
             <p className="px-12 pl-11">Volver</p>
