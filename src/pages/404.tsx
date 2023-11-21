@@ -11,7 +11,7 @@ export default function FourOhFour() {
       <div
         className="container grid grid-cols-1 lg:grid-cols-2 items-center"
         style={{
-          minHeight: 'calc(100vh - 80px)',
+          minHeight: 'calc(100vh - 128px)',
           maxHeight: '100vh',
           margin: 'auto'
         }}
