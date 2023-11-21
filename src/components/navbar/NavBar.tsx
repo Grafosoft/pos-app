@@ -38,8 +38,8 @@ export const NavBar: FC = () => {
             className="cursor-pointer mx-3"
             style={{ color: 'white' }}
           />
-          <Spacer x={10} />
-          <TbLogout size={25} className="cursor-pointer text-" />
+          <Spacer x={5} />
+          <TbLogout size={25} className="cursor-pointer text-[#f31260]" />
         </div>
       </div>
       <div className="max-h-16 flex w-full p-5 bg-white dark:bg-inherit justify-between">
