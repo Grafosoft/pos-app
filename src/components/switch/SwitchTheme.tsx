@@ -1,7 +1,7 @@
-import { Switch } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
 import { useTheme } from 'next-themes'
 import { type FC, useEffect, useState } from 'react'
-import { TbMoonFilled, TbSunFilled } from 'react-icons/tb'
+import { TbSunHigh, TbMoonFilled } from 'react-icons/tb'
 
 export const SwitchTheme: FC = () => {
   const { theme, setTheme } = useTheme()
@@ -24,13 +24,16 @@ export const SwitchTheme: FC = () => {
   }
 
   return (
-    <Switch
-      isSelected={isActiveTheme}
-      onChange={handleChange}
-      size="md"
-      color="secondary"
-      endContent={<TbSunFilled />}
-      startContent={<TbMoonFilled />}
-    />
+    <Button
+      className='bg-[#3C3F99]'
+      size="sm"
+      onClick={handleChange}
+      isIconOnly
+      disableAnimation>
+      {(isActiveTheme) ?
+        <TbSunHigh size={25} />
+        :
+        <TbMoonFilled size={25} color='white' />}
+    </Button>
   )
 }
