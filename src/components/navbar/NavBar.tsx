@@ -15,7 +15,7 @@ import {
 export const NavBar: FC = () => {
   return (
     <>
-      <div className="max-h-16 flex w-full bg-[#3C3F99] p-5 justify-between">
+      <div className="max-h-16 flex w-full bg-[#3C3F99] text-[#7828C] p-5 justify-between">
         <div className="flex items-center">
           <Image src="/images/cuental.png" width={50} alt="Cuental Logo" />
           <Spacer x={5} />
