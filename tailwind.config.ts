@@ -10,7 +10,16 @@ const config: Config = {
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {}
+    extend: {
+      screens:{
+        'sm': '640px',
+        'md': '820px',
+        'lg': '1230px',
+        'xl': '1280px',
+        '2xl': '1610px'
+      }
+    },
+
   },
   darkMode: 'class',
   plugins: [nextui()]
