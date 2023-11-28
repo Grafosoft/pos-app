@@ -3,13 +3,9 @@ import { Button, Input, Skeleton } from '@nextui-org/react';
 import { TbSearch } from "react-icons/tb";
 
 import { CardProduct } from './cardProduct';
-import axios from 'axios';
+import cuentalApi from '@/api/cuentalApi';
 import { interfaceProduct } from '@/interface/productos';
 
-
-const apiProductos = axios.create({
-  baseURL: 'https://lab.cuental.com/api/v1/items'
-})
 
 export const Products: FC = () => {
   const [valueSearch, setValueSearch] = useState("");
@@ -19,7 +15,7 @@ export const Products: FC = () => {
 
   useEffect(() => {
     const peticionProductos = async () => {
-      let {data} = await apiProductos.get<interfaceProduct>("/?companyId=6&page=0&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27&name=");
+      let {data} = await cuentalApi.get<interfaceProduct>("items/?companyId=6&page=0&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27&name=");
       setdatosProductos(data as never);
 
     }
