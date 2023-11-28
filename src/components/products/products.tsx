@@ -2,9 +2,9 @@ import { FC, useState, useEffect } from 'react';
 import { Button, Input, Skeleton } from '@nextui-org/react';
 import { TbSearch } from "react-icons/tb";
 
-import { CardProduct } from './cardProduct';
+import { CardProduct } from './CardProduct';
 import cuentalApi from '@/api/cuentalApi';
-import { interfaceProduct } from '@/interface/productos';
+import { interfaceProduct } from '@/interface/products';
 
 
 export const Products: FC = () => {

@@ -1,4 +1,4 @@
-import {Products} from '../components/products/products';
+import { Products } from "@/components/products/Products"
 
 export default function Home() {
   return (
@@ -8,7 +8,7 @@ export default function Home() {
           <Products />
         </div>
         <div className=" col-span-5  h-[86vh] p-4 ">
-            
+
         </div>
       </div>
     </>

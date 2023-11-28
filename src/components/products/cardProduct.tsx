@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Avatar, Card, CardBody, CardHeader, Image } from '@nextui-org/react';
+import { Card, CardBody, CardHeader, Image } from '@nextui-org/react';
 
 interface Props {
     precioProducto: number | string;
