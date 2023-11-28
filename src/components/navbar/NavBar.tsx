@@ -42,7 +42,7 @@ export const NavBar: FC = () => {
           <TbLogout size={25} className="cursor-pointer text-[#f31260]" />
         </div>
       </div>
-      <div className="max-h-16 flex w-full p-5 bg-white dark:bg-inherit justify-between">
+      <div className="max-h-16 flex w-full p-5 bg-white dark:bg-inherit justify-between border-b">
         <div className="flex items-center cursor-pointer">
           <TbTag size={20} style={{ color: '#A4B0BE' }} />
           <p className="text-[#A4B0BE] ml-1">Venta sencilla</p>

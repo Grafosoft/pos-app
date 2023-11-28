@@ -25,15 +25,17 @@ export const SwitchTheme: FC = () => {
 
   return (
     <Button
-      className='bg-[#3C3F99]'
+      className="bg-[#3C3F99]"
       size="sm"
       onClick={handleChange}
       isIconOnly
-      disableAnimation>
-      {(isActiveTheme) ?
+      disableAnimation
+    >
+      {isActiveTheme ? (
         <TbSunHigh size={25} />
-        :
-        <TbMoonFilled size={25} color='white' />}
+      ) : (
+        <TbMoonFilled size={25} color="white" />
+      )}
     </Button>
   )
 }
