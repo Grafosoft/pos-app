@@ -66,7 +66,7 @@ export const ShoppingCart: FC = () => {
 
   return (
     <div className="mi flex flex-col  min-h-[86vh]">
-      <div className="flex-col flex w-full p-5 bg-white dark:bg-inherit justify-center m-0 items-center border-b shadow-sm">
+      <div className="flex-col flex w-full p-5 bg-white dark:bg-black justify-center m-0 items-center  border-b dark:border-b-slate-800 shadow-sm">
         <h1 className="text-2xl font-semibold">Factura de Venta</h1>
         <Input
           aria-label="Buscar Cliente"
@@ -197,13 +197,15 @@ export const ShoppingCart: FC = () => {
           </ModalContent>
         </Modal>
       </div>
-      <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA]">
+
+      <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA] dark:bg-[#18181B]">
         <div className="w-full h-[44vh] flex flex-col  justify-center items-center">
           <TbShoppingCartPlus color="#A1A1AA" size={50} />
           <h1 className="mt-4 text-neutral-400  text-lg font-mono text-center">Aquí verás los productos  que <br/>elijas en tu próxima venta</h1>
         </div>
       </div>
-      <div className='w-full h-[22vh] py-4 px-4 border-t shadow-sm'>
+
+      <div className='w-full h-[22vh] py-4 px-4 border-t shadow-sm dark:bg-black dark:border-t-slate-800'>
         <div className="flex w-full justify-between">
           <div className="flex justify-center items-center">
             <span className="mr-2 text-default-500">Fecha: </span>
@@ -222,21 +224,20 @@ export const ShoppingCart: FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-around items-center">
-          <Button className="flex bg-purple-100 justify-between w-full mt-5 mb-4"
+        <div className="flex justify-around items-center ">
+          <Button className="flex bg-[#3c3f99] justify-between w-full mt-5 mb-4"
             radius='sm'
-            size="lg"
-            variant="flat" color="success">
-            <div className="text-purple-700 ">
-              <h1>Comprar</h1>
+            size="lg">
+            <div className="text-white">
+              <h1>VENDER</h1>
             </div>
-            <div className="text-purple-700 ">
+            <div className="text-white ">
               <h1>$ {"2.000"}</h1>
 
             </div>
           </Button >
         </div>
-        <div className=''>
+        <div className="text-default-500">
           <p>{"1"} Productos</p>
         </div>
 
