@@ -29,6 +29,9 @@ import { TbSearch, TbUsers } from 'react-icons/tb'
 import { customerColumnsModal } from '../columns/customerColumnsModal'
 import { RenderCellCustomerModal } from '@/renderCell/RenderCellCustomerModal'
 
+import { TbShoppingCartPlus } from "react-icons/tb";
+
+
 export const ShoppingCart: FC = () => {
   // Input Contact
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
@@ -194,260 +197,13 @@ export const ShoppingCart: FC = () => {
           </ModalContent>
         </Modal>
       </div>
-      <div className="w-full overflow-auto max-h-[50vh] p-3 bg-primary">
-        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />
+      <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA]">
+        <div className="w-full h-[44vh] flex flex-col  justify-center items-center">
+          <TbShoppingCartPlus color="#A1A1AA" size={150} />
+          <h1 className="uppercase text-neutral-400 md:text-3xl text-xl font-mono">Sin pruductos</h1>
+        </div>
       </div>
-      <div className='w-full h-[22vh] py-4 px-4'>
+      <div className='w-full h-[22vh] py-4 px-4 border-t shadow-sm'>
         <div className="flex w-full justify-between">
           <div className="flex justify-center items-center">
             <span className="mr-2 text-default-500">Fecha: </span>
@@ -467,15 +223,15 @@ export const ShoppingCart: FC = () => {
           </div>
         </div>
         <div className="flex justify-around items-center">
-        <Button className="flex justify-between w-full mt-5 mb-4"
-          radius='sm'
-          size="lg"
-          variant="flat" color="success">
+          <Button className="flex justify-between w-full mt-5 mb-4"
+            radius='sm'
+            size="lg"
+            variant="flat" color="success">
             <div className="text-green-700 ">
-                <h1>Comprar</h1>
+              <h1>Comprar</h1>
             </div>
             <div className="text-green-700 ">
-            <h1>$ {"2.000"}</h1>
+              <h1>$ {"2.000"}</h1>
 
             </div>
           </Button >
