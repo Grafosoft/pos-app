@@ -11,8 +11,6 @@ export const Products: FC = () => {
   const [valueSearch, setValueSearch] = useState('')
   const [datosProductos, setdatosProductos] = useState<interfaceProduct[]>([])
 
-  const formatDouble = new Intl.NumberFormat('en-DE')
-
   useEffect(() => {
     const peticionProductos = async () => {
       const { data } = await cuentalApi.get<interfaceProduct[]>(
@@ -63,7 +61,7 @@ export const Products: FC = () => {
               <div className="flex flex-col items-center w-[30vh] md:w-[58vh] lg:w-[70vh] lg:ml-20 2xl:w-[75vh]   ">
                 <Image
                   className="w-3/4 m-8 md:ml-16 lg:ml-20 2xl:ml-52"
-                  src="/images/No-data-rafiki.png"
+                  src="/images/empty-products.png"
                   alt="Data Not Found"
                 />
                 <h1 className="uppercase 2xl:ml-52 text-neutral-400 md:text-3xl text-xl font-mono  ">
@@ -75,15 +73,7 @@ export const Products: FC = () => {
             )
           ) : (
             datosProductos.map((element, index) => {
-              return (
-                <CardProduct
-                  key={index}
-                  nombreProducto={element.name}
-                  precioProducto={formatDouble.format(element.salePrice)}
-                  categoriaProducto={element.group.name}
-                  imgProducto={element.image}
-                />
-              )
+              return <CardProduct key={index} product={element} />
             })
           )}
         </div>

@@ -4,7 +4,7 @@ export interface interfaceProduct {
   costPrice: number
   group: Group
   id: number
-  image: null
+  image: null | string
   isActive: boolean
   isAiu: boolean
   isInventory: boolean
