@@ -24,9 +24,13 @@ import React, {
   type FC,
   type FormEventHandler
 } from 'react'
+
 import { TbSearch, TbUsers } from 'react-icons/tb'
 import { customerColumnsModal } from '../columns/customerColumnsModal'
 import { RenderCellCustomerModal } from '@/renderCell/RenderCellCustomerModal'
+
+import { TbShoppingCartPlus } from "react-icons/tb";
+
 
 export const ShoppingCart: FC = () => {
   // Input Contact
@@ -42,6 +46,8 @@ export const ShoppingCart: FC = () => {
   const handleSubmitContact: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
     setIsLoadingModal(true)
+    console.log(`contacts/?companyId=6&page=0&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27&name=${customerModalSearch}`
+    );
 
     cuentalApi
       .get<CustomerList[]>(
@@ -59,8 +65,8 @@ export const ShoppingCart: FC = () => {
   }
 
   return (
-    <div className="mi flex flex-col justify-between min-h-[86vh]">
-      <div className="flex-col flex w-full p-5 bg-white dark:bg-inherit justify-center m-0 items-center border-b shadow-sm">
+    <div className="mi flex flex-col  min-h-[86vh]">
+      <div className="flex-col flex w-full p-5 bg-white dark:bg-black justify-center m-0 items-center  border-b dark:border-b-slate-800 shadow-sm">
         <h1 className="text-2xl font-semibold">Factura de Venta</h1>
         <Input
           aria-label="Buscar Cliente"
@@ -191,16 +197,51 @@ export const ShoppingCart: FC = () => {
           </ModalContent>
         </Modal>
       </div>
-      <div
-        className="overflow-auto min-h-[60vh]"
-        style={{
-          backgroundColor: 'red',
-          width: '100%'
-        }}
-      ></div>
-      <div
-        style={{ backgroundColor: 'red', width: '100%', height: '50px' }}
-      ></div>
+
+      <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA] dark:bg-[#18181B]">
+        <div className="w-full h-[44vh] flex flex-col  justify-center items-center">
+          <TbShoppingCartPlus color="#A1A1AA" size={50} />
+          <h1 className="mt-4 text-neutral-400  text-lg font-mono text-center">Aquí verás los productos  que <br/>elijas en tu próxima venta</h1>
+        </div>
+      </div>
+
+      <div className='w-full h-[22vh] py-4 px-4 border-t shadow-sm dark:bg-black dark:border-t-slate-800'>
+        <div className="flex w-full justify-between">
+          <div className="flex justify-center items-center">
+            <span className="mr-2 text-default-500">Fecha: </span>
+            <span>{"2023/11/29"}</span>
+          </div>
+          <div className="flex ">
+            <div className=" text-default-500">
+              <p className=''>SudTotal:  </p>
+              <p className=''>Descuento: </p>
+              <p className=''>Impuesto:  </p>
+            </div>
+            <div className="flex flex-col items-end w-[150px]">
+              <span> $ {"1.200"}</span>
+              <span> $ {"12435345343"}</span>
+              <span> $ {"12"}</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-around items-center ">
+          <Button className="flex bg-[#3c3f99] justify-between w-full mt-5 mb-4"
+            radius='sm'
+            size="lg">
+            <div className="text-white">
+              <h1>VENDER</h1>
+            </div>
+            <div className="text-white ">
+              <h1>$ {"2.000"}</h1>
+
+            </div>
+          </Button >
+        </div>
+        <div className="text-default-500">
+          <p>{"1"} Productos</p>
+        </div>
+
+      </div>
     </div>
   )
 }

@@ -40,7 +40,6 @@ export const Products: FC = () => {
   return (
     <div className="">
       <div className="flex justify-start w-full mb-3 rounted-lg">
-        {' '}
         {/* // div que contiene el input del buscador */}
         <Input
           className="w-[30vh] md:w-[58vh] lg:w-[88vh] 2xl:w-[117vh]"
@@ -57,7 +56,6 @@ export const Products: FC = () => {
         />
       </div>
       <div className="flex justify-start">
-        {' '}
         {/* // contenedor de las cards de los productos */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-cols-1 gap-5 p-3 overflow-auto  max-h-[78vh] ">
           {datosProductos.length <= 0 ? (
