@@ -467,7 +467,7 @@ export const ShoppingCart: FC = () => {
           </div>
         </div>
         <div className="flex justify-around items-center">
-        <Button className="flex justify-between text-black text-white w-full mt-5 mb-4"
+        <Button className="flex justify-between w-full mt-5 mb-4"
           radius='sm'
           size="lg"
           variant="flat" color="success">
