@@ -199,8 +199,8 @@ export const ShoppingCart: FC = () => {
       </div>
       <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA]">
         <div className="w-full h-[44vh] flex flex-col  justify-center items-center">
-          <TbShoppingCartPlus color="#A1A1AA" size={150} />
-          <h1 className="uppercase text-neutral-400 md:text-3xl text-xl font-mono">Sin pruductos</h1>
+          <TbShoppingCartPlus color="#A1A1AA" size={50} />
+          <h1 className="mt-4 text-neutral-400  text-lg font-mono text-center">Aquí verás los productos  que <br/>elijas en tu próxima venta</h1>
         </div>
       </div>
       <div className='w-full h-[22vh] py-4 px-4 border-t shadow-sm'>
@@ -216,21 +216,21 @@ export const ShoppingCart: FC = () => {
               <p className=''>Impuesto:  </p>
             </div>
             <div className="flex flex-col items-end w-[150px]">
-              <span> {"1.200"}</span>
-              <span> {"12435345343"}</span>
-              <span> {"12"}</span>
+              <span> $ {"1.200"}</span>
+              <span> $ {"12435345343"}</span>
+              <span> $ {"12"}</span>
             </div>
           </div>
         </div>
         <div className="flex justify-around items-center">
-          <Button className="flex justify-between w-full mt-5 mb-4"
+          <Button className="flex bg-purple-100 justify-between w-full mt-5 mb-4"
             radius='sm'
             size="lg"
             variant="flat" color="success">
-            <div className="text-green-700 ">
+            <div className="text-purple-700 ">
               <h1>Comprar</h1>
             </div>
-            <div className="text-green-700 ">
+            <div className="text-purple-700 ">
               <h1>$ {"2.000"}</h1>
 
             </div>
