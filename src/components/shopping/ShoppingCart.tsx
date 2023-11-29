@@ -2,7 +2,10 @@ import cuentalApi from '@/api/cuentalApi'
 import { type CustomerList } from '@/interface/customers'
 import {
   Button,
+  Card,
+  CardBody,
   CircularProgress,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -22,17 +25,20 @@ import React, {
   useState,
   type ChangeEvent,
   type FC,
-  type FormEventHandler
+  type FormEventHandler,
+  useContext
 } from 'react'
 
-import { TbSearch, TbUsers } from 'react-icons/tb'
+import { TbSearch, TbUsers, TbShoppingCartPlus } from 'react-icons/tb'
 import { customerColumnsModal } from '../columns/customerColumnsModal'
 import { RenderCellCustomerModal } from '@/renderCell/RenderCellCustomerModal'
-
-import { TbShoppingCartPlus } from "react-icons/tb";
-
+import { ProductContext } from '@/pages'
 
 export const ShoppingCart: FC = () => {
+  // Import ProductContext
+  const context = useContext(ProductContext)
+  const { productList } = context
+
   // Input Contact
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [contactList, setContactList] = useState<CustomerList[]>([])
@@ -46,8 +52,9 @@ export const ShoppingCart: FC = () => {
   const handleSubmitContact: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
     setIsLoadingModal(true)
-    console.log(`contacts/?companyId=6&page=0&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27&name=${customerModalSearch}`
-    );
+    console.log(
+      `contacts/?companyId=6&page=0&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27&name=${customerModalSearch}`
+    )
 
     cuentalApi
       .get<CustomerList[]>(
@@ -199,48 +206,77 @@ export const ShoppingCart: FC = () => {
       </div>
 
       <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA] dark:bg-[#18181B]">
-        <div className="w-full h-[44vh] flex flex-col  justify-center items-center">
-          <TbShoppingCartPlus color="#A1A1AA" size={50} />
-          <h1 className="mt-4 text-neutral-400  text-lg font-mono text-center">Aquí verás los productos  que <br/>elijas en tu próxima venta</h1>
-        </div>
+        {productList.length === 0 ? (
+          <div className="w-full h-[44vh] flex flex-col  justify-center items-center">
+            <TbShoppingCartPlus color="#A1A1AA" size={50} />
+            <h1 className="mt-4 text-neutral-400  text-lg font-mono text-center">
+              Aquí verás los productos que <br />
+              elijas en tu próxima venta
+            </h1>
+          </div>
+        ) : (
+          productList.map((element, index) => (
+            <Card className="mb-3" key={element.id}>
+              <CardBody>
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-3">
+                    <Image
+                      alt="Product Image"
+                      height={80}
+                      radius="sm"
+                      src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
+                      width={80}
+                    />
+                    <div className="flex flex-col justify-around">
+                      <p className="text-xl font-medium">{element.name}</p>
+                      <p className="text-small text-default-500">
+                        {element.groupName}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+          ))
+        )}
       </div>
 
-      <div className='w-full h-[22vh] py-4 px-4 border-t shadow-sm dark:bg-black dark:border-t-slate-800'>
+      <div className="w-full h-[22vh] py-4 px-4 border-t shadow-sm dark:bg-black dark:border-t-slate-800">
         <div className="flex w-full justify-between">
           <div className="flex justify-center items-center">
             <span className="mr-2 text-default-500">Fecha: </span>
-            <span>{"2023/11/29"}</span>
+            <span>{'2023/11/29'}</span>
           </div>
           <div className="flex ">
             <div className=" text-default-500">
-              <p className=''>SudTotal:  </p>
-              <p className=''>Descuento: </p>
-              <p className=''>Impuesto:  </p>
+              <p className="">SudTotal: </p>
+              <p className="">Descuento: </p>
+              <p className="">Impuesto: </p>
             </div>
             <div className="flex flex-col items-end w-[150px]">
-              <span> $ {"1.200"}</span>
-              <span> $ {"12435345343"}</span>
-              <span> $ {"12"}</span>
+              <span> $ {'1.200'}</span>
+              <span> $ {'12435345343'}</span>
+              <span> $ {'12'}</span>
             </div>
           </div>
         </div>
         <div className="flex justify-around items-center ">
-          <Button className="flex bg-[#3c3f99] justify-between w-full mt-5 mb-4"
-            radius='sm'
-            size="lg">
+          <Button
+            className="flex bg-[#3c3f99] justify-between w-full mt-5 mb-4"
+            radius="sm"
+            size="lg"
+          >
             <div className="text-white">
               <h1>VENDER</h1>
             </div>
             <div className="text-white ">
-              <h1>$ {"2.000"}</h1>
-
+              <h1>$ {'2.000'}</h1>
             </div>
-          </Button >
+          </Button>
         </div>
         <div className="text-default-500">
-          <p>{"1"} Productos</p>
+          <p>{'1'} Productos</p>
         </div>
-
       </div>
     </div>
   )
