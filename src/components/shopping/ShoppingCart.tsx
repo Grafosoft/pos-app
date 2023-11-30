@@ -27,7 +27,8 @@ import React, {
   type ChangeEvent,
   type FC,
   type FormEventHandler,
-  useContext
+  useContext,
+  useEffect
 } from 'react'
 
 import { TbSearch, TbUsers, TbShoppingCartPlus } from 'react-icons/tb'
@@ -44,11 +45,48 @@ import { ShowPrices } from '@/utils/ShowPrices'
 
 
 export const ShoppingCart: FC = () => {
+  const [productNeverDuplicate, setproductNeverDuplicate] = useState([])
   // Import ProductContext
   const context = useContext(ProductContext)
-  const { productList } = context
+  const { productList, setProductList } = context
   //Input Count
   const [count, setCount] = useState(1);
+
+
+/*   useEffect(()=>{
+    let idUnicos = new Set();
+
+    setproductNeverDuplicate(productList.filter((element)=>{
+      if(!idUnicos.has(element.id)){
+        idUnicos.add(element.id)
+        return true;
+      }
+      return false;
+    })
+    )
+
+    //setProductList(newArray);
+
+
+    console.log(productList);
+    for (let i = 0; i < productList.length; i++) {
+      let idIteracion = productList[i].id;
+      console.log(idIteracion);
+
+      for (let i2 = 0; i2 < productList.length; i2++) {
+        console.log(idIteracion == productList[i2].id && idPermite <= 1);
+        if(idIteracion == productList[i2].id && idPermite <= 1 ){
+          console.log(idPermite, "antes");
+          setIdPermite(idPermite+1);
+          console.log(idPermite, "despues");
+          productList.splice(i2,1);
+        }
+      }
+    }
+
+
+  },[productList]) */
+
 
   // Input Contact
   const { isOpen, onOpen, onOpenChange } = useDisclosure()

@@ -1,4 +1,4 @@
-import { useContext, type FC } from 'react'
+import { useContext, type FC, useEffect } from 'react'
 import { Card, CardBody, CardHeader, Image } from '@nextui-org/react'
 import { ProductContext } from '@/pages'
 import { type interfaceProduct } from '@/interface/products'
@@ -12,30 +12,27 @@ interface Props {
 export const CardProduct: FC<Props> = ({ product }) => {
   const formatDouble = new Intl.NumberFormat('en-DE')
 
+
   const context = useContext(ProductContext)
   const { productList, setProductList } = context
 
   const handleSaveProduct = () => {
-    setProductList([
-      ...productList,
-      {
-        id: product.id,
-        name: product.name,
-        salePrice: product.salePrice,
-        image: product.image,
-        groupName: product.group.name,
-        taxValue: product.tax.value
-      }
-    ])
-/*     let result = productList.filter((element, index)=> {
-      console.log(element);
-      console.log(index, "este es el index");
-      return productList.indexOf(element.id) === index.id
-    });
-    console.log(result);
+    let productExis:any = productList.find((element)=> element.id  == product.id )
 
-    setProductList(result);
- */
+    if(!productExis){
+      setProductList([
+        ...productList,
+        {
+          id: product.id,
+          name: product.name,
+          salePrice: product.salePrice,
+          image: product.image,
+          groupName: product.group.name,
+          taxValue: product.tax.value
+        }
+      ])
+    }
+
   }
   return (
     <div className="flex justify-center  h-[30vh] w-[27vh] ">

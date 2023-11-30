@@ -28,7 +28,7 @@ export const  ShowPrices:FC<Props> = ({ price, total, discount, tax })=> {
         <p className="mr-10 text-default-500">Precio:</p>
         <p>$ {formatDouble.format(price)}</p>
         <div className="ml-2 ">
-            {(isOpenPopover)?<IoIosArrowBack size={25} />:<IoIosArrowDown size={25}/>}
+            {(isOpenPopover)?<IoIosArrowBack size={15} />:<IoIosArrowDown size={15}/>}
         </div>
         </div>
       </PopoverTrigger>
