@@ -1,8 +1,8 @@
 import { useContext, type FC } from 'react'
 import { Card, CardBody, CardHeader, Image } from '@nextui-org/react'
-import { TruncateText } from '../../utils/TruncateText'
 import { ProductContext } from '@/pages'
 import { type interfaceProduct } from '@/interface/products'
+import { TruncateText } from '../../utils/TruncateText'
 import { ImageRound } from '../imageRound/ImageRound'
 
 interface Props {
@@ -19,7 +19,7 @@ export const CardProduct: FC<Props> = ({ product }) => {
     setProductList([
       ...productList,
       {
-        id: 0,
+        id: product.id,
         name: product.name,
         salePrice: product.salePrice,
         image: product.image,
@@ -27,8 +27,16 @@ export const CardProduct: FC<Props> = ({ product }) => {
         taxValue: product.tax.value
       }
     ])
-  }
+/*     let result = productList.filter((element, index)=> {
+      console.log(element);
+      console.log(index, "este es el index");
+      return productList.indexOf(element.id) === index.id
+    });
+    console.log(result);
 
+    setProductList(result);
+ */
+  }
   return (
     <div className="flex justify-center  h-[30vh] w-[27vh] ">
       <Card
@@ -57,4 +65,5 @@ export const CardProduct: FC<Props> = ({ product }) => {
       </Card>
     </div>
   )
+
 }

@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardBody,
+  CardFooter,
   CircularProgress,
   Image,
   Input,
@@ -35,12 +36,19 @@ import { RenderCellCustomerModal } from '@/renderCell/RenderCellCustomerModal'
 import { ProductContext } from '@/pages'
 import { ImageRound } from '../imageRound/ImageRound';
 import { TruncateText } from '../../utils/TruncateText'
+import { CountData } from './CountData'
+
+import { TbTrash } from "react-icons/tb";
+import { TbEdit } from "react-icons/tb";
+import { ShowPrices } from '@/utils/ShowPrices'
 
 
 export const ShoppingCart: FC = () => {
   // Import ProductContext
   const context = useContext(ProductContext)
   const { productList } = context
+  //Input Count
+  const [count, setCount] = useState(1);
 
   // Input Contact
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
@@ -78,17 +86,34 @@ export const ShoppingCart: FC = () => {
     <div className="mi flex flex-col  min-h-[86vh]">
       <div className="flex-col flex w-full p-5 bg-white dark:bg-black justify-center m-0 items-center  border-b dark:border-b-slate-800 shadow-sm">
         <h1 className="text-2xl font-semibold">Factura de Venta</h1>
-        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />
+        <div className="flex gap-3 w-full ">
+
+          <Input
+            aria-label="Buscar Cliente"
+            readOnly={true}
+            placeholder="Buscar cliente"
+            onClick={onOpen}
+            className="mt-5"
+            value={customerSearch.name}
+            startContent={<TbUsers size={20} />}
+            style={{ cursor: 'pointer' }}
+            size="sm"
+          />
+
+          <Input
+            aria-label="Buscar Cliente"
+            readOnly={true}
+            placeholder="Buscar cliente"
+            onClick={onOpen}
+            className="mt-5"
+            value={customerSearch.name}
+            startContent={<TbUsers size={20} />}
+            style={{ cursor: 'pointer' }}
+            size="sm"
+          />
+
+        </div>
+
         <Modal
           closeButton
           size="5xl"
@@ -221,19 +246,26 @@ export const ShoppingCart: FC = () => {
           productList.map((element, index) => (
             <Card className="mb-3" key={element.id}>
               <CardBody>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between  items-center">
                   <div className="flex gap-3">
-                    {/*  <Image
-                      alt="Product Image"
-                      height={80}
-                      radius="sm"
-                      src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-                      width={80}
-                    /> */}
                     <ImageRound image={element.image} name={element.name} formeRound={false} />
                     <div className="flex flex-col justify-around">
-                      <p className="text-xl font-medium">{TruncateText(element.name, 25)}</p>
-                      <p className="text-small text-default-500">{TruncateText(element.groupName, 25)}</p>
+                      <p className="text-xl font-medium">{TruncateText(element.name)}</p>
+                      <p className="text-small text-default-500">{TruncateText(element.groupName)}</p>
+                      <ShowPrices price={element.salePrice} total={123} discount={1231} tax={12391} />
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center gap-4 ">
+                    <div className="flex gap-3">
+                      <Button isIconOnly color="primary" variant="flat" size="sm" aria-label="Like">
+                        <TbEdit size={15} />
+                      </Button>
+                      <Button isIconOnly color="danger" variant="flat" size="sm" edaria-label="Take a photo">
+                        <TbTrash size={15} />
+                      </Button>
+                    </div>
+                    <div>
+                      <CountData color="primary" count={count} setCount={setCount} isDisabledMinus={(count <= 1) ? true : false} />
                     </div>
                   </div>
                 </div>
