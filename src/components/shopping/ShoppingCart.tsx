@@ -33,6 +33,9 @@ import { TbSearch, TbUsers, TbShoppingCartPlus } from 'react-icons/tb'
 import { customerColumnsModal } from '../columns/customerColumnsModal'
 import { RenderCellCustomerModal } from '@/renderCell/RenderCellCustomerModal'
 import { ProductContext } from '@/pages'
+import { ImageRound } from '../imageRound/ImageRound';
+import { TruncateText } from '../../utils/TruncateText'
+
 
 export const ShoppingCart: FC = () => {
   // Import ProductContext
@@ -220,18 +223,17 @@ export const ShoppingCart: FC = () => {
               <CardBody>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-3">
-                    <Image
+                    {/*  <Image
                       alt="Product Image"
                       height={80}
                       radius="sm"
                       src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
                       width={80}
-                    />
+                    /> */}
+                    <ImageRound image={element.image} name={element.name} formeRound={false} />
                     <div className="flex flex-col justify-around">
-                      <p className="text-xl font-medium">{element.name}</p>
-                      <p className="text-small text-default-500">
-                        {element.groupName}
-                      </p>
+                      <p className="text-xl font-medium">{TruncateText(element.name, 25)}</p>
+                      <p className="text-small text-default-500">{TruncateText(element.groupName, 25)}</p>
                     </div>
                   </div>
                 </div>

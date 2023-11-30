@@ -3,6 +3,7 @@ import { Card, CardBody, CardHeader, Image } from '@nextui-org/react'
 import { TruncateText } from '../../utils/TruncateText'
 import { ProductContext } from '@/pages'
 import { type interfaceProduct } from '@/interface/products'
+import { ImageRound } from '../imageRound/ImageRound'
 
 interface Props {
   product: interfaceProduct
@@ -36,24 +37,9 @@ export const CardProduct: FC<Props> = ({ product }) => {
         onPress={handleSaveProduct}
       >
         <CardHeader className="p-0 flex-col items-center">
-          {product.image && product.image.length > 3 ? (
-            <div className="flex items-center rounded-full  h-[130px]">
-              <Image
-                alt="Card background"
-                className="object-cover rounded-full w-[100px] h-[100px] "
-                src={product.image}
-                width={270}
-              />
-            </div>
-          ) : (
-            <div className="pt-5">
-              <div className="flex items-center justify-center bg-purple-100 rounded-full w-[100px] h-[100px] mb-0 ">
-                <span className="text-3xl uppercase dark:text-black ">
-                  {product.name.substring(0, 3).replace(/\s+/g, '')}
-                </span>
-              </div>
-            </div>
-          )}
+          <div className='mt-5'>
+            <ImageRound image={product.image} name={product.name} formeRound={false} />
+          </div>
         </CardHeader>
         <CardBody className="px-5 py-0 flex overflow-visible items-center  space-y-7 ">
           <div className="flex flex-col mt-5">
