@@ -31,28 +31,38 @@ export const CountData: FC<Props> = ({
   const context = useContext(ProductContext)
   const { productList, setProductList } = context
 
+  // FILTER AND GET INDEX
+  const validId = (element: ProductList) => element.id === productObject.id
+  const indexFilterProduct = productList.findIndex(validId)
+
   const handleMinus = () => {
     setCount(count - interval)
+
+    // CHANGE AMOUNT PRICE AND SAVE
+    const arrayEdit = productList.map((element, index) => {
+      if (index === indexFilterProduct) {
+        element.amountPrice = element.amountPrice - element.salePrice
+      }
+      return element
+    })
+
+    setProductList(arrayEdit)
   }
 
   const handleAdd = () => {
     setCount(count + interval)
-    console.log(productObject)
 
-    const validId = (element: ProductList) => element.id === productObject.id
-    const indexFilterProduct = productList.findIndex(validId)
-
-    const arrayEdit = productList.map((element, index, array) => {
+    // CHANGE AMOUNT PRICE AND SAVE
+    const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
         element.amountPrice = element.salePrice * (count + 1)
+        element.total =
+          element.amountPrice * (element.taxValue / 100) + element.amountPrice
       }
+      return element
+    })
 
-      return array
-    }, [])
-
-    console.log(arrayEdit)
-
-    // setProductList(arrayEdit)
+    setProductList(arrayEdit)
   }
 
   return (
