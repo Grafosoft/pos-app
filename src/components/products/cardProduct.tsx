@@ -1,5 +1,5 @@
-import { useContext, type FC, useEffect } from 'react'
-import { Card, CardBody, CardHeader, Image } from '@nextui-org/react'
+import { useContext, type FC } from 'react'
+import { Card, CardBody, CardHeader } from '@nextui-org/react'
 import { ProductContext } from '@/pages'
 import { type interfaceProduct } from '@/interface/products'
 import { TruncateText } from '../../utils/TruncateText'
@@ -12,27 +12,29 @@ interface Props {
 export const CardProduct: FC<Props> = ({ product }) => {
   const formatDouble = new Intl.NumberFormat('en-DE')
 
-
   const context = useContext(ProductContext)
   const { productList, setProductList } = context
 
   const handleSaveProduct = () => {
-    let productExis = productList.find((element)=> element.id  == product.id )
+    const productExis = productList.find(element => element.id === product.id)
 
-    if(!productExis){
+    if (!productExis) {
       setProductList([
         ...productList,
         {
           id: product.id,
           name: product.name,
-          salePrice: product.salePrice,
           image: product.image,
           groupName: product.group.name,
-          taxValue: product.tax.value
+          salePrice: product.salePrice,
+          amountPrice: product.salePrice,
+          discount: 0,
+          taxValue: product.tax.value,
+          total:
+            product.salePrice + product.salePrice * (product.tax.value / 100)
         }
       ])
     }
-
   }
   return (
     <div className="flex justify-center  h-[30vh] w-[27vh] ">
@@ -42,8 +44,12 @@ export const CardProduct: FC<Props> = ({ product }) => {
         onPress={handleSaveProduct}
       >
         <CardHeader className="p-0 flex-col items-center">
-          <div className='mt-5'>
-            <ImageRound image={product.image} name={product.name} formeRound={false} />
+          <div className="mt-5">
+            <ImageRound
+              image={product.image}
+              name={product.name}
+              formeRound={false}
+            />
           </div>
         </CardHeader>
         <CardBody className="px-5 py-0 flex overflow-visible items-center  space-y-7 ">
@@ -62,5 +68,4 @@ export const CardProduct: FC<Props> = ({ product }) => {
       </Card>
     </div>
   )
-
 }

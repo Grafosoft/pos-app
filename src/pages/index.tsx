@@ -1,6 +1,6 @@
 import { Products } from '@/components/products/Products'
 import { ShoppingCart } from '@/components/shopping/ShoppingCart'
-import { ProductList } from '@/interface/products';
+import { type ProductList } from '@/interface/products'
 
 import {
   type Dispatch,
@@ -8,7 +8,6 @@ import {
   createContext,
   useState
 } from 'react'
-
 
 interface ProductContextType {
   productList: ProductList[]

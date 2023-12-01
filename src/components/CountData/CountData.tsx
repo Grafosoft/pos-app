@@ -1,7 +1,9 @@
 import { Button } from '@nextui-org/react'
-import React, { FC, useState } from 'react'
+import React, { type FC, useState, useContext } from 'react'
 import { RiAddFill } from 'react-icons/ri'
 import { TbMinus } from 'react-icons/tb'
+import { ProductContext } from '@/pages'
+import { type ProductList } from '@/interface/products'
 
 interface Props {
   color?:
@@ -12,74 +14,83 @@ interface Props {
     | 'warning'
     | 'danger'
     | undefined
-  optionalMinus?: () => void
-  optionalAdd?: () => void
   interval?: number
   isDisabledMinus?: boolean
-  isDisabledMax?: boolean
+  productObject: ProductList
 }
 
 export const CountData: FC<Props> = ({
-  color ="primary",
-  optionalMinus,
-  optionalAdd,
+  color = 'primary',
   interval = 1,
   isDisabledMinus = false,
-  isDisabledMax = false
+  productObject
 }) => {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(1)
+
+  // ProductContext
+  const context = useContext(ProductContext)
+  const { productList, setProductList } = context
 
   const handleMinus = () => {
     setCount(count - interval)
-    if (optionalMinus) {
-      optionalMinus()
-    }
   }
 
   const handleAdd = () => {
     setCount(count + interval)
-    if (optionalAdd) {
-      optionalAdd()
-    }
+    console.log(productObject)
+
+    const validId = (element: ProductList) => element.id === productObject.id
+    const indexFilterProduct = productList.findIndex(validId)
+
+    const arrayEdit = productList.map((element, index, array) => {
+      if (index === indexFilterProduct) {
+        element.amountPrice = element.salePrice * (count + 1)
+      }
+
+      return array
+    }, [])
+
+    console.log(arrayEdit)
+
+    // setProductList(arrayEdit)
   }
 
   return (
     <>
-    <div className="flex items-center">
-    <Button
-        size="sm"
-        color={color}
-        variant="flat"
-        isDisabled={(count <= 1) ? true : false}
-        isIconOnly
-        style={{
-          borderTopRightRadius: '0',
-          borderBottomRightRadius: '0'
-        }}
-        onPress={handleMinus}
-      >
-        <TbMinus size={20} />
-      </Button>
-      <div className="container w-12 bg-gray-100 dark:bg-gray-900 flex justify-center items-center">
-        <p style={{ padding: '2px 0' }} className="font-medium text-xl">
-          {count}
-        </p>
+      <div className="flex items-center">
+        <Button
+          size="sm"
+          color={color}
+          variant="flat"
+          isDisabled={count <= 1}
+          isIconOnly
+          style={{
+            borderTopRightRadius: '0',
+            borderBottomRightRadius: '0'
+          }}
+          onPress={handleMinus}
+        >
+          <TbMinus size={20} />
+        </Button>
+        <div className="container w-12 bg-gray-100 dark:bg-gray-900 flex justify-center items-center">
+          <p style={{ padding: '2px 0' }} className="font-medium text-xl">
+            {count}
+          </p>
+        </div>
+        <Button
+          size="sm"
+          color={color}
+          variant="flat"
+          isIconOnly
+          style={{
+            borderTopLeftRadius: '0',
+            borderBottomLeftRadius: '0'
+          }}
+          onPress={handleAdd}
+        >
+          <RiAddFill size={20} />
+        </Button>
       </div>
-      <Button
-        size="sm"
-        color={color}
-        variant="flat"
-        isDisabled={isDisabledMax}
-        isIconOnly
-        style={{
-          borderTopLeftRadius: '0',
-          borderBottomLeftRadius: '0'
-        }}
-        onPress={handleAdd}
-      >
-        <RiAddFill size={20} />
-      </Button>
-    </div>
     </>
   )
 }
