@@ -24,3 +24,12 @@ export interface Tax {
   name: string
   value: number
 }
+
+export interface ProductList {
+  id: number
+  name: string
+  salePrice: number
+  image: string | null
+  groupName: string
+  taxValue: number
+}

@@ -1,5 +1,7 @@
 import { Products } from '@/components/products/Products'
 import { ShoppingCart } from '@/components/shopping/ShoppingCart'
+import { ProductList } from '@/interface/products';
+
 import {
   type Dispatch,
   type SetStateAction,
@@ -7,14 +9,6 @@ import {
   useState
 } from 'react'
 
-interface ProductList {
-  id: number
-  name: string
-  salePrice: number
-  image: string | null
-  groupName: string
-  taxValue: number
-}
 
 interface ProductContextType {
   productList: ProductList[]
