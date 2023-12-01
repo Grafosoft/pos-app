@@ -11,12 +11,13 @@ export const ImageRound: FC<Props> = ({image , name, formeRound = false }) => {
   return (<>
     {
       image && image.length > 3 ? (
-        <div className="flex items-center rounded-full  h-[130px]">
+        <div className={`flex items-center rounded-full ${(formeRound) ? "rounded-full" : "rounded-[20px]"}`}>
           <Image
             alt="Card background"
-            className="object-cover rounded-full w-[100px] h-[100px] "
+            className="object-cover rounded-[20px] w-[100px] h-[100px] "
             src={image}
             width={270}
+            height={270}
           />
         </div>
       ) : (
