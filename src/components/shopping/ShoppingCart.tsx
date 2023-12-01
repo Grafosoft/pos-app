@@ -1,36 +1,42 @@
 import React, {
-type FC,
-  useContext
+  createContext,
+  useState,
+  type FC,
+  type Dispatch,
+  type SetStateAction
 } from 'react'
 
-
-import { ProductContext } from '@/pages'
 import { ShoppingCardHeader } from './ShoppingCardHeader'
-import { ShoppingCardBody } from './ShoppingCardBody';
-import { ShoppingCardFooder } from './ShoppingCardFooder';
+import { ShoppingCardBody } from './ShoppingCardBody'
+import { ShoppingCardFooder } from './ShoppingCardFooder'
 
+interface PriceContextTye {
+  priceInfo: object
+  setPriceInfo: Dispatch<SetStateAction<object>>
+}
+
+export const PriceContext = createContext<PriceContextTye>({
+  priceInfo: {},
+  setPriceInfo: () => {}
+})
 
 export const ShoppingCart: FC = () => {
-  // Import ProductContext
-  const context = useContext(ProductContext)
-  const { productList, setProductList } = context;
-
+  const [priceInfo, setPriceInfo] = useState({})
 
   return (
-    <div className="mi flex flex-col min-h-[86vh]">
-
-      <div>
-        <ShoppingCardHeader />
+    <PriceContext.Provider value={{ priceInfo, setPriceInfo }}>
+      <div className="mi flex flex-col min-h-[86vh]">
+        <div>
+          <ShoppingCardHeader />
+        </div>
+        <div>
+          <ShoppingCardBody />
+        </div>
+        <div>
+          <ShoppingCardFooder />
+        </div>
+        w
       </div>
-
-      <div>
-        <ShoppingCardBody />
-      </div>
-
-      <div>
-        <ShoppingCardFooder />
-      </div>
-
-    </div>
+    </PriceContext.Provider>
   )
 }

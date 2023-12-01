@@ -28,8 +28,11 @@ export interface Tax {
 export interface ProductList {
   id: number
   name: string
-  salePrice: number
   image: string | null
   groupName: string
+  salePrice: number
+  amountPrice: number
+  discount: number
   taxValue: number
+  total: number
 }
