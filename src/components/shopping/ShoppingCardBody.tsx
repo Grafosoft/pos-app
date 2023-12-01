@@ -1,4 +1,4 @@
-import { type FC, useContext } from 'react'
+import { type FC, useContext, useState, ChangeEvent } from 'react'
 
 import {
   Button,
@@ -14,6 +14,7 @@ import {
 } from '@nextui-org/react'
 
 import { ShowPrices } from '@/utils/ShowPrices'
+import { type ProductList } from '@/interface/products'
 import { TruncateText } from '@/utils/TruncateText'
 import { ProductContext } from '@/pages'
 
@@ -23,6 +24,7 @@ import { TbEdit, TbShoppingCartPlus, TbTrash } from 'react-icons/tb'
 
 // COMPONENT
 export const ShoppingCardBody: FC = () => {
+  const [discountState, setDiscountState] = useState(0);
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   // ProductContext
@@ -33,6 +35,30 @@ export const ShoppingCardBody: FC = () => {
   const deleteProductOfCar = (idEliminar: number) => {
     const arrayDelete = productList.filter(element => element.id !== idEliminar)
     setProductList(arrayDelete)
+  }
+  // Value the input of discount
+  const valueInputDiscount = (elementProduct: ProductList, onClose: () => void) => {
+
+    //console.log(discount.target.value, "DESCUENTO INPUT");
+
+    //let discountInt = parseInt(discount.target.value);
+    //setDiscountState(discountInt);
+    console.log(discountState, "DESCUENTO STATE")
+
+    let indexProduct = productList.findIndex((element) => element.id === elementProduct.id);
+
+    let arrayEditDiscount = productList.map((element, index) => {
+      if (indexProduct === index) {
+        element.total = element.amountPrice;
+        element.discount = discountState;
+        element.total = (element.total - discountState);
+        console.log(element);
+      }
+      return element;
+    })
+    console.log(arrayEditDiscount);
+    onClose();
+    //setProductList(arrayEditDiscount);
   }
 
   return (
@@ -65,7 +91,7 @@ export const ShoppingCardBody: FC = () => {
                     </p>
                     <ShowPrices
                       price={element.amountPrice}
-                      discount={0}
+                      discount={element.discount}
                       tax={element.amountPrice * (element.taxValue / 100)}
                       total={element.total}
                     />
@@ -78,9 +104,10 @@ export const ShoppingCardBody: FC = () => {
                       color="primary"
                       variant="flat"
                       size="sm"
+                      onPress={onOpen}
                       aria-label="Like"
                     >
-                      <TbEdit size={15} onPress={onOpen} />
+                      <TbEdit size={15} />
                     </Button>
                     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                       <ModalContent>
@@ -96,6 +123,8 @@ export const ShoppingCardBody: FC = () => {
                                   label="Price"
                                   placeholder="0"
                                   labelPlacement="outside"
+                                  // value={discountState.toString()}
+                                  onValueChange={(e) => setDiscountState(parseInt(e))}
                                   startContent={
                                     <div className="pointer-events-none flex items-center">
                                       <span className="text-default-400 text-small">
@@ -107,6 +136,9 @@ export const ShoppingCardBody: FC = () => {
                               </div>
                             </ModalBody>
                             <ModalFooter>
+                              <Button variant='flat' onClick={() => valueInputDiscount(element, onClose)} color="primary">
+                                Guardar
+                              </Button>
                               <Button
                                 color="danger"
                                 variant="flat"

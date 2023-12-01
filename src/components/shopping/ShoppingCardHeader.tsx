@@ -2,7 +2,8 @@ import {
   type ChangeEvent,
   type FC,
   type FormEventHandler,
-  useState
+  useState,
+  useEffect
 } from 'react'
 
 import {
@@ -14,6 +15,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Select,
   Spacer,
   Table,
   TableBody,
@@ -41,6 +43,11 @@ export const ShoppingCardHeader: FC = () => {
     name: ''
   })
   const [customerModalSearch, setCustomerModalSearch] = useState('')
+
+  useEffect(async()=>{
+      const cambiarNombreVariable = await cuentalApi.get(`warehouses/?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`);
+      console.log(cambiarNombreVariable);
+  },[])
 
   const handleSubmitContact: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
@@ -76,17 +83,18 @@ export const ShoppingCardHeader: FC = () => {
           style={{ cursor: 'pointer' }}
           size="sm"
         />
-        <Input
-          aria-label="Buscar Cliente"
-          readOnly={true}
-          placeholder="Buscar cliente"
-          onClick={onOpen}
-          className="mt-5"
-          value={customerSearch.name}
-          startContent={<TbUsers size={20} />}
-          style={{ cursor: 'pointer' }}
-          size="sm"
-        />
+       {/*   <Select
+            size={120}
+            label="Favorite Animal"
+            placeholder="Select an animal"
+            className="max-w-xs"
+          >
+            {animals.map((animal) => (
+              <SelectItem key={animal.value} value={animal.value}>
+                {animal.label}
+              </SelectItem>
+            ))}
+          </Select> */}
       </div>
 
       <Modal
