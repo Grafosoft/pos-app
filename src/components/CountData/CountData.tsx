@@ -33,26 +33,34 @@ export const CountData: FC<Props> = ({
 
   const handleMinus = () => {
     setCount(count - interval)
-  }
-
-  const handleAdd = () => {
-    setCount(count + interval)
-    console.log(productObject)
 
     const validId = (element: ProductList) => element.id === productObject.id
     const indexFilterProduct = productList.findIndex(validId)
 
-    const arrayEdit = productList.map((element, index, array) => {
+    const arrayEdit = productList.map((element, index) => {
+      if (index === indexFilterProduct) {
+        element.amountPrice = element.amountPrice - element.salePrice
+      }
+      return element
+    })
+
+    setProductList(arrayEdit)
+  }
+
+  const handleAdd = () => {
+    setCount(count + interval)
+
+    const validId = (element: ProductList) => element.id === productObject.id
+    const indexFilterProduct = productList.findIndex(validId)
+
+    const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
         element.amountPrice = element.salePrice * (count + 1)
       }
+      return element
+    })
 
-      return array
-    }, [])
-
-    console.log(arrayEdit)
-
-    // setProductList(arrayEdit)
+    setProductList(arrayEdit)
   }
 
   return (
