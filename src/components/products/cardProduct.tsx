@@ -17,7 +17,7 @@ export const CardProduct: FC<Props> = ({ product }) => {
   const { productList, setProductList } = context
 
   const handleSaveProduct = () => {
-    let productExis:any = productList.find((element)=> element.id  == product.id )
+    let productExis = productList.find((element)=> element.id  == product.id )
 
     if(!productExis){
       setProductList([

@@ -1,10 +1,10 @@
 import { Button } from '@nextui-org/react'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { RiAddFill } from 'react-icons/ri'
 import { TbMinus } from 'react-icons/tb'
 
 interface Props {
-  color:
+  color?:
     | 'default'
     | 'primary'
     | 'secondary'
@@ -12,8 +12,6 @@ interface Props {
     | 'warning'
     | 'danger'
     | undefined
-  count: number
-  setCount: (initialState: number) => void
   optionalMinus?: () => void
   optionalAdd?: () => void
   interval?: number
@@ -22,15 +20,15 @@ interface Props {
 }
 
 export const CountData: FC<Props> = ({
-  color,
-  count,
-  setCount,
+  color ="primary",
   optionalMinus,
   optionalAdd,
   interval = 1,
   isDisabledMinus = false,
   isDisabledMax = false
 }) => {
+  const [count, setCount] = useState(1);
+
   const handleMinus = () => {
     setCount(count - interval)
     if (optionalMinus) {
@@ -52,7 +50,7 @@ export const CountData: FC<Props> = ({
         size="sm"
         color={color}
         variant="flat"
-        isDisabled={isDisabledMinus}
+        isDisabled={(count <= 1) ? true : false}
         isIconOnly
         style={{
           borderTopRightRadius: '0',
