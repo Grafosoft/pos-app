@@ -31,12 +31,14 @@ export const CountData: FC<Props> = ({
   const context = useContext(ProductContext)
   const { productList, setProductList } = context
 
+  // FILTER AND GET INDEX
+  const validId = (element: ProductList) => element.id === productObject.id
+  const indexFilterProduct = productList.findIndex(validId)
+
   const handleMinus = () => {
     setCount(count - interval)
 
-    const validId = (element: ProductList) => element.id === productObject.id
-    const indexFilterProduct = productList.findIndex(validId)
-
+    // CHANGE AMOUNT PRICE AND SAVE
     const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
         element.amountPrice = element.amountPrice - element.salePrice
@@ -50,12 +52,12 @@ export const CountData: FC<Props> = ({
   const handleAdd = () => {
     setCount(count + interval)
 
-    const validId = (element: ProductList) => element.id === productObject.id
-    const indexFilterProduct = productList.findIndex(validId)
-
+    // CHANGE AMOUNT PRICE AND SAVE
     const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
         element.amountPrice = element.salePrice * (count + 1)
+        element.total =
+          element.amountPrice * (element.taxValue / 100) + element.amountPrice
       }
       return element
     })

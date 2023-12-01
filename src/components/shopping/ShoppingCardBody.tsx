@@ -1,6 +1,17 @@
-import { type FC, useContext, useEffect } from 'react'
+import { type FC, useContext } from 'react'
 
-import { Button, Card, CardBody } from '@nextui-org/react'
+import {
+  Button,
+  Card,
+  CardBody,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure
+} from '@nextui-org/react'
 
 import { ShowPrices } from '@/utils/ShowPrices'
 import { TruncateText } from '@/utils/TruncateText'
@@ -12,13 +23,11 @@ import { TbEdit, TbShoppingCartPlus, TbTrash } from 'react-icons/tb'
 
 // COMPONENT
 export const ShoppingCardBody: FC = () => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
   // ProductContext
   const context = useContext(ProductContext)
   const { productList, setProductList } = context
-
-  useEffect(() => {
-    console.log(productList)
-  })
 
   // Function delete in product
   const deleteProductOfCar = (idEliminar: number) => {
@@ -56,8 +65,8 @@ export const ShoppingCardBody: FC = () => {
                     </p>
                     <ShowPrices
                       price={element.amountPrice}
-                      discount={1231}
-                      tax={element.taxValue}
+                      discount={0}
+                      tax={element.amountPrice * (element.taxValue / 100)}
                       total={element.total}
                     />
                   </div>
@@ -71,8 +80,46 @@ export const ShoppingCardBody: FC = () => {
                       size="sm"
                       aria-label="Like"
                     >
-                      <TbEdit size={15} />
+                      <TbEdit size={15} onPress={onOpen} />
                     </Button>
+                    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                      <ModalContent>
+                        {onClose => (
+                          <>
+                            <ModalHeader className="flex flex-col gap-1">
+                              {element.name}
+                            </ModalHeader>
+                            <ModalBody>
+                              <div className="p-5">
+                                <Input
+                                  type="number"
+                                  label="Price"
+                                  placeholder="0"
+                                  labelPlacement="outside"
+                                  startContent={
+                                    <div className="pointer-events-none flex items-center">
+                                      <span className="text-default-400 text-small">
+                                        $
+                                      </span>
+                                    </div>
+                                  }
+                                />
+                              </div>
+                            </ModalBody>
+                            <ModalFooter>
+                              <Button
+                                color="danger"
+                                variant="flat"
+                                onPress={onClose}
+                              >
+                                Cerrar
+                              </Button>
+                            </ModalFooter>
+                          </>
+                        )}
+                      </ModalContent>
+                    </Modal>
+
                     <Button
                       onClick={() => {
                         deleteProductOfCar(element.id)

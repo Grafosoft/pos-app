@@ -48,7 +48,7 @@ export const ShowPrices: FC<Props> = ({ price, total, discount, tax }) => {
             </div>
             <div className="flex flex-col items-end w-[150px]">
               <span> $ {formatDouble.format(discount)}</span>
-              <span>{formatDouble.format(tax)}%</span>
+              <span> $ {formatDouble.format(tax)}</span>
               <span> $ {formatDouble.format(total)}</span>
             </div>
           </div>
