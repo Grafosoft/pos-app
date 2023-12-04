@@ -38,13 +38,6 @@ export const ShoppingCardBody: FC = () => {
   }
   // Value the input of discount
   const valueInputDiscount = (elementProduct: ProductList, onClose: () => void) => {
-
-    //console.log(discount.target.value, "DESCUENTO INPUT");
-
-    //let discountInt = parseInt(discount.target.value);
-    //setDiscountState(discountInt);
-    console.log(discountState, "DESCUENTO STATE")
-
     let indexProduct = productList.findIndex((element) => element.id === elementProduct.id);
 
     let arrayEditDiscount = productList.map((element, index) => {
@@ -52,13 +45,11 @@ export const ShoppingCardBody: FC = () => {
         element.total = element.amountPrice;
         element.discount = discountState;
         element.total = (element.total - discountState);
-        console.log(element);
       }
       return element;
     })
-    console.log(arrayEditDiscount);
+    setProductList(arrayEditDiscount);
     onClose();
-    //setProductList(arrayEditDiscount);
   }
 
   return (
@@ -93,6 +84,7 @@ export const ShoppingCardBody: FC = () => {
                       price={element.amountPrice}
                       discount={element.discount}
                       tax={element.amountPrice * (element.taxValue / 100)}
+                      taxPorcentage = {element.taxValue}
                       total={element.total}
                     />
                   </div>
