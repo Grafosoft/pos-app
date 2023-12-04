@@ -3,7 +3,8 @@ import {
   type FC,
   type FormEventHandler,
   useState,
-  useEffect
+  useEffect,
+  useContext
 } from 'react'
 
 import {
@@ -33,7 +34,11 @@ import { type CustomerList } from '@/interface/customers'
 import { TbSearch, TbUsers } from 'react-icons/tb'
 import cuentalApi from '@/api/cuentalApi'
 import { customerColumnsModal } from '../columns/customerColumnsModal'
-import { WareHouses } from '@/interface/wareHouse'
+import {
+  type InvoiceParameters,
+  type Seller
+} from '@/interface/invoiceParameters'
+import { ParametersContext } from './ShoppingCart'
 
 export const ShoppingCardHeader: FC = () => {
   // Input Contact
@@ -45,20 +50,25 @@ export const ShoppingCardHeader: FC = () => {
     name: ''
   })
   // Use states
-  const [customerModalSearch, setCustomerModalSearch] = useState('');
-  const [dataWareHouses, setDataWareHouses] = useState<WareHouses[]>([]);
-  const [valueSelectWareHouses, setvalueSelectWareHouses] = useState(new Set([]));
+  const [customerModalSearch, setCustomerModalSearch] = useState('')
+  const [dataWareHouses, setDataWareHouses] = useState<Seller[]>([])
 
-  useEffect(()=>{
-    const petiApi = async()=>{
-      const {data} = await cuentalApi.get(`warehouses/?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`);
-      setDataWareHouses(data)
+  // INVOICE PARAMETERS CONTEXT
+  const context = useContext(ParametersContext)
+  const { setParametersInfo } = context
+
+  useEffect(() => {
+    const petiApi = async () => {
+      const { data } = await cuentalApi.get<InvoiceParameters>(
+        `settings/invoices?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
+      )
+      setParametersInfo(data)
+      setDataWareHouses(data.warehouses)
     }
-      petiApi();
-  },[])
+    petiApi()
+  }, [setParametersInfo])
 
-
-  const wareHouseSelected = (e: ChangeEvent<HTMLSelectElement>)=>{
+  const wareHouseSelected = (e: ChangeEvent<HTMLSelectElement>) => {
     console.log(e.target.value)
   }
 
@@ -96,20 +106,20 @@ export const ShoppingCardHeader: FC = () => {
           style={{ cursor: 'pointer' }}
           size="sm"
         />
-          <Select
-            size="sm"
-            label="Seleccione el almacen"
-            placeholder="Almacen"
-            className="max-w-xs"
-            //onSelectionChange={setvalueSelectWareHouses}
-            onChange={wareHouseSelected}
-          >
-            {dataWareHouses.map((element,index) => (
-              <SelectItem key={element.id} value={element.id}>
-                {element.name}
-              </SelectItem>
-            ))}
-          </Select>
+        <Select
+          size="sm"
+          label="Seleccione el almacen"
+          placeholder="Almacen"
+          className="max-w-xs"
+          // onSelectionChange={setvalueSelectWareHouses}
+          onChange={wareHouseSelected}
+        >
+          {dataWareHouses.map((element, index) => (
+            <SelectItem key={element.id} value={element.id}>
+              {element.name}
+            </SelectItem>
+          ))}
+        </Select>
       </div>
 
       <Modal

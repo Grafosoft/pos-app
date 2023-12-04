@@ -10,7 +10,13 @@ interface Props {
   taxPorcentage: number
 }
 
-export const ShowPrices: FC<Props> = ({ price, total, discount, tax, taxPorcentage }) => {
+export const ShowPrices: FC<Props> = ({
+  price,
+  total,
+  discount,
+  tax,
+  taxPorcentage
+}) => {
   const [isOpenPopover, setIsOpenPopover] = useState(false)
   const formatDouble = new Intl.NumberFormat('en-DE')
 

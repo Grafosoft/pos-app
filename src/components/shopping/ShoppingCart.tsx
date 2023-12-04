@@ -11,20 +11,20 @@ import { ShoppingCardBody } from './ShoppingCardBody'
 import { ShoppingCardFooder } from './ShoppingCardFooder'
 
 interface PriceContextTye {
-  priceInfo: object
-  setPriceInfo: Dispatch<SetStateAction<object>>
+  parametersInfo: object
+  setParametersInfo: Dispatch<SetStateAction<object>>
 }
 
-export const PriceContext = createContext<PriceContextTye>({
-  priceInfo: {},
-  setPriceInfo: () => {}
+export const ParametersContext = createContext<PriceContextTye>({
+  parametersInfo: {},
+  setParametersInfo: () => {}
 })
 
 export const ShoppingCart: FC = () => {
-  const [priceInfo, setPriceInfo] = useState({})
+  const [parametersInfo, setParametersInfo] = useState({})
 
   return (
-    <PriceContext.Provider value={{ priceInfo, setPriceInfo }}>
+    <ParametersContext.Provider value={{ parametersInfo, setParametersInfo }}>
       <div className="mi flex flex-col min-h-[86vh]">
         <div>
           <ShoppingCardHeader />
@@ -36,6 +36,6 @@ export const ShoppingCart: FC = () => {
           <ShoppingCardFooder />
         </div>
       </div>
-    </PriceContext.Provider>
+    </ParametersContext.Provider>
   )
 }

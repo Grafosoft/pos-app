@@ -42,7 +42,10 @@ export const CountData: FC<Props> = ({
     const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
         element.amountPrice = element.amountPrice - element.salePrice
-        element.total =  (element.total - element.salePrice) - (element.amountPrice * (element.taxValue / 100));
+        element.total =
+          element.total -
+          element.salePrice -
+          element.amountPrice * (element.taxValue / 100)
       }
       return element
     })
@@ -56,7 +59,8 @@ export const CountData: FC<Props> = ({
     const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
         element.amountPrice = element.salePrice * (count + 1)
-        element.total = (element.amountPrice * (element.taxValue / 100)) + element.amountPrice
+        element.total =
+          element.amountPrice * (element.taxValue / 100) + element.amountPrice
       }
       return element
     })
