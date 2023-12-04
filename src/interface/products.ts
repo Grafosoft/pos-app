@@ -30,9 +30,9 @@ export interface ProductList {
   name: string
   image: string | null
   groupName: string
-  salePrice: number
-  amountPrice: number
-  discount: number
-  taxValue: number
-  total: number
+  salePrice: number // precio base que nunca cambia del producto
+  amountPrice: number  // precio del producto multiplicado por la cantidad de productos pedidos
+  discount: number  // decuento del producto
+  taxValue: number  // valor del impuesto del producto en porcentaje
+  total: number   // valor total del producto despues de restar y sumar los valores anteriores
 }

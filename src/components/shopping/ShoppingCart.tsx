@@ -35,7 +35,6 @@ export const ShoppingCart: FC = () => {
         <div>
           <ShoppingCardFooder />
         </div>
-        w
       </div>
     </PriceContext.Provider>
   )

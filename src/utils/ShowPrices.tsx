@@ -7,9 +7,10 @@ interface Props {
   total: number
   discount: number
   tax: number
+  taxPorcentage: number
 }
 
-export const ShowPrices: FC<Props> = ({ price, total, discount, tax }) => {
+export const ShowPrices: FC<Props> = ({ price, total, discount, tax, taxPorcentage }) => {
   const [isOpenPopover, setIsOpenPopover] = useState(false)
   const formatDouble = new Intl.NumberFormat('en-DE')
 
@@ -43,7 +44,7 @@ export const ShowPrices: FC<Props> = ({ price, total, discount, tax }) => {
           <div className="flex p-2 ">
             <div className=" text-default-500">
               <p className="">Descuento: </p>
-              <p className="">Impuesto: </p>
+              <p className="">Impuesto ({taxPorcentage}%): </p>
               <p className="">Total: </p>
             </div>
             <div className="flex flex-col items-end w-[150px]">
