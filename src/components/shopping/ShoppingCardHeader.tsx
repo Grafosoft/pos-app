@@ -3,7 +3,6 @@ import {
   type FC,
   type FormEventHandler,
   useState,
-  useEffect,
   useContext
 } from 'react'
 
@@ -16,8 +15,6 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Select,
-  SelectItem,
   Spacer,
   Table,
   TableBody,
@@ -34,10 +31,6 @@ import { type CustomerList } from '@/interface/customers'
 import { TbSearch, TbUsers } from 'react-icons/tb'
 import cuentalApi from '@/api/cuentalApi'
 import { customerColumnsModal } from '../columns/customerColumnsModal'
-import {
-  type InvoiceParameters,
-  type Seller
-} from '@/interface/invoiceParameters'
 import { ParametersContext } from './ShoppingCart'
 
 export const ShoppingCardHeader: FC = () => {
@@ -51,26 +44,11 @@ export const ShoppingCardHeader: FC = () => {
   })
   // Use states
   const [customerModalSearch, setCustomerModalSearch] = useState('')
-  const [dataWareHouses, setDataWareHouses] = useState<Seller[]>([])
 
   // INVOICE PARAMETERS CONTEXT
   const context = useContext(ParametersContext)
   const { setParametersInfo } = context
 
-  useEffect(() => {
-    const petiApi = async () => {
-      const { data } = await cuentalApi.get<InvoiceParameters>(
-        `settings/invoices?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
-      )
-      setParametersInfo(data)
-      setDataWareHouses(data.warehouses)
-    }
-    petiApi()
-  }, [setParametersInfo])
-
-  const wareHouseSelected = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value)
-  }
 
   const handleSubmitContact: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
@@ -106,20 +84,7 @@ export const ShoppingCardHeader: FC = () => {
           style={{ cursor: 'pointer' }}
           size="sm"
         />
-        <Select
-          size="sm"
-          label="Seleccione el almacen"
-          placeholder="Almacen"
-          className="max-w-xs"
-          // onSelectionChange={setvalueSelectWareHouses}
-          onChange={wareHouseSelected}
-        >
-          {dataWareHouses.map((element, index) => (
-            <SelectItem key={element.id} value={element.id}>
-              {element.name}
-            </SelectItem>
-          ))}
-        </Select>
+
       </div>
 
       <Modal
