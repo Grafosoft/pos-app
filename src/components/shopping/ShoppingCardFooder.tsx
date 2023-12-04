@@ -1,7 +1,7 @@
 import { ProductContext } from '@/pages'
+import { totalTaxPer } from '@/utils/totalPaxPer'
 import { Button } from '@nextui-org/react'
 import { type FC, useContext, useState, useEffect } from 'react'
-import { ParametersContext } from './ShoppingCart'
 
 // COMPONENT
 export const ShoppingCardFooder: FC = () => {
@@ -28,17 +28,18 @@ export const ShoppingCardFooder: FC = () => {
   const currentDate = `${year}/${month}/${day}`
 
   useEffect(() => {
+    console.log(productList)
     const totalDiscount = productList.reduce(
       (acumulator, element) => acumulator + element.discount,
       0
     )
     const totalTax = productList.reduce(
       (acumulator, element) =>
-        acumulator + (element.taxValue / 100) * element.amountPrice,
+        acumulator + (totalTaxPer(element.tax) / 100) * element.value,
       0
     )
     const subTotal = productList.reduce(
-      (acumulator, element) => acumulator + element.amountPrice,
+      (acumulator, element) => acumulator + element.value,
       0
     )
     // console.log(totalTax)

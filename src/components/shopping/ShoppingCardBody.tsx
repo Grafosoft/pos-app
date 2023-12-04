@@ -21,6 +21,7 @@ import { ProductContext } from '@/pages'
 import { ImageRound } from '../imageRound/ImageRound'
 import { CountData } from '../CountData/CountData'
 import { TbEdit, TbShoppingCartPlus, TbTrash } from 'react-icons/tb'
+import { totalTaxPer } from '@/utils/totalPaxPer'
 
 // COMPONENT
 export const ShoppingCardBody: FC = () => {
@@ -47,9 +48,10 @@ export const ShoppingCardBody: FC = () => {
 
     const arrayEditDiscount = productList.map((element, index) => {
       if (indexProduct === index) {
-        element.total = element.amountPrice
+        element.totalAmount =
+          element.value + (element.value * totalTaxPer(element.tax)) / 100
         element.discount = discountState
-        element.total = element.total - discountState
+        element.totalAmount = element.totalAmount - discountState
       }
       return element
     })
@@ -68,116 +70,118 @@ export const ShoppingCardBody: FC = () => {
           </h1>
         </div>
       ) : (
-        productList.map((element, index) => (
-          <Card className="mb-3" key={element.id}>
-            <CardBody>
-              <div className="flex justify-between  items-center">
-                <div className="flex gap-3">
-                  <ImageRound
-                    image={element.image}
-                    name={element.name}
-                    formeRound={false}
-                  />
-                  <div className="flex flex-col justify-around">
-                    <p className="text-xl font-medium">
-                      {TruncateText(element.name)}
-                    </p>
-                    <p className="text-small text-default-500">
-                      {TruncateText(element.groupName)}
-                    </p>
-                    <ShowPrices
-                      price={element.amountPrice}
-                      discount={element.discount}
-                      tax={element.amountPrice * (element.taxValue / 100)}
-                      taxPorcentage={element.taxValue}
-                      total={element.total}
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col items-center gap-4 ">
+        productList.map((element, index) => {
+          return (
+            <Card className="mb-3" key={element.id}>
+              <CardBody>
+                <div className="flex justify-between  items-center">
                   <div className="flex gap-3">
-                    <Button
-                      isIconOnly
-                      color="primary"
-                      variant="flat"
-                      size="sm"
-                      onPress={onOpen}
-                      aria-label="Like"
-                    >
-                      <TbEdit size={15} />
-                    </Button>
-                    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-                      <ModalContent>
-                        {onClose => (
-                          <>
-                            <ModalHeader className="flex flex-col gap-1">
-                              {element.name}
-                            </ModalHeader>
-                            <ModalBody>
-                              <div className="p-5">
-                                <Input
-                                  type="number"
-                                  label="Price"
-                                  placeholder="0"
-                                  labelPlacement="outside"
-                                  // value={discountState.toString()}
-                                  onValueChange={e => {
-                                    setDiscountState(parseInt(e))
-                                  }}
-                                  startContent={
-                                    <div className="pointer-events-none flex items-center">
-                                      <span className="text-default-400 text-small">
-                                        $
-                                      </span>
-                                    </div>
-                                  }
-                                />
-                              </div>
-                            </ModalBody>
-                            <ModalFooter>
-                              <Button
-                                variant="flat"
-                                onClick={() => {
-                                  valueInputDiscount(element, onClose)
-                                }}
-                                color="primary"
-                              >
-                                Guardar
-                              </Button>
-                              <Button
-                                color="danger"
-                                variant="flat"
-                                onPress={onClose}
-                              >
-                                Cerrar
-                              </Button>
-                            </ModalFooter>
-                          </>
-                        )}
-                      </ModalContent>
-                    </Modal>
-
-                    <Button
-                      onClick={() => {
-                        deleteProductOfCar(element.id)
-                      }}
-                      isIconOnly
-                      color="danger"
-                      variant="flat"
-                      size="sm"
-                      edaria-label="Take a photo"
-                    >
-                      <TbTrash size={15} />
-                    </Button>
+                    <ImageRound
+                      image={element.image}
+                      name={element.item.name}
+                      formeRound={false}
+                    />
+                    <div className="flex flex-col justify-around">
+                      <p className="text-xl font-medium">
+                        {TruncateText(element.item.name)}
+                      </p>
+                      <p className="text-small text-default-500">
+                        {TruncateText(element.group.name)}
+                      </p>
+                      <ShowPrices
+                        price={element.value}
+                        discount={element.discount}
+                        tax={element.value * (totalTaxPer(element.tax) / 100)}
+                        taxPorcentage={totalTaxPer(element.tax)}
+                        total={element.totalAmount}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <CountData productObject={element} />
+                  <div className="flex flex-col items-center gap-4 ">
+                    <div className="flex gap-3">
+                      <Button
+                        isIconOnly
+                        color="primary"
+                        variant="flat"
+                        size="sm"
+                        onPress={onOpen}
+                        aria-label="Like"
+                      >
+                        <TbEdit size={15} />
+                      </Button>
+                      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                        <ModalContent>
+                          {onClose => (
+                            <>
+                              <ModalHeader className="flex flex-col gap-1">
+                                {element.item.name}
+                              </ModalHeader>
+                              <ModalBody>
+                                <div className="p-5">
+                                  <Input
+                                    type="number"
+                                    label="Price"
+                                    placeholder="0"
+                                    labelPlacement="outside"
+                                    // value={discountState.toString()}
+                                    onValueChange={e => {
+                                      setDiscountState(parseInt(e))
+                                    }}
+                                    startContent={
+                                      <div className="pointer-events-none flex items-center">
+                                        <span className="text-default-400 text-small">
+                                          $
+                                        </span>
+                                      </div>
+                                    }
+                                  />
+                                </div>
+                              </ModalBody>
+                              <ModalFooter>
+                                <Button
+                                  variant="flat"
+                                  onClick={() => {
+                                    valueInputDiscount(element, onClose)
+                                  }}
+                                  color="primary"
+                                >
+                                  Guardar
+                                </Button>
+                                <Button
+                                  color="danger"
+                                  variant="flat"
+                                  onPress={onClose}
+                                >
+                                  Cerrar
+                                </Button>
+                              </ModalFooter>
+                            </>
+                          )}
+                        </ModalContent>
+                      </Modal>
+
+                      <Button
+                        onClick={() => {
+                          deleteProductOfCar(element.id)
+                        }}
+                        isIconOnly
+                        color="danger"
+                        variant="flat"
+                        size="sm"
+                        edaria-label="Take a photo"
+                      >
+                        <TbTrash size={15} />
+                      </Button>
+                    </div>
+                    <div>
+                      <CountData productObject={element} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </CardBody>
-          </Card>
-        ))
+              </CardBody>
+            </Card>
+          )
+        })
       )}
     </div>
   )

@@ -4,6 +4,7 @@ import { RiAddFill } from 'react-icons/ri'
 import { TbMinus } from 'react-icons/tb'
 import { ProductContext } from '@/pages'
 import { type ProductList } from '@/interface/products'
+import { totalTaxPer } from '@/utils/totalPaxPer'
 
 interface Props {
   color?:
@@ -41,11 +42,11 @@ export const CountData: FC<Props> = ({
     // CHANGE AMOUNT PRICE AND SAVE
     const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
-        element.amountPrice = element.amountPrice - element.salePrice
-        element.total =
-          element.total -
-          element.salePrice -
-          element.amountPrice * (element.taxValue / 100)
+        element.value = element.value - element.price
+        element.totalAmount =
+          element.totalAmount -
+          element.price -
+          element.value * (totalTaxPer(element.tax) / 100)
       }
       return element
     })
@@ -58,9 +59,9 @@ export const CountData: FC<Props> = ({
     // CHANGE AMOUNT PRICE AND SAVE
     const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
-        element.amountPrice = element.salePrice * (count + 1)
-        element.total =
-          element.amountPrice * (element.taxValue / 100) + element.amountPrice
+        element.value = element.price * (count + 1)
+        element.totalAmount =
+          element.value * (totalTaxPer(element.tax) / 100) + element.value
       }
       return element
     })
