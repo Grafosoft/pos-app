@@ -47,7 +47,7 @@ export const ShoppingCardHeader: FC = () => {
 
   // INVOICE PARAMETERS CONTEXT
   const context = useContext(ParametersContext)
-  const { setParametersInfo } = context
+  const { setParametersInfo } = context;
 
 
   const handleSubmitContact: FormEventHandler<HTMLFormElement> = e => {

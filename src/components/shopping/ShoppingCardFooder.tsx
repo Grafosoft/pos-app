@@ -13,9 +13,11 @@ import {
   Select,
   SelectItem,
   useDisclosure,
+  Selection,
 } from '@nextui-org/react'
-import { type FC, useContext, useState, useEffect, ChangeEvent } from 'react'
+import { type FC, useContext, useState, useEffect, ChangeEvent, useMemo } from 'react'
 import { ParametersContext } from './ShoppingCart'
+import { ObjectsSelects } from '@/utils/objectsSelect'
 
 // COMPONENT
 export const ShoppingCardFooder: FC = () => {
@@ -31,6 +33,11 @@ export const ShoppingCardFooder: FC = () => {
   const [dataNumerations, setDataNumerations] = useState<Numeration[]>([])
   const [dataSellers, setDataSellers] = useState<Seller[]>([])
 
+  // STATUS OF SELECTS
+  const [selectWareHouses, setSelectWareHouses] = useState<Selection>(new Set([]));
+  const [selectNumerations, setSelectNumerations] = useState<Selection>(new Set([]));
+  const [selectSellers, setSelectSellers] = useState<Selection>(new Set([]));
+
   // CONTROLLERS OF MODAL
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -42,16 +49,9 @@ export const ShoppingCardFooder: FC = () => {
   // Format Double
   const formatDouble = new Intl.NumberFormat('en-DE')
 
-  const date = new Date()
-
-  const day = date.getDate()
-  const month = date.getMonth() + 1
-  const year = date.getFullYear()
-
-  const currentDate = `${year}/${month}/${day}`
+  const currentDate = new Date().toISOString().slice(0, 10);
 
   useEffect(() => {
-    console.log(productList)
     const totalDiscount = productList.reduce(
       (acumulator, element) => acumulator + element.discount,
       0
@@ -67,8 +67,8 @@ export const ShoppingCardFooder: FC = () => {
     )
     // console.log(totalTax)
 
-    setSubTotalProducts(subTotal)
-    setTotalDiscountProducts(totalDiscount)
+    setSubTotalProducts(subTotal - totalTax)
+    setTotalDiscountProducts(totalDiscount )
     setTotalTaxProducts(totalTax)
   }, [productList])
 
@@ -85,9 +85,29 @@ export const ShoppingCardFooder: FC = () => {
     petiApi()
   }, [setParametersInfo])
 
-  const wareHouseSelected = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value)
-  }
+
+  //* Nota: estas 3 funciones las debo pasar a una refacatorizacion para que solo sea una sola
+  const memoNumbers = useMemo(
+    ()=>{
+       let object =  dataNumerations.find(element => (element.id).toString() === Array.from(selectNumerations)[0])
+      return object;
+    },[selectNumerations]);
+  //* Nota: estas 3 funciones las debo pasar a una refacatorizacion para que solo sea una sola
+  const memoSellers = useMemo(
+    ()=>{
+       let object =  dataSellers.find(element => (element.id).toString() === Array.from(selectSellers)[0])
+      return object;
+    },[selectSellers]);
+
+  //* Nota: estas 3 funciones las debo pasar a una refacatorizacion para que solo sea una sola
+  const memoWareHouses = useMemo(
+    ()=>{
+       let object =  dataWareHouses.find(element => (element.id).toString() === Array.from(selectWareHouses)[0])
+      return object;
+    },[selectWareHouses]);
+
+  //console.log(memoNumbers,memoSellers,memoWareHouses)
+
 
   return (
     <div className="w-full h-[22vh] py-4 px-4 border-t shadow-sm dark:bg-black dark:border-t-slate-800">
@@ -132,15 +152,15 @@ export const ShoppingCardFooder: FC = () => {
           </div>
         </Button>
         <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        size="2xl"
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          size="2xl"
         >
           <ModalContent>
             {onClose => (
               <>
                 <ModalHeader className="flex flex-col gap-1">
-                  Titulo del modal
+                 Datos y Generacion de factura
                 </ModalHeader>
                 <ModalBody className="flex flex-col p-5 ">
                   <div className="flex  gap-3">
@@ -149,8 +169,9 @@ export const ShoppingCardFooder: FC = () => {
                       label="Seleccione la Numeración"
                       placeholder="Numeración"
                       className="max-w-xs"
-                      // onSelectionChange={setvalueSelectWareHouses}
-                      onChange={wareHouseSelected}
+                      onChange={(e)=>ObjectsSelects(e.target.value,dataNumerations,setSelectNumerations,selectNumerations)}
+                      selectedKeys={selectNumerations}
+                      onSelectionChange={setSelectNumerations}
                     >
                       {dataNumerations.map((element, index) => (
                         <SelectItem key={element.id} value={element.id}>
@@ -160,11 +181,11 @@ export const ShoppingCardFooder: FC = () => {
                     </Select>
                     <Select
                       size="sm"
-                      label="Seleccione el almacen"
-                      placeholder="Almacen"
+                      label="Seleccione el almacén"
+                      placeholder="Almacén"
                       className="max-w-xs"
-                      // onSelectionChange={setvalueSelectWareHouses}
-                      onChange={wareHouseSelected}
+                      selectedKeys={selectWareHouses}
+                      onSelectionChange={setSelectWareHouses}
                     >
                       {dataWareHouses.map((element, index) => (
                         <SelectItem key={element.id} value={element.id}>
@@ -179,8 +200,8 @@ export const ShoppingCardFooder: FC = () => {
                       label="Seleccione el vendedor"
                       placeholder="Vendedor"
                       className="w-full"
-                      // onSelectionChange={setvalueSelectWareHouses}
-                      onChange={wareHouseSelected}
+                      selectedKeys={selectSellers}
+                      onSelectionChange={setSelectSellers}
                     >
                       {dataSellers.map((element, index) => (
                         <SelectItem key={element.id} value={element.id}>
@@ -189,22 +210,79 @@ export const ShoppingCardFooder: FC = () => {
                       ))}
                     </Select>
                   </div>
+                  <div >
+                    <Input
+                      size="sm"
+                      isReadOnly
+                      variant='faded'
+                      label="Tercero"
+                      defaultValue={"Sr. 002111 "}
+                      className="w-full "
+                    />
+                  </div>
+                  <div className="flex p-2 items-center rounded-md gap-3 h-[80px] bg-slate-100 mt-20	">
+                   <div className="w-full">
+                    <p className="text-slate-500 text-sm ml-1 ">Total:</p>
+                   <Input
+                      size="sm"
+                      isReadOnly
+                      variant='faded'
+                      defaultValue={formatDouble.format(
+                        subTotalProducts + totalTaxProducts - totalDiscountProducts
+                      )}
+                      startContent={
+                        <div className="pointer-events-none flex items-center">
+                          <span className="text-default-400 text-small">$</span>
+                        </div>
+                      }
+                      className="text-black"
+                    />
+                   </div>
+                   <div className="w-full">
+                    <p className="text-slate-500 text-sm ml-1 ">Recibido:</p>
+                   <Input
+                      size="sm"
+                      isReadOnly
+                      variant='faded'
+                      defaultValue={"2000"}
+                      startContent={
+                        <div className="pointer-events-none flex items-center">
+                          <span className="text-default-400 text-small">$</span>
+                        </div>
+                      }
+                      className="text-black"
+                    />
+                   </div>
+                   <div className="w-full">
+                    <p className="text-slate-500 text-sm ml-1 ">Cambio:</p>
+                   <Input
+                      size="sm"
+                      isReadOnly
+                      variant='faded'
+                      defaultValue={"0"} // valor que se mostrara
+                      startContent={
+                        <div className="pointer-events-none flex items-center">
+                          <span className="text-default-400 text-small">$</span>
+                        </div>
+                      }
+                      className="text-black"
+                    />
+                   </div>
+                  </div>
                 </ModalBody>
                 <ModalFooter>
-                  <Button
-                    variant="flat"
-                    // onPress={}
-                    color="primary"
-                  >
-                    Guardar
-                  </Button>
-                  <Button
-                    color="danger"
-                    variant="flat"
-                    onPress={onClose}
-                  >
-                    Cerrar
-                  </Button>
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  className="w-full rounded-md">
+                  Generar D.E./POS
+                </Button>
+                <Button
+                  color="secondary"
+                  variant="flat"
+                  className="w-full rounded-md">
+                  Generar Factura
+                </Button>
                 </ModalFooter>
               </>
             )}

@@ -22,7 +22,7 @@ export const CardProduct: FC<Props> = ({ product }) => {
       setProductList([
         ...productList,
         {
-          id: 0,
+          id: product.id,
           quantity: 1,
           value: product.salePrice,
           price: product.salePrice,

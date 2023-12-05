@@ -49,11 +49,13 @@ export const ShowPrices: FC<Props> = ({
         <PopoverContent>
           <div className="flex p-2 ">
             <div className=" text-default-500">
+              <p className="">SubTotal: </p>
               <p className="">Descuento: </p>
               <p className="">Impuesto ({taxPorcentage}%): </p>
               <p className="">Total: </p>
             </div>
             <div className="flex flex-col items-end w-[150px]">
+              <span> $ {formatDouble.format(total - tax)}</span>
               <span> $ {formatDouble.format(discount)}</span>
               <span> $ {formatDouble.format(tax)}</span>
               <span> $ {formatDouble.format(total)}</span>

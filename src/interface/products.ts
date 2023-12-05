@@ -17,8 +17,8 @@ export interface interfaceProduct {
 export interface ProductList {
   id: number
   quantity: number
-  value: number // precio base que nunca cambia del producto
-  price: number // precio del producto multiplicado por la cantidad de productos pedidos
+  value: number // precio del producto multiplicado por la cantidad de productos pedidos
+  price: number // precio base que nunca cambia del producto 
   discount: number // decuento del producto
   description: string
   discountAmount: number
