@@ -154,9 +154,9 @@ export const ShoppingCardFooder: FC = () => {
                       className="w-full "
                     />
                   </div>
-                  <div className="flex p-2 items-center rounded-md gap-3 h-[80px] bg-slate-100 mt-20	">
+                  <div className="flex p-2 items-center rounded-md gap-3 h-[80px] dark:bg-zinc-700 bg-slate-100 mt-20	">
                     <div className="w-full">
-                      <p className="text-slate-500 text-sm ml-1 ">Total:</p>
+                      <p className="dark:text-default-500 text-slate-500 text-sm ml-1 ">Total:</p>
                       <Input
                         size="sm"
                         isReadOnly
@@ -173,11 +173,11 @@ export const ShoppingCardFooder: FC = () => {
                             </span>
                           </div>
                         }
-                        className="text-black"
+                        className="dark:text-white text-black"
                       />
                     </div>
                     <div className="w-full">
-                      <p className="text-slate-500 text-sm ml-1 ">Recibido:</p>
+                      <p className= " dark:text-default-500 text-slate-500 text-sm ml-1 ">Recibido:</p>
                       <Input
                         size="sm"
                         isReadOnly
@@ -190,11 +190,11 @@ export const ShoppingCardFooder: FC = () => {
                             </span>
                           </div>
                         }
-                        className="text-black"
+                        className="dark:text-white text-black"
                       />
                     </div>
                     <div className="w-full">
-                      <p className="text-slate-500 text-sm ml-1 ">Cambio:</p>
+                      <p className="dark:text-default-500 text-slate-500 text-sm ml-1 ">Cambio:</p>
                       <Input
                         size="sm"
                         isReadOnly
@@ -207,7 +207,7 @@ export const ShoppingCardFooder: FC = () => {
                             </span>
                           </div>
                         }
-                        className="text-black"
+                        className="dark:text-white text-black"
                       />
                     </div>
                   </div>
