@@ -23,15 +23,31 @@ export const CardProduct: FC<Props> = ({ product }) => {
         ...productList,
         {
           id: product.id,
-          name: product.name,
-          image: product.image,
-          groupName: product.group.name,
-          salePrice: product.salePrice,
-          amountPrice: product.salePrice,
+          quantity: 1,
+          value: product.salePrice,
+          price: product.salePrice,
           discount: 0,
-          taxValue: product.tax.value,
-          total:
-            product.salePrice + product.salePrice * (product.tax.value / 100)
+          description: '',
+          discountAmount: 0,
+          totalAmount:
+            product.salePrice + product.salePrice * (product.tax.value / 100),
+          item: {
+            id: product.id,
+            name: product.name
+          },
+          tax: [
+            {
+              id: product.tax.id,
+              name: product.tax.name,
+              value: 0,
+              percentage: product.tax.value
+            }
+          ],
+          image: product.image,
+          group: {
+            id: product.group.id,
+            name: product.group.name
+          }
         }
       ])
     }

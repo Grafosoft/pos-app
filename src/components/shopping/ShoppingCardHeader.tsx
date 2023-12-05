@@ -3,7 +3,7 @@ import {
   type FC,
   type FormEventHandler,
   useState,
-  useEffect
+  useContext
 } from 'react'
 
 import {
@@ -15,8 +15,6 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Select,
-  SelectItem,
   Spacer,
   Table,
   TableBody,
@@ -33,7 +31,7 @@ import { type CustomerList } from '@/interface/customers'
 import { TbSearch, TbUsers } from 'react-icons/tb'
 import cuentalApi from '@/api/cuentalApi'
 import { customerColumnsModal } from '../columns/customerColumnsModal'
-import { WareHouses } from '@/interface/wareHouse'
+import { ParametersContext } from './ShoppingCart'
 
 export const ShoppingCardHeader: FC = () => {
   // Input Contact
@@ -45,22 +43,12 @@ export const ShoppingCardHeader: FC = () => {
     name: ''
   })
   // Use states
-  const [customerModalSearch, setCustomerModalSearch] = useState('');
-  const [dataWareHouses, setDataWareHouses] = useState<WareHouses[]>([]);
-  const [valueSelectWareHouses, setvalueSelectWareHouses] = useState(new Set([]));
+  const [customerModalSearch, setCustomerModalSearch] = useState('')
 
-  useEffect(()=>{
-    const petiApi = async()=>{
-      const {data} = await cuentalApi.get(`warehouses/?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`);
-      setDataWareHouses(data)
-    }
-      petiApi();
-  },[])
+  // INVOICE PARAMETERS CONTEXT
+  const context = useContext(ParametersContext)
+  const { setParametersInfo } = context;
 
-
-  const wareHouseSelected = (e: ChangeEvent<HTMLSelectElement>)=>{
-    console.log(e.target.value)
-  }
 
   const handleSubmitContact: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
@@ -96,20 +84,7 @@ export const ShoppingCardHeader: FC = () => {
           style={{ cursor: 'pointer' }}
           size="sm"
         />
-          <Select
-            size="sm"
-            label="Seleccione el almacen"
-            placeholder="Almacen"
-            className="max-w-xs"
-            //onSelectionChange={setvalueSelectWareHouses}
-            onChange={wareHouseSelected}
-          >
-            {dataWareHouses.map((element,index) => (
-              <SelectItem key={element.id} value={element.id}>
-                {element.name}
-              </SelectItem>
-            ))}
-          </Select>
+
       </div>
 
       <Modal
