@@ -24,11 +24,20 @@ export default function Home() {
 
   return (
     <ProductContext.Provider value={{ productList, setProductList }}>
-      <div className="grid grid-cols-12 h-[86vh]">
-        <div className="col-span-5 md:col-span-6 lg:col-span-7 h-[86vh] p-4 ">
+      <div
+        className="grid grid-cols-12"
+        style={{ minHeight: 'calc(100vh - 128px)' }}
+      >
+        <div
+          className="col-span-5 md:col-span-6 lg:col-span-7 p-5 pb-0 "
+          style={{ minHeight: 'calc(100vh - 128px)' }}
+        >
           <Products />
         </div>
-        <div className="col-span-7 md:col-span-6 lg:col-span-5  min-h-[86vh] bg-white dark:border-slate-800 border-l">
+        <div
+          className="col-span-7 md:col-span-6 lg:col-span-5 bg-white dark:border-slate-800 border-l"
+          style={{ minHeight: 'calc(100vh - 128px)' }}
+        >
           <ShoppingCart />
         </div>
       </div>

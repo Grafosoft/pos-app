@@ -49,7 +49,7 @@ export const ShoppingCardBody: FC = () => {
     const arrayEditDiscount = productList.map((element, index) => {
       if (indexProduct === index) {
         element.totalAmount =
-        element.value + (element.value * totalTaxPer(element.tax)) / 100
+          element.value + (element.value * totalTaxPer(element.tax)) / 100
         element.discount = discountState
         element.totalAmount = element.totalAmount - discountState
       }
@@ -89,7 +89,6 @@ export const ShoppingCardBody: FC = () => {
                         {TruncateText(element.group.name)}
                       </p>
                       <ShowPrices
-                        price={element.price}
                         discount={element.discount}
                         tax={element.value * (totalTaxPer(element.tax) / 100)}
                         taxPorcentage={totalTaxPer(element.tax)}

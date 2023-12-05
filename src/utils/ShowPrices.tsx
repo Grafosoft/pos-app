@@ -3,7 +3,6 @@ import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react'
 import { IoIosArrowBack, IoIosArrowDown } from 'react-icons/io'
 
 interface Props {
-  price: number
   total: number
   discount: number
   tax: number
@@ -11,7 +10,6 @@ interface Props {
 }
 
 export const ShowPrices: FC<Props> = ({
-  price,
   total,
   discount,
   tax,
@@ -35,8 +33,8 @@ export const ShowPrices: FC<Props> = ({
       >
         <PopoverTrigger>
           <div className="flex items-center">
-            <p className="mr-10 text-default-500">Precio:</p>
-            <p>$ {formatDouble.format(price)}</p>
+            <p className="mr-10 text-default-500">Total: </p>
+            <p>$ {formatDouble.format(total)}</p>
             <div className="ml-2 ">
               {isOpenPopover ? (
                 <IoIosArrowBack size={15} />
