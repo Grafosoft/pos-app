@@ -1,5 +1,9 @@
 import cuentalApi from '@/api/cuentalApi'
-import { InvoiceParameters, Numeration, Seller } from '@/interface/invoiceParameters'
+import {
+  type InvoiceParameters,
+  type Numeration,
+  type Seller
+} from '@/interface/invoiceParameters'
 import { ProductContext } from '@/pages'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import {
@@ -10,14 +14,11 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  Select,
-  SelectItem,
-  useDisclosure,
-  Selection,
+  useDisclosure
 } from '@nextui-org/react'
-import { type FC, useContext, useState, useEffect, ChangeEvent, useMemo } from 'react'
+import { type FC, useContext, useState, useEffect } from 'react'
 import { ParametersContext } from './ShoppingCart'
-import { ObjectsSelects } from '@/utils/objectsSelect'
+import { SelectObject } from '@/components/objectSelect/ObjectsSelect'
 
 // COMPONENT
 export const ShoppingCardFooder: FC = () => {
@@ -33,23 +34,17 @@ export const ShoppingCardFooder: FC = () => {
   const [dataNumerations, setDataNumerations] = useState<Numeration[]>([])
   const [dataSellers, setDataSellers] = useState<Seller[]>([])
 
-  // STATUS OF SELECTS
-  const [selectWareHouses, setSelectWareHouses] = useState<Selection>(new Set([]));
-  const [selectNumerations, setSelectNumerations] = useState<Selection>(new Set([]));
-  const [selectSellers, setSelectSellers] = useState<Selection>(new Set([]));
-
   // CONTROLLERS OF MODAL
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   // INVOICE PARAMETERS CONTEXT
-  const { parametersInfo, setParametersInfo } = useContext(ParametersContext)
+  const { setParametersInfo } = useContext(ParametersContext)
   // -- USARLO AL ABRIR LA MODAL CON EL RESUMEN DE LA FACTURA --
 
   // Format Double
   const formatDouble = new Intl.NumberFormat('en-DE')
 
-  const currentDate = new Date().toISOString().slice(0, 10);
+  const currentDate = new Date().toISOString().slice(0, 10)
 
   useEffect(() => {
     const totalDiscount = productList.reduce(
@@ -68,7 +63,7 @@ export const ShoppingCardFooder: FC = () => {
     // console.log(totalTax)
 
     setSubTotalProducts(subTotal - totalTax)
-    setTotalDiscountProducts(totalDiscount )
+    setTotalDiscountProducts(totalDiscount)
     setTotalTaxProducts(totalTax)
   }, [productList])
 
@@ -78,36 +73,12 @@ export const ShoppingCardFooder: FC = () => {
         `settings/invoices?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
       )
       setParametersInfo(data)
-      setDataWareHouses(data.warehouses);
-      setDataNumerations(data.numerations);
-      setDataSellers(data.sellers);
+      setDataWareHouses(data.warehouses)
+      setDataNumerations(data.numerations)
+      setDataSellers(data.sellers)
     }
     petiApi()
   }, [setParametersInfo])
-
-
-  //* Nota: estas 3 funciones las debo pasar a una refacatorizacion para que solo sea una sola
-  const memoNumbers = useMemo(
-    ()=>{
-       let object =  dataNumerations.find(element => (element.id).toString() === Array.from(selectNumerations)[0])
-      return object;
-    },[selectNumerations]);
-  //* Nota: estas 3 funciones las debo pasar a una refacatorizacion para que solo sea una sola
-  const memoSellers = useMemo(
-    ()=>{
-       let object =  dataSellers.find(element => (element.id).toString() === Array.from(selectSellers)[0])
-      return object;
-    },[selectSellers]);
-
-  //* Nota: estas 3 funciones las debo pasar a una refacatorizacion para que solo sea una sola
-  const memoWareHouses = useMemo(
-    ()=>{
-       let object =  dataWareHouses.find(element => (element.id).toString() === Array.from(selectWareHouses)[0])
-      return object;
-    },[selectWareHouses]);
-
-  //console.log(memoNumbers,memoSellers,memoWareHouses)
-
 
   return (
     <div className="w-full h-[22vh] py-4 px-4 border-t shadow-sm dark:bg-black dark:border-t-slate-800">
@@ -118,14 +89,14 @@ export const ShoppingCardFooder: FC = () => {
         </div>
         <div className="flex ">
           <div className=" text-default-500">
+            <p className="">SudTotal: </p>
             <p className="">Descuento: </p>
             <p className="">Impuesto: </p>
-            <p className="">SudTotal: </p>
           </div>
           <div className="flex flex-col items-end w-[150px]">
+            <span> $ {formatDouble.format(subTotalProducts)}</span>
             <span> $ {formatDouble.format(totalDiscountProducts)}</span>
             <span> $ {formatDouble.format(totalTaxProducts)}</span>
-            <span> $ {formatDouble.format(subTotalProducts)}</span>
           </div>
         </div>
       </div>
@@ -151,144 +122,116 @@ export const ShoppingCardFooder: FC = () => {
             </h1>
           </div>
         </Button>
-        <Modal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          size="2xl"
-        >
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
           <ModalContent>
             {onClose => (
               <>
                 <ModalHeader className="flex flex-col gap-1">
-                 Datos y Generacion de factura
+                  Datos y Generacion de factura
                 </ModalHeader>
                 <ModalBody className="flex flex-col p-5 ">
                   <div className="flex  gap-3">
-                    <Select
-                      size="sm"
-                      label="Seleccione la Numeración"
-                      placeholder="Numeración"
-                      className="max-w-xs"
-                      onChange={(e)=>ObjectsSelects(e.target.value,dataNumerations,setSelectNumerations,selectNumerations)}
-                      selectedKeys={selectNumerations}
-                      onSelectionChange={setSelectNumerations}
-                    >
-                      {dataNumerations.map((element, index) => (
-                        <SelectItem key={element.id} value={element.id}>
-                          {element.name}
-                        </SelectItem>
-                      ))}
-                    </Select>
-                    <Select
-                      size="sm"
-                      label="Seleccione el almacén"
-                      placeholder="Almacén"
-                      className="max-w-xs"
-                      selectedKeys={selectWareHouses}
-                      onSelectionChange={setSelectWareHouses}
-                    >
-                      {dataWareHouses.map((element, index) => (
-                        <SelectItem key={element.id} value={element.id}>
-                          {element.name}
-                        </SelectItem>
-                      ))}
-                    </Select>
+                    <SelectObject
+                      arrayFind={dataNumerations}
+                      textType="Numeración"
+                    />
+
+                    <SelectObject
+                      arrayFind={dataWareHouses}
+                      textType="Bodega"
+                    />
                   </div>
                   <div>
-                    <Select
-                      size="sm"
-                      label="Seleccione el vendedor"
-                      placeholder="Vendedor"
-                      className="w-full"
-                      selectedKeys={selectSellers}
-                      onSelectionChange={setSelectSellers}
-                    >
-                      {dataSellers.map((element, index) => (
-                        <SelectItem key={element.id} value={element.id}>
-                          {element.name}
-                        </SelectItem>
-                      ))}
-                    </Select>
+                    <SelectObject arrayFind={dataSellers} textType="Vendedor" />
                   </div>
-                  <div >
+                  <div>
                     <Input
                       size="sm"
                       isReadOnly
-                      variant='faded'
+                      variant="faded"
                       label="Tercero"
-                      defaultValue={"Sr. 002111 "}
+                      defaultValue={'Sr. 002111 '}
                       className="w-full "
                     />
                   </div>
                   <div className="flex p-2 items-center rounded-md gap-3 h-[80px] bg-slate-100 mt-20	">
-                   <div className="w-full">
-                    <p className="text-slate-500 text-sm ml-1 ">Total:</p>
-                   <Input
-                      size="sm"
-                      isReadOnly
-                      variant='faded'
-                      defaultValue={formatDouble.format(
-                        subTotalProducts + totalTaxProducts - totalDiscountProducts
-                      )}
-                      startContent={
-                        <div className="pointer-events-none flex items-center">
-                          <span className="text-default-400 text-small">$</span>
-                        </div>
-                      }
-                      className="text-black"
-                    />
-                   </div>
-                   <div className="w-full">
-                    <p className="text-slate-500 text-sm ml-1 ">Recibido:</p>
-                   <Input
-                      size="sm"
-                      isReadOnly
-                      variant='faded'
-                      defaultValue={"2000"}
-                      startContent={
-                        <div className="pointer-events-none flex items-center">
-                          <span className="text-default-400 text-small">$</span>
-                        </div>
-                      }
-                      className="text-black"
-                    />
-                   </div>
-                   <div className="w-full">
-                    <p className="text-slate-500 text-sm ml-1 ">Cambio:</p>
-                   <Input
-                      size="sm"
-                      isReadOnly
-                      variant='faded'
-                      defaultValue={"0"} // valor que se mostrara
-                      startContent={
-                        <div className="pointer-events-none flex items-center">
-                          <span className="text-default-400 text-small">$</span>
-                        </div>
-                      }
-                      className="text-black"
-                    />
-                   </div>
+                    <div className="w-full">
+                      <p className="text-slate-500 text-sm ml-1 ">Total:</p>
+                      <Input
+                        size="sm"
+                        isReadOnly
+                        variant="faded"
+                        defaultValue={formatDouble.format(
+                          subTotalProducts +
+                            totalTaxProducts -
+                            totalDiscountProducts
+                        )}
+                        startContent={
+                          <div className="pointer-events-none flex items-center">
+                            <span className="text-default-400 text-small">
+                              $
+                            </span>
+                          </div>
+                        }
+                        className="text-black"
+                      />
+                    </div>
+                    <div className="w-full">
+                      <p className="text-slate-500 text-sm ml-1 ">Recibido:</p>
+                      <Input
+                        size="sm"
+                        isReadOnly
+                        variant="faded"
+                        defaultValue={'2000'}
+                        startContent={
+                          <div className="pointer-events-none flex items-center">
+                            <span className="text-default-400 text-small">
+                              $
+                            </span>
+                          </div>
+                        }
+                        className="text-black"
+                      />
+                    </div>
+                    <div className="w-full">
+                      <p className="text-slate-500 text-sm ml-1 ">Cambio:</p>
+                      <Input
+                        size="sm"
+                        isReadOnly
+                        variant="faded"
+                        defaultValue={'0'} // valor que se mostrara
+                        startContent={
+                          <div className="pointer-events-none flex items-center">
+                            <span className="text-default-400 text-small">
+                              $
+                            </span>
+                          </div>
+                        }
+                        className="text-black"
+                      />
+                    </div>
                   </div>
                 </ModalBody>
                 <ModalFooter>
-                <Button
-                  color="secondary"
-                  variant="flat"
-                  className="w-full rounded-md">
-                  Generar D.E./POS
-                </Button>
-                <Button
-                  color="secondary"
-                  variant="flat"
-                  className="w-full rounded-md">
-                  Generar Factura
-                </Button>
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    className="w-full rounded-md"
+                  >
+                    Generar D.E./POS
+                  </Button>
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    className="w-full rounded-md"
+                  >
+                    Generar Factura
+                  </Button>
                 </ModalFooter>
               </>
             )}
           </ModalContent>
         </Modal>
-
       </div>
       <div className="text-default-500">
         <p>{productList.length} Productos</p>

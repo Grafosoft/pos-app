@@ -2,8 +2,7 @@ import {
   type ChangeEvent,
   type FC,
   type FormEventHandler,
-  useState,
-  useContext
+  useState
 } from 'react'
 
 import {
@@ -31,7 +30,6 @@ import { type CustomerList } from '@/interface/customers'
 import { TbSearch, TbUsers } from 'react-icons/tb'
 import cuentalApi from '@/api/cuentalApi'
 import { customerColumnsModal } from '../columns/customerColumnsModal'
-import { ParametersContext } from './ShoppingCart'
 
 export const ShoppingCardHeader: FC = () => {
   // Input Contact
@@ -44,11 +42,6 @@ export const ShoppingCardHeader: FC = () => {
   })
   // Use states
   const [customerModalSearch, setCustomerModalSearch] = useState('')
-
-  // INVOICE PARAMETERS CONTEXT
-  const context = useContext(ParametersContext)
-  const { setParametersInfo } = context;
-
 
   const handleSubmitContact: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
@@ -84,7 +77,6 @@ export const ShoppingCardHeader: FC = () => {
           style={{ cursor: 'pointer' }}
           size="sm"
         />
-
       </div>
 
       <Modal

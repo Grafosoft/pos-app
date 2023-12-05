@@ -55,7 +55,10 @@ export const Products: FC = () => {
       </div>
       <div className="flex justify-start">
         {/* // contenedor de las cards de los productos */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-cols-1 gap-5 p-3 overflow-auto  max-h-[78vh] ">
+        <div
+          className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-cols-1 gap-5 p-3 overflow-auto"
+          style={{ maxHeight: 'calc(100vh - 215px)' }}
+        >
           {datosProductos.length <= 0 ? (
             buscadorActivo ? (
               <div className="flex flex-col items-center w-[30vh] md:w-[58vh] lg:w-[70vh] lg:ml-20 2xl:w-[75vh]   ">
