@@ -19,6 +19,7 @@ import {
 import { type FC, useContext, useState, useEffect } from 'react'
 import { ParametersContext } from './ShoppingCart'
 import { SelectObject } from '@/components/objectSelect/ObjectsSelect'
+import { InputBill } from '../inputsBill/InputBill'
 
 // COMPONENT
 export const ShoppingCardFooder: FC = () => {
@@ -155,61 +156,30 @@ export const ShoppingCardFooder: FC = () => {
                     />
                   </div>
                   <div className="flex p-2 items-center rounded-md gap-3 h-[80px] dark:bg-zinc-700 bg-slate-100 mt-20	">
-                    <div className="w-full">
-                      <p className="dark:text-default-500 text-slate-500 text-sm ml-1 ">Total:</p>
-                      <Input
-                        size="sm"
-                        isReadOnly
-                        variant="faded"
-                        defaultValue={formatDouble.format(
-                          subTotalProducts +
-                            totalTaxProducts -
-                            totalDiscountProducts
-                        )}
-                        startContent={
-                          <div className="pointer-events-none flex items-center">
-                            <span className="text-default-400 text-small">
-                              $
-                            </span>
-                          </div>
-                        }
-                        className="dark:text-white text-black"
-                      />
-                    </div>
-                    <div className="w-full">
-                      <p className= " dark:text-default-500 text-slate-500 text-sm ml-1 ">Recibido:</p>
-                      <Input
-                        size="sm"
-                        isReadOnly
-                        variant="faded"
-                        defaultValue={'2000'}
-                        startContent={
-                          <div className="pointer-events-none flex items-center">
-                            <span className="text-default-400 text-small">
-                              $
-                            </span>
-                          </div>
-                        }
-                        className="dark:text-white text-black"
-                      />
-                    </div>
-                    <div className="w-full">
-                      <p className="dark:text-default-500 text-slate-500 text-sm ml-1 ">Cambio:</p>
-                      <Input
-                        size="sm"
-                        isReadOnly
-                        variant="faded"
-                        defaultValue={'0'} // valor que se mostrara
-                        startContent={
-                          <div className="pointer-events-none flex items-center">
-                            <span className="text-default-400 text-small">
-                              $
-                            </span>
-                          </div>
-                        }
-                        className="dark:text-white text-black"
-                      />
-                    </div>
+                    <InputBill
+                      variant='faded'
+                      size='sm'
+                      textTitle="Total"
+                      isReadOnly={true}
+                      defaultValue={formatDouble.format(
+                        subTotalProducts +
+                        totalTaxProducts -
+                        totalDiscountProducts)}
+                    />
+                    <InputBill
+                      variant='faded'
+                      size='sm'
+                      textTitle="Recibido"
+                      isReadOnly={true}
+                      defaultValue={"2000"}
+                    />
+                    <InputBill
+                      variant='faded'
+                      size='sm'
+                      textTitle="Cambio"
+                      isReadOnly={true}
+                      defaultValue={"2000"}
+                    />
                   </div>
                 </ModalBody>
                 <ModalFooter>
