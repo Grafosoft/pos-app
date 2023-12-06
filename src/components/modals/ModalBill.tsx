@@ -12,8 +12,7 @@ import {
     ModalBody,
     ModalContent,
     ModalFooter,
-    ModalHeader,
-    useDisclosure
+    ModalHeader
 } from '@nextui-org/react'
 import { SelectObject } from '@/components/objectSelect/ObjectsSelect'
 import { InputBill } from '../inputsBill/InputBill'
