@@ -35,7 +35,7 @@ export default function Home() {
           <Products />
         </div>
         <div
-          className="col-span-7 md:col-span-6 lg:col-span-5 bg-white dark:border-slate-800 border-l"
+          className="col-span-7 md:col-span-6 lg:col-span-5 bg-white dark:border-slate-800 dark:bg-black border-l"
           style={{ minHeight: 'calc(100vh - 128px)' }}
         >
           <ShoppingCart />

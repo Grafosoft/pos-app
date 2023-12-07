@@ -1,0 +1,192 @@
+import {
+    useState,
+    type ChangeEvent,
+    type FC,
+    FormEventHandler,
+    Dispatch,
+    SetStateAction,
+  } from 'react'
+
+import { customerColumnsModal } from '../columns/customerColumnsModal'
+import { RenderCellCustomerModal } from '@/renderCell/RenderCellCustomerModal'
+import {
+    Button,
+    CircularProgress,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    Spacer,
+    Table,
+    TableBody,
+    TableCell,
+    TableColumn,
+    TableHeader,
+    TableRow,
+  } from '@nextui-org/react'
+import { CustomerList } from '@/interface/customers'
+import cuentalApi from '@/api/cuentalApi'
+import { TbSearch } from 'react-icons/tb'
+
+interface Props {
+    isOpen: boolean
+    onOpenChange: () => void
+    setCustomerSearch: Dispatch<SetStateAction<{
+        id: number;
+        name: string;
+    }>>
+
+}
+
+
+export const ModalClient: FC<Props> = ({ isOpen, onOpenChange, setCustomerSearch}) =>{
+  // Input Contact
+  const [contactList, setContactList] = useState<CustomerList[]>([])
+  const [isLoadingModal, setIsLoadingModal] = useState(true)
+
+  // Use states
+  const [customerModalSearch, setCustomerModalSearch] = useState('')
+
+  const handleSubmitContact: FormEventHandler<HTMLFormElement> = e => {
+    e.preventDefault()
+    setIsLoadingModal(true)
+
+    cuentalApi
+      .get<CustomerList[]>(
+        `contacts/?companyId=6&page=0&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27&name=${customerModalSearch}`
+      )
+      .then(response => {
+        if (response.status === 200) {
+          setContactList(response.data)
+          setIsLoadingModal(false)
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+
+    return (
+      <Modal
+        closeButton
+        size="5xl"
+        scrollBehavior="inside"
+        backdrop="blur"
+        style={{ width: '1000px' }}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent>
+          {onClose => {
+            if (contactList.length === 0) {
+              cuentalApi
+                .get<CustomerList[]>(
+                  `contacts/?companyId=6&page=0&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27&name=`
+                )
+                .then(response => {
+                  if (response.status === 200) {
+                    setContactList(response.data)
+                    setIsLoadingModal(false)
+                  }
+                })
+                .catch(error => {
+                  console.log(error)
+                })
+            }
+            return (
+              <>
+                <ModalHeader>
+                  <div className="container">
+                    <h2
+                      id="modal-title"
+                      aria-label="Listado de clientes"
+                      className="flex justify-center py-5 text-3xl font-bold"
+                    >
+                      Listado de clientes
+                    </h2>
+                    <Spacer y={1} />
+                    <form onSubmit={handleSubmitContact}>
+                      <Input
+                        aria-label="Buscar tercero"
+                        placeholder="Buscar tercero"
+                        value={customerModalSearch}
+                        width="100%"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                          setCustomerModalSearch(e.target.value)
+                        }}
+                        startContent={<TbSearch />}
+                        size="md"
+                      />
+                    </form>
+                  </div>
+                </ModalHeader>
+                <ModalBody>
+                  {isLoadingModal ? (
+                    <div
+                      className="container"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignContent: 'center',
+                        alignItems: 'center',
+                        height: '100%'
+                      }}
+                    >
+                      <CircularProgress size="lg" color={'secondary'} />
+                    </div>
+                  ) : (
+                    <Table
+                      aria-label="Lista de cliente"
+                      style={{ height: 'auto', minWidth: '100%' }}
+                      isStriped
+                      shadow="none"
+                    >
+                      <TableHeader columns={customerColumnsModal}>
+                        {column => (
+                          <TableColumn key={column.uid} align="start">
+                            {column.name}
+                          </TableColumn>
+                        )}
+                      </TableHeader>
+                      <TableBody
+                        emptyContent="No hay datos por mostrar."
+                        items={contactList}
+                      >
+                        {item => (
+                          <TableRow key={item.id}>
+                            {columnKey => (
+                              <TableCell>
+                                <RenderCellCustomerModal
+                                  customer={item}
+                                  columnKey={columnKey}
+                                  closeHandler={onClose}
+                                  setCustomerSearch={setCustomerSearch}
+                                />
+                              </TableCell>
+                            )}
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  )}
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    style={{ width: 'auto' }}
+                    variant={'flat'}
+                    color="danger"
+                    onPress={onClose}
+                  >
+                    Cerrar
+                  </Button>
+                </ModalFooter>
+              </>
+            )
+          }}
+        </ModalContent>
+      </Modal>
+    )
+}
