@@ -12,8 +12,8 @@ import {
   useDisclosure
 } from '@nextui-org/react'
 import { CountData } from '../CountData/CountData'
-import { TbEdit, TbShoppingCartPlus, TbTrash } from 'react-icons/tb'
-import { ProductContext } from "@/pages"
+import { TbEdit, TbTrash } from 'react-icons/tb'
+import { ProductContext } from "@/pages/[nameApp]"
 import { ProductList } from "@/interface/products"
 import { totalTaxPer } from "@/utils/totalPaxPer"
 

@@ -1,6 +1,6 @@
 import { useContext, type FC } from 'react'
 import { Card, CardBody, CardHeader } from '@nextui-org/react'
-import { ProductContext } from '@/pages'
+import { ProductContext } from '@/pages/[nameApp]'
 import { type interfaceProduct } from '@/interface/products'
 import { TruncateText } from '../../utils/TruncateText'
 import { ImageRound } from '../imageRound/ImageRound'

@@ -1,5 +1,5 @@
 
-import { ProductContext } from '@/pages'
+import { ProductContext } from '@/pages/[nameApp]'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import {
   Button,
@@ -48,7 +48,7 @@ export const ShoppingCardFooder: FC = () => {
     setSubTotalProducts(subTotal - totalTax)
     setTotalDiscountProducts(totalDiscount)
     setTotalTaxProducts(totalTax)
-    
+
   }, [productList])
 
   return (
