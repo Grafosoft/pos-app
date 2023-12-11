@@ -1,38 +1,53 @@
 
 
+interface Estructure {
+    colorApp: string
+    colorProduct: string
+    colorComponent:
+    | 'default'
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'warning'
+    | 'danger'
+    | undefined
+}
 
 export const ValidateAppColor = (name: string | undefined) => {
-    let object = {}
+    let object: Estructure = {
+        colorApp: "",
+        colorProduct: "",
+        colorComponent: "secondary"
+    }
 
     switch (name) {
         case "cuental":
-            object = {
+            return object = {
                 colorApp: "#3C3F99",
                 colorProduct: "bg-purple-100",
-                colorComponent: ""
+                colorComponent: "primary"
             }
             break;
         case "valual":
-            object = {
-                colorApp: "",
-                colorProduct: "",
-                colorComponent: ""
+            return object = {
+                colorApp: "#00B4FF",
+                colorProduct: "bg-sky-100",
+                colorComponent: "primary"
             }
             break;
         case "otro":
-            object = {
+            return object = {
                 colorApp: "",
                 colorProduct: "",
-                colorComponent: ""
+                colorComponent: "primary"
             }
             break;
         default:
-            object = {
+            return object = {
                 colorApp: "",
                 colorProduct: "",
-                colorComponent: ""
+                colorComponent: "primary"
             }
     }
-
-    return object;
+    //return object;
 }

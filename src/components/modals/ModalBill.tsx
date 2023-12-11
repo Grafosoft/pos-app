@@ -1,5 +1,4 @@
 import { FC, useContext, useEffect, useState } from "react"
-import cuentalApi from '@/api/cuentalApi'
 import {
     type InvoiceParameters,
     type Numeration,
@@ -36,7 +35,7 @@ export const ModalBill: FC<Props> = ({ isOpen, onOpenChange, subTotalProducts, t
     const [dataSellers, setDataSellers] = useState<Seller[]>([])
 
     // import Context UrlContext
-    const { companyId, apikey } = useContext(UrlContext);
+    const { companyId, apikey, validateAppColor, functionApi  } = useContext(UrlContext);
 
     // INVOICE PARAMETERS CONTEXT
     const { setParametersInfo } = useContext(ParametersContext)
@@ -47,7 +46,7 @@ export const ModalBill: FC<Props> = ({ isOpen, onOpenChange, subTotalProducts, t
 
     useEffect(() => {
         const petiApi = async () => {
-            const { data } = await cuentalApi.get<InvoiceParameters>(
+            const { data } = await functionApi.get<InvoiceParameters>(
                 `settings/invoices?companyId=${companyId}&page=0&apikey=${apikey}`
             )
             setParametersInfo(data)
@@ -123,14 +122,14 @@ export const ModalBill: FC<Props> = ({ isOpen, onOpenChange, subTotalProducts, t
                         </ModalBody>
                         <ModalFooter>
                             <Button
-                                color="secondary"
+                                color={validateAppColor.colorComponent}
                                 variant="flat"
                                 className="w-full rounded-md"
                             >
                                 Generar D.E./POS
                             </Button>
                             <Button
-                                color="secondary"
+                                color={validateAppColor.colorComponent}
                                 variant="flat"
                                 className="w-full rounded-md"
                             >

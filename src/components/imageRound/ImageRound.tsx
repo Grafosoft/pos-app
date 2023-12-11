@@ -1,6 +1,7 @@
 import Image from 'next/image'
-import React, { type FC } from 'react'
+import React, { useContext, type FC } from 'react'
 
+import { UrlContext } from '@/pages/[nameApp]'
 import { TbShoppingBag } from 'react-icons/tb'
 
 interface Props {
@@ -10,13 +11,15 @@ interface Props {
 }
 
 export const ImageRound: FC<Props> = ({ image, name, formeRound = false }) => {
+  // import Context UrlContext
+  const { validateAppColor } = useContext(UrlContext);
+
   return (
     <>
       {image && image.length > 3 ? (
         <div
-          className={`flex items-center rounded-full ${
-            formeRound ? 'rounded-full' : 'rounded-[20px]'
-          }`}
+          className={`flex items-center rounded-full ${formeRound ? 'rounded-full' : 'rounded-[20px]'
+            }`}
         >
           <Image
             alt="Card background"
@@ -29,11 +32,10 @@ export const ImageRound: FC<Props> = ({ image, name, formeRound = false }) => {
       ) : (
         <div className="">
           <div
-            className={`flex items-center justify-center bg-purple-100 w-[100px] h-[100px] ${
-              formeRound ? 'rounded-full' : 'rounded-[20px]'
-            }`}
+            className={`flex items-center justify-center ${validateAppColor.colorProduct} w-[100px] h-[100px] ${formeRound ? 'rounded-full' : 'rounded-[20px]'
+              }`}
           >
-            <TbShoppingBag size={50} color="#3D3F99" />
+            <TbShoppingBag size={50} color={validateAppColor.colorApp} />
           </div>
         </div>
       )}

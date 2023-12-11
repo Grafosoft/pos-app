@@ -1,5 +1,5 @@
 import { Image, Spacer, User } from '@nextui-org/react'
-import { type FC } from 'react'
+import { useContext, type FC } from 'react'
 import { SwitchTheme } from '../switch/SwitchTheme'
 import {
   TbBellFilled,
@@ -11,18 +11,24 @@ import {
   TbTagStarred,
   TbUserDollar
 } from 'react-icons/tb'
+import { UrlContext } from '@/pages/[nameApp]'
 
 export const NavBar: FC = () => {
+
+  // import Context UrlContext
+  const { name, validateAppColor} = useContext(UrlContext);
+
+
   return (
     <>
-      <div className="max-h-16 flex w-full bg-[#3C3F99] text-[#7828C] p-5 justify-between">
+      <div className={`max-h-16 flex w-full bg-[${validateAppColor.colorApp}] text-[#7828C] p-5 justify-between`}>
         <div className="flex items-center">
-          <Image src="/images/cuental.png" width={50} alt="Cuental Logo" />
+          <Image src={`/images/${name}.png`} width={50} alt="Cuental Logo" />
           <Spacer x={5} />
-          <h1 className="text-2xl font-medium text-white">CUENTAL POS</h1>
+          <h1 className="text-2xl font-medium text-white">{name.toUpperCase()} POS</h1>
         </div>
         <div className="flex items-center">
-          <SwitchTheme />
+          <SwitchTheme color={validateAppColor.colorApp} />
           <TbBellFilled
             size={25}
             className="cursor-pointer mx-3"

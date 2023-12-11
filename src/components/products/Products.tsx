@@ -2,7 +2,6 @@ import { type FC, useState, useEffect, useContext } from 'react'
 import { Button, Image, Input, Skeleton } from '@nextui-org/react'
 import { TbSearch } from 'react-icons/tb'
 
-import cuentalApi from '@/api/cuentalApi'
 import { type interfaceProduct } from '@/interface/products'
 import { CardProduct } from './CardProduct'
 
@@ -10,7 +9,7 @@ import { UrlContext } from '@/pages/[nameApp]'
 
 export const Products: FC = () => {
   // import Context UrlContext
-  const { companyId, apikey } = useContext(UrlContext);
+  const { companyId, apikey, functionApi } = useContext(UrlContext);
 
   const [buscadorActivo, setBuscadorActivo] = useState(0)
   const [valueSearch, setValueSearch] = useState('')
@@ -19,14 +18,14 @@ export const Products: FC = () => {
 
   useEffect(() => {
     const peticionProductos = async () => {
-      const { data } = await cuentalApi.get<interfaceProduct[]>(
+      const { data } = await functionApi.get<interfaceProduct[]>(
         `items/?companyId=${companyId}&page=0&apikey=${apikey}&name=`
       )
       setdatosProductos(data)
     }
 
     const buscarProducto = async () => {
-      const { data } = await cuentalApi.get<interfaceProduct[]>(
+      const { data } = await functionApi.get<interfaceProduct[]>(
         `items/?companyId=${companyId}&page=0&apikey=${apikey}&name=${valueSearch}`
       )
       setdatosProductos(data)

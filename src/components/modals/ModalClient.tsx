@@ -28,7 +28,6 @@ import {
     TableRow,
   } from '@nextui-org/react'
 import { CustomerList } from '@/interface/customers'
-import cuentalApi from '@/api/cuentalApi'
 import { TbSearch } from 'react-icons/tb'
 import { UrlContext } from '@/pages/[nameApp]'
 
@@ -49,7 +48,7 @@ export const ModalClient: FC<Props> = ({ isOpen, onOpenChange, setCustomerSearch
   const [isLoadingModal, setIsLoadingModal] = useState(true)
 
   // import Context UrlContext
-  const { companyId, apikey } = useContext(UrlContext);
+  const { companyId, apikey, functionApi } = useContext(UrlContext);
 
   // Use states
   const [customerModalSearch, setCustomerModalSearch] = useState('')
@@ -58,7 +57,7 @@ export const ModalClient: FC<Props> = ({ isOpen, onOpenChange, setCustomerSearch
     e.preventDefault()
     setIsLoadingModal(true)
 
-    cuentalApi
+    functionApi
       .get<CustomerList[]>(
         `contacts/?companyId=${companyId}&page=0&apikey=${apikey}&name=${customerModalSearch}`
       )
@@ -87,7 +86,7 @@ export const ModalClient: FC<Props> = ({ isOpen, onOpenChange, setCustomerSearch
         <ModalContent>
           {onClose => {
             if (contactList.length === 0) {
-              cuentalApi
+              functionApi
                 .get<CustomerList[]>(
                   `contacts/?companyId=${companyId}&page=0&apikey=${apikey}&name=`
                 )

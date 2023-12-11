@@ -3,6 +3,7 @@ import { ShoppingCart } from '@/components/shopping/ShoppingCart'
 import { type ProductList } from '@/interface/products'
 import type { GetServerSideProps } from 'next'
 import { ValidateAppColor } from '@/utils/validateAppColor'
+import { NavBar } from '@/components/navbar/NavBar'
 
 
 import {
@@ -11,18 +12,31 @@ import {
   createContext,
   useState
 } from 'react'
+import { ValidateAppApi } from '@/api/validateAppApi'
+import axios, { AxiosInstance } from 'axios'
 
 interface ProductContextType {
   productList: ProductList[]
   setProductList: Dispatch<SetStateAction<ProductList[]>>
 }
-
+interface Estructure {
+  colorApp: string
+  colorProduct: string
+  colorComponent:
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | undefined
+}
 interface VariablesUrl {
   companyId: string;
   apikey: string;
-  name?: string;
-  functionApi: () => void;
-  validateAppColor: object;
+  name: string;
+  functionApi: AxiosInstance;
+  validateAppColor: Estructure;
 }
 
 interface Props {
@@ -33,8 +47,12 @@ export const UrlContext = createContext<VariablesUrl>({
   companyId: "",
   apikey: "",
   name: "",
-  functionApi: () => { },
-  validateAppColor: {}
+  functionApi: axios.create({}),
+  validateAppColor: {
+    colorApp: "",
+    colorProduct: "",
+    colorComponent: "primary"
+  }
 });
 
 
@@ -50,12 +68,13 @@ export default function Home({ PropsServer }: Props) {
 
   // FUNCTION VALIDATE APPCOLOR AND VALIDATE APP-API
   const validateAppColor = ValidateAppColor(name);
-  const functionApi = () => { }; // Colocar funcion de validacion de axios
+  const functionApi = ValidateAppApi(name); // Colocar funcion de validacion de axios
 
 
   return (
-    <UrlContext.Provider value={{ companyId, apikey, functionApi, validateAppColor }}>
+    <UrlContext.Provider value={{ companyId, apikey, functionApi, validateAppColor, name }}>
       <ProductContext.Provider value={{ productList, setProductList }}>
+        <NavBar />
         <div
           className="grid grid-cols-12"
           style={{ minHeight: 'calc(100vh - 128px)' }}
@@ -88,7 +107,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     apikey: query.apikey,
     name: params?.nameApp
   }
-  console.log(PropsServer)
+  //console.log(PropsServer)
 
   return {
     props: { PropsServer }
