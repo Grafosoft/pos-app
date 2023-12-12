@@ -20,9 +20,9 @@ export const Products: FC = () => {
   const { companyId, apikey, functionApi, color } = useContext(UrlContext)
   const { productList, setProductList } = useContext(ProductContext)
 
+  // Product Search
   const [valueSearch, setValueSearch] = useState('')
   const [datosProductos, setdatosProductos] = useState<interfaceProduct[]>([])
-
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -43,19 +43,17 @@ export const Products: FC = () => {
       const { data } = await functionApi.get<interfaceProduct[]>(
         `items/?companyId=${companyId}&page=0&apikey=${apikey}&name=${valueSearch}`
       )
+
+      if (data.length === 1) {
+        setValueSearch('')
+        addProductCart(productList, setProductList, data[0])
+      }
+
       setdatosProductos(data)
     }
 
-    if (valueSearch.length !== 0) {
-      buscarProducto()
-      setValueSearch('')
-      inputRef.current?.focus()
-
-      console.log(datosProductos.length)
-      if (datosProductos.length === 1) {
-        addProductCart(productList, setProductList, datosProductos[0])
-      }
-    }
+    buscarProducto()
+    inputRef.current?.focus()
   }
 
   return (
