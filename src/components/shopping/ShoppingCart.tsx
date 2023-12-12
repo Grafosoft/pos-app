@@ -13,18 +13,36 @@ import { ShoppingCardFooder } from './ShoppingCardFooder'
 interface PriceContextTye {
   parametersInfo: object
   setParametersInfo: Dispatch<SetStateAction<object>>
+  customerSearch: {
+    id: number
+    name: string
+  }
+  setCustomerSearch: Dispatch<SetStateAction<{ id: number; name: string }>>
 }
 
 export const ParametersContext = createContext<PriceContextTye>({
   parametersInfo: {},
-  setParametersInfo: () => {}
+  setParametersInfo: () => {},
+  customerSearch: { id: 0, name: '' },
+  setCustomerSearch: () => {}
 })
 
 export const ShoppingCart: FC = () => {
   const [parametersInfo, setParametersInfo] = useState({})
+  const [customerSearch, setCustomerSearch] = useState({
+    id: 0,
+    name: ''
+  })
 
   return (
-    <ParametersContext.Provider value={{ parametersInfo, setParametersInfo }}>
+    <ParametersContext.Provider
+      value={{
+        parametersInfo,
+        setParametersInfo,
+        customerSearch,
+        setCustomerSearch
+      }}
+    >
       <div className="mi flex flex-col min-h-[86vh]">
         <div>
           <ShoppingCardHeader />

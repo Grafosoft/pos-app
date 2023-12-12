@@ -3,25 +3,25 @@ import { Chip, User } from '@nextui-org/react'
 import React, { useContext, type FC, type Key } from 'react'
 import { TbArrowBigRightLineFilled } from 'react-icons/tb'
 import { UrlContext } from '@/pages/[nameApp]'
-
+import { ParametersContext } from '@/components/shopping/ShoppingCart'
 
 interface Props {
   customer: CustomerList
   columnKey: Key
   closeHandler: () => void
-  setCustomerSearch: (inititalState: { id: number; name: string }) => void
 }
 
 export const RenderCellCustomerModal: FC<Props> = ({
   customer,
   columnKey,
-  closeHandler,
-  setCustomerSearch
+  closeHandler
 }) => {
   const fullName = `${customer.commercialName}  ${customer.firstName} ${customer.middleName} ${customer.firstSurname} ${customer.secondSurname}`
   // import Context UrlContext
-  const { color } = useContext(UrlContext);
+  const { color } = useContext(UrlContext)
 
+  // Customer Context
+  const { setCustomerSearch } = useContext(ParametersContext)
 
   const handleSaveCustomer = () => {
     setCustomerSearch({
