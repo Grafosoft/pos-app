@@ -1,24 +1,15 @@
-import {
-  type FC,
-  useState
-} from 'react'
+import { type FC, useContext } from 'react'
 
-import {
-  Input,
-  useDisclosure
-} from '@nextui-org/react'
-
+import { Input, useDisclosure } from '@nextui-org/react'
 
 import { TbUsers } from 'react-icons/tb'
 
 import { ModalClient } from '../modals/ModalClient'
+import { ParametersContext } from './ShoppingCart'
 
 export const ShoppingCardHeader: FC = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [customerSearch, setCustomerSearch] = useState({
-    id: 0,
-    name: ''
-  })
+  const { customerSearch } = useContext(ParametersContext)
 
   return (
     <div className="flex-col flex w-full p-5 bg-white dark:bg-black justify-center m-0 items-center  border-b dark:border-b-slate-800 shadow-sm">
@@ -36,11 +27,7 @@ export const ShoppingCardHeader: FC = () => {
           size="sm"
         />
       </div>
-      <ModalClient
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        setCustomerSearch={setCustomerSearch}
-      />
+      <ModalClient isOpen={isOpen} onOpenChange={onOpenChange} />
     </div>
   )
 }

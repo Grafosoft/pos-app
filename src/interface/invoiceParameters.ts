@@ -29,3 +29,10 @@ export interface Seller {
   id: number
   name: string
 }
+
+export interface SelectTax {
+  id: number
+  name: string
+  value: number
+  percentage: number
+}

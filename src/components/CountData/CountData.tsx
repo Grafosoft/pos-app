@@ -1,5 +1,5 @@
 import { Button } from '@nextui-org/react'
-import React, { type FC, useState, useContext } from 'react'
+import React, { type FC, useState, useContext, useEffect } from 'react'
 import { RiAddFill } from 'react-icons/ri'
 import { TbMinus } from 'react-icons/tb'
 import { ProductContext } from '@/pages/[nameApp]'
@@ -26,7 +26,7 @@ export const CountData: FC<Props> = ({
   isDisabledMinus = false,
   productObject
 }) => {
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useState(productObject.quantity)
 
   // ProductContext
   const context = useContext(ProductContext)
@@ -37,11 +37,11 @@ export const CountData: FC<Props> = ({
   const indexFilterProduct = productList.findIndex(validId)
 
   const handleMinus = () => {
-    setCount(count - interval)
-
     // CHANGE AMOUNT PRICE AND SAVE
     const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
+        setCount(count - interval)
+        element.quantity = count - 1
         element.value = element.value - element.price
         element.totalAmount =
           element.totalAmount -
@@ -53,18 +53,25 @@ export const CountData: FC<Props> = ({
     setProductList(arrayEdit)
   }
 
-  const handleAdd = () => {
-    setCount(count + interval)
+  useEffect(() => {
+    setCount(productObject.quantity)
+  }, [productObject.quantity])
 
+  const handleAdd = () => {
     // CHANGE AMOUNT PRICE AND SAVE
     const arrayEdit = productList.map((element, index) => {
       if (index === indexFilterProduct) {
+        setCount(count + interval)
+        element.quantity = count + 1
         element.value = element.price * (count + 1)
         element.totalAmount =
           element.value * (totalTaxPer(element.tax) / 100) + element.value
       }
+      console.log(element)
+
       return element
     })
+
     setProductList(arrayEdit)
   }
 
@@ -99,7 +106,9 @@ export const CountData: FC<Props> = ({
             borderTopLeftRadius: '0',
             borderBottomLeftRadius: '0'
           }}
-          onPress={handleAdd}
+          onPress={() => {
+            handleAdd()
+          }}
         >
           <RiAddFill size={20} />
         </Button>

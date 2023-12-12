@@ -5,17 +5,14 @@ import type { GetServerSideProps } from 'next'
 import { validateAppColor } from '@/utils/validateAppColor'
 import { NavBar } from '@/components/navbar/NavBar'
 
-
 import {
   type Dispatch,
   type SetStateAction,
   createContext,
-  useState,
-  useEffect
+  useState
 } from 'react'
 import { validateAppApi } from '@/api/validateAppApi'
-import axios, { AxiosInstance } from 'axios'
-import { color } from 'framer-motion';
+import axios, { type AxiosInstance } from 'axios'
 
 interface ProductContextType {
   productList: ProductList[]
@@ -25,20 +22,20 @@ interface Estructure {
   colorApp: string
   colorProduct: string
   colorComponent:
-  | 'default'
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | undefined
+    | 'default'
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'warning'
+    | 'danger'
+    | undefined
 }
 interface VariablesUrl {
-  companyId: string;
-  apikey: string;
-  name: string;
-  functionApi: AxiosInstance;
-  color: Estructure;
+  companyId: string
+  apikey: string
+  name: string
+  functionApi: AxiosInstance
+  color: Estructure
 }
 
 interface Props {
@@ -46,35 +43,34 @@ interface Props {
 }
 
 export const UrlContext = createContext<VariablesUrl>({
-  companyId: "",
-  apikey: "",
-  name: "",
+  companyId: '',
+  apikey: '',
+  name: '',
   functionApi: axios.create({}),
   color: {
-    colorApp: "",
-    colorProduct: "",
-    colorComponent: "primary"
+    colorApp: '',
+    colorProduct: '',
+    colorComponent: 'primary'
   }
-});
-
+})
 
 export const ProductContext = createContext<ProductContextType>({
   productList: [],
   setProductList: () => []
 })
 
-
 export default function Home({ PropsServer }: Props) {
-  const { companyId, apikey, name } = PropsServer;
+  const { companyId, apikey, name } = PropsServer
   const [productList, setProductList] = useState<ProductList[]>([])
 
   // FUNCTION VALIDATE APPCOLOR AND VALIDATE APP-API
-  const functionApi = validateAppApi(name);
-  const color = validateAppColor(name);
-
+  const functionApi = validateAppApi(name)
+  const color = validateAppColor(name)
 
   return (
-    <UrlContext.Provider value={{ companyId, apikey, functionApi, color, name }}>
+    <UrlContext.Provider
+      value={{ companyId, apikey, functionApi, color, name }}
+    >
       <ProductContext.Provider value={{ productList, setProductList }}>
         <NavBar />
         <div
@@ -96,15 +92,14 @@ export default function Home({ PropsServer }: Props) {
         </div>
       </ProductContext.Provider>
     </UrlContext.Provider>
-
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  let params = ctx.params;
-  let query = ctx.query;
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const params = ctx.params
+  const query = ctx.query
 
-  let PropsServer = {
+  const PropsServer = {
     companyId: query.companyId,
     apikey: query.apikey,
     name: params?.nameApp
@@ -114,4 +109,3 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: { PropsServer }
   }
 }
-

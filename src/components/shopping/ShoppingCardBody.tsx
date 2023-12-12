@@ -1,38 +1,21 @@
-import { type FC, useContext, useState } from 'react'
+import { type FC, useContext } from 'react'
 
-import {
-  Button,
-  Card,
-  CardBody,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure
-} from '@nextui-org/react'
+import { Card, CardBody, Spacer } from '@nextui-org/react'
 
 import { ShowPrices } from '@/utils/ShowPrices'
-import { type ProductList } from '@/interface/products'
 import { TruncateText } from '@/utils/TruncateText'
 import { ProductContext } from '@/pages/[nameApp]'
 
 import { ImageRound } from '../imageRound/ImageRound'
-import { CountData } from '../CountData/CountData'
-import { TbEdit, TbShoppingCartPlus, TbTrash } from 'react-icons/tb'
+import { TbShoppingCartPlus } from 'react-icons/tb'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import { ModalEdit } from '../modals/ModalEdit'
 
 // COMPONENT
 export const ShoppingCardBody: FC = () => {
-
-
   // ProductContext
   const context = useContext(ProductContext)
-  const { productList, setProductList } = context
-
-
+  const { productList } = context
 
   return (
     <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA] dark:bg-[#18181B]">
@@ -46,6 +29,44 @@ export const ShoppingCardBody: FC = () => {
         </div>
       ) : (
         productList.map((element, index) => {
+          const discount = element.discount
+          const tax = element.value * (totalTaxPer(element.tax) / 100)
+          const total = element.value
+          const subTotal = total - tax
+
+          const arrayPrices = [
+            {
+              name: 'SubTotal: ',
+              value: subTotal
+            },
+            {
+              name: 'Descuento: ',
+              value: discount
+            },
+            {
+              name: 'Total Impuesto: ',
+              value: tax
+            },
+            {
+              name: 'Total: ',
+              value: total
+            }
+          ]
+
+          const arrayTax = []
+
+          for (let index = 0; index < element.tax.length; index++) {
+            const elementTax = element.tax[index]
+
+            const taxObject = {
+              name: `Impuesto (${elementTax.percentage}%): `,
+              title: 'Total Impuesto: ',
+              value: total * (elementTax.percentage / 100)
+            }
+
+            arrayTax.push(taxObject)
+          }
+
           return (
             <Card className="mb-3" key={element.id}>
               <CardBody>
@@ -63,18 +84,14 @@ export const ShoppingCardBody: FC = () => {
                       <p className="text-small text-default-500">
                         {TruncateText(element.group.name)}
                       </p>
-                      <ShowPrices
-                        discount={element.discount}
-                        tax={element.value * (totalTaxPer(element.tax) / 100)}
-                        taxPorcentage={totalTaxPer(element.tax)}
-                        total={element.value}
-                      />
+                      <div className="flex">
+                        <ShowPrices arrayPrices={arrayPrices} />
+                        <Spacer x={5} />
+                        <ShowPrices arrayPrices={arrayTax} />
+                      </div>
                     </div>
                   </div>
-                  <ModalEdit
-                    element={element}
-                  />
-
+                  <ModalEdit element={element} />
                 </div>
               </CardBody>
             </Card>
