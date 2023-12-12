@@ -5,6 +5,7 @@ import {
     FormEventHandler,
     Dispatch,
     SetStateAction,
+    useContext,
   } from 'react'
 
 import { customerColumnsModal } from '../columns/customerColumnsModal'
@@ -27,8 +28,8 @@ import {
     TableRow,
   } from '@nextui-org/react'
 import { CustomerList } from '@/interface/customers'
-import cuentalApi from '@/api/cuentalApi'
 import { TbSearch } from 'react-icons/tb'
+import { UrlContext } from '@/pages/[nameApp]'
 
 interface Props {
     isOpen: boolean
@@ -46,6 +47,9 @@ export const ModalClient: FC<Props> = ({ isOpen, onOpenChange, setCustomerSearch
   const [contactList, setContactList] = useState<CustomerList[]>([])
   const [isLoadingModal, setIsLoadingModal] = useState(true)
 
+  // import Context UrlContext
+  const { companyId, apikey, functionApi } = useContext(UrlContext);
+
   // Use states
   const [customerModalSearch, setCustomerModalSearch] = useState('')
 
@@ -53,9 +57,9 @@ export const ModalClient: FC<Props> = ({ isOpen, onOpenChange, setCustomerSearch
     e.preventDefault()
     setIsLoadingModal(true)
 
-    cuentalApi
+    functionApi
       .get<CustomerList[]>(
-        `contacts/?companyId=6&page=0&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27&name=${customerModalSearch}`
+        `contacts/?companyId=${companyId}&page=0&apikey=${apikey}&name=${customerModalSearch}`
       )
       .then(response => {
         if (response.status === 200) {
@@ -82,9 +86,9 @@ export const ModalClient: FC<Props> = ({ isOpen, onOpenChange, setCustomerSearch
         <ModalContent>
           {onClose => {
             if (contactList.length === 0) {
-              cuentalApi
+              functionApi
                 .get<CustomerList[]>(
-                  `contacts/?companyId=6&page=0&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27&name=`
+                  `contacts/?companyId=${companyId}&page=0&apikey=${apikey}&name=`
                 )
                 .then(response => {
                   if (response.status === 200) {

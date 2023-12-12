@@ -1,7 +1,9 @@
 import { type CustomerList } from '@/interface/customers'
 import { Chip, User } from '@nextui-org/react'
-import React, { type FC, type Key } from 'react'
+import React, { useContext, type FC, type Key } from 'react'
 import { TbArrowBigRightLineFilled } from 'react-icons/tb'
+import { UrlContext } from '@/pages/[nameApp]'
+
 
 interface Props {
   customer: CustomerList
@@ -17,6 +19,9 @@ export const RenderCellCustomerModal: FC<Props> = ({
   setCustomerSearch
 }) => {
   const fullName = `${customer.commercialName}  ${customer.firstName} ${customer.middleName} ${customer.firstSurname} ${customer.secondSurname}`
+  // import Context UrlContext
+  const { color } = useContext(UrlContext);
+
 
   const handleSaveCustomer = () => {
     setCustomerSearch({
@@ -48,7 +53,7 @@ export const RenderCellCustomerModal: FC<Props> = ({
     case 'action':
       return (
         <TbArrowBigRightLineFilled
-          color="secondary"
+          color={color.colorApp}
           cursor="pointer"
           onClick={handleSaveCustomer}
         />

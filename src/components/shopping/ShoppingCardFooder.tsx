@@ -1,5 +1,5 @@
 
-import { ProductContext } from '@/pages'
+import { ProductContext } from '@/pages/[nameApp]'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import {
   Button,
@@ -7,6 +7,7 @@ import {
 } from '@nextui-org/react'
 import { type FC, useContext, useState, useEffect } from 'react'
 import { ModalBill } from '../modals/ModalBill'
+import { UrlContext } from '@/pages/[nameApp]'
 
 
 // COMPONENT
@@ -14,6 +15,11 @@ export const ShoppingCardFooder: FC = () => {
   // ProductContext
   const context = useContext(ProductContext)
   const { productList } = context
+
+  // import Context UrlContext
+  const { color } = useContext(UrlContext);
+
+
   // VARIABLES OF USESTATE
   const [subTotalProducts, setSubTotalProducts] = useState(0)
   const [totalDiscountProducts, setTotalDiscountProducts] = useState(0)
@@ -48,7 +54,7 @@ export const ShoppingCardFooder: FC = () => {
     setSubTotalProducts(subTotal - totalTax)
     setTotalDiscountProducts(totalDiscount)
     setTotalTaxProducts(totalTax)
-    
+
   }, [productList])
 
   return (
@@ -74,7 +80,8 @@ export const ShoppingCardFooder: FC = () => {
       <div className="flex justify-around items-center ">
         <Button
           onPress={onOpen}
-          className="flex bg-[#3c3f99] justify-between w-full mt-5 mb-4"
+          className={`flex justify-between w-full mt-5 mb-4`}
+          style={{background:`${color.colorApp}`}}
           radius="sm"
           size="lg"
           isDisabled={
@@ -95,11 +102,11 @@ export const ShoppingCardFooder: FC = () => {
         </Button>
 
         <ModalBill
-        isOpen= {isOpen}
-        onOpenChange= {onOpenChange}
-        subTotalProducts= {subTotalProducts}
-        totalDiscountProducts= {totalDiscountProducts}
-        totalTaxProducts= {totalTaxProducts}
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          subTotalProducts={subTotalProducts}
+          totalDiscountProducts={totalDiscountProducts}
+          totalTaxProducts={totalTaxProducts}
         />
 
       </div>

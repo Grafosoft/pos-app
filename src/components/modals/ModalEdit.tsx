@@ -12,8 +12,9 @@ import {
   useDisclosure
 } from '@nextui-org/react'
 import { CountData } from '../CountData/CountData'
-import { TbEdit, TbShoppingCartPlus, TbTrash } from 'react-icons/tb'
-import { ProductContext } from "@/pages"
+import { TbEdit, TbTrash } from 'react-icons/tb'
+import { ProductContext } from "@/pages/[nameApp]"
+import { UrlContext } from '@/pages/[nameApp]'
 import { ProductList } from "@/interface/products"
 import { totalTaxPer } from "@/utils/totalPaxPer"
 
@@ -28,6 +29,9 @@ export const ModalEdit: FC<Props> = ({element}) => {
     // ProductContext
     const context = useContext(ProductContext)
     const { productList, setProductList } = context
+
+    // import Context UrlContext
+  const { color } = useContext(UrlContext);
 
   // Function delete in product
   const deleteProductOfCar = (idEliminar: number) => {
@@ -68,7 +72,7 @@ export const ModalEdit: FC<Props> = ({element}) => {
           onPress={onOpen}
           aria-label="Like"
         >
-          <TbEdit size={15} />
+          <TbEdit size={15}  />
         </Button>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
@@ -135,7 +139,7 @@ export const ModalEdit: FC<Props> = ({element}) => {
         </Button>
       </div>
       <div>
-        <CountData productObject={element} />
+        <CountData productObject={element} color={color.colorComponent} />
       </div>
     </div >
 

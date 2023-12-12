@@ -3,7 +3,11 @@ import { useTheme } from 'next-themes'
 import { type FC, useEffect, useState } from 'react'
 import { TbSunHigh, TbMoonFilled } from 'react-icons/tb'
 
-export const SwitchTheme: FC = () => {
+interface Props {
+  color:string
+}
+
+export const SwitchTheme: FC<Props> = ({color}) => {
   const { theme, setTheme } = useTheme()
   const [isActiveTheme, setIsActiveTheme] = useState(false)
 
@@ -25,7 +29,7 @@ export const SwitchTheme: FC = () => {
 
   return (
     <Button
-      className="bg-[#3C3F99]"
+      className={`bg-[${color}]`}
       size="sm"
       onClick={handleChange}
       isIconOnly

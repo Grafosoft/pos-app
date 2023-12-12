@@ -1,5 +1,4 @@
 import { FC, useContext, useEffect, useState } from "react"
-import cuentalApi from '@/api/cuentalApi'
 import {
     type InvoiceParameters,
     type Numeration,
@@ -17,6 +16,7 @@ import {
 import { SelectObject } from '@/components/objectSelect/ObjectsSelect'
 import { InputBill } from '../inputsBill/InputBill'
 import { ParametersContext } from "../shopping/ShoppingCart"
+import { UrlContext } from "@/pages/[nameApp]"
 
 interface Props {
     isOpen: boolean
@@ -33,6 +33,10 @@ export const ModalBill: FC<Props> = ({ isOpen, onOpenChange, subTotalProducts, t
     const [dataWareHouses, setDataWareHouses] = useState<Seller[]>([])
     const [dataNumerations, setDataNumerations] = useState<Numeration[]>([])
     const [dataSellers, setDataSellers] = useState<Seller[]>([])
+
+    // import Context UrlContext
+    const { companyId, apikey, color, functionApi  } = useContext(UrlContext);
+
     // INVOICE PARAMETERS CONTEXT
     const { setParametersInfo } = useContext(ParametersContext)
     // -- USARLO AL ABRIR LA MODAL CON EL RESUMEN DE LA FACTURA --
@@ -42,8 +46,8 @@ export const ModalBill: FC<Props> = ({ isOpen, onOpenChange, subTotalProducts, t
 
     useEffect(() => {
         const petiApi = async () => {
-            const { data } = await cuentalApi.get<InvoiceParameters>(
-                `settings/invoices?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
+            const { data } = await functionApi.get<InvoiceParameters>(
+                `settings/invoices?companyId=${companyId}&page=0&apikey=${apikey}`
             )
             setParametersInfo(data)
             setDataWareHouses(data.warehouses)
@@ -75,8 +79,8 @@ export const ModalBill: FC<Props> = ({ isOpen, onOpenChange, subTotalProducts, t
                             </div>
                             <div>
                                 <SelectObject
-                                arrayFind={dataSellers}
-                                textType="Vendedor"
+                                    arrayFind={dataSellers}
+                                    textType="Vendedor"
                                 />
                             </div>
                             <div>
@@ -118,14 +122,14 @@ export const ModalBill: FC<Props> = ({ isOpen, onOpenChange, subTotalProducts, t
                         </ModalBody>
                         <ModalFooter>
                             <Button
-                                color="secondary"
+                                color={color.colorComponent}
                                 variant="flat"
                                 className="w-full rounded-md"
                             >
                                 Generar D.E./POS
                             </Button>
                             <Button
-                                color="secondary"
+                                color={color.colorComponent}
                                 variant="flat"
                                 className="w-full rounded-md"
                             >

@@ -16,7 +16,7 @@ import {
 import { ShowPrices } from '@/utils/ShowPrices'
 import { type ProductList } from '@/interface/products'
 import { TruncateText } from '@/utils/TruncateText'
-import { ProductContext } from '@/pages'
+import { ProductContext } from '@/pages/[nameApp]'
 
 import { ImageRound } from '../imageRound/ImageRound'
 import { CountData } from '../CountData/CountData'
