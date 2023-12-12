@@ -17,7 +17,7 @@ export const ShoppingCardFooder: FC = () => {
   const { productList } = context
 
   // import Context UrlContext
-  const { validateAppColor } = useContext(UrlContext);
+  const { color } = useContext(UrlContext);
 
 
   // VARIABLES OF USESTATE
@@ -80,7 +80,8 @@ export const ShoppingCardFooder: FC = () => {
       <div className="flex justify-around items-center ">
         <Button
           onPress={onOpen}
-          className={`flex bg-[${validateAppColor.colorApp}] justify-between w-full mt-5 mb-4`}
+          className={`flex justify-between w-full mt-5 mb-4`}
+          style={{background:`${color.colorApp}`}}
           radius="sm"
           size="lg"
           isDisabled={

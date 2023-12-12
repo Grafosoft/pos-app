@@ -2,7 +2,7 @@ import { Products } from '@/components/products/Products'
 import { ShoppingCart } from '@/components/shopping/ShoppingCart'
 import { type ProductList } from '@/interface/products'
 import type { GetServerSideProps } from 'next'
-import { ValidateAppColor } from '@/utils/validateAppColor'
+import { validateAppColor } from '@/utils/validateAppColor'
 import { NavBar } from '@/components/navbar/NavBar'
 
 
@@ -10,10 +10,12 @@ import {
   type Dispatch,
   type SetStateAction,
   createContext,
-  useState
+  useState,
+  useEffect
 } from 'react'
-import { ValidateAppApi } from '@/api/validateAppApi'
+import { validateAppApi } from '@/api/validateAppApi'
 import axios, { AxiosInstance } from 'axios'
+import { color } from 'framer-motion';
 
 interface ProductContextType {
   productList: ProductList[]
@@ -36,7 +38,7 @@ interface VariablesUrl {
   apikey: string;
   name: string;
   functionApi: AxiosInstance;
-  validateAppColor: Estructure;
+  color: Estructure;
 }
 
 interface Props {
@@ -48,7 +50,7 @@ export const UrlContext = createContext<VariablesUrl>({
   apikey: "",
   name: "",
   functionApi: axios.create({}),
-  validateAppColor: {
+  color: {
     colorApp: "",
     colorProduct: "",
     colorComponent: "primary"
@@ -67,12 +69,12 @@ export default function Home({ PropsServer }: Props) {
   const [productList, setProductList] = useState<ProductList[]>([])
 
   // FUNCTION VALIDATE APPCOLOR AND VALIDATE APP-API
-  const validateAppColor = ValidateAppColor(name);
-  const functionApi = ValidateAppApi(name); // Colocar funcion de validacion de axios
+  const functionApi = validateAppApi(name);
+  const color = validateAppColor(name);
 
 
   return (
-    <UrlContext.Provider value={{ companyId, apikey, functionApi, validateAppColor, name }}>
+    <UrlContext.Provider value={{ companyId, apikey, functionApi, color, name }}>
       <ProductContext.Provider value={{ productList, setProductList }}>
         <NavBar />
         <div
@@ -107,7 +109,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     apikey: query.apikey,
     name: params?.nameApp
   }
-  //console.log(PropsServer)
 
   return {
     props: { PropsServer }

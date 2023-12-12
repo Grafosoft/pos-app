@@ -12,7 +12,7 @@ interface Props {
 
 export const ImageRound: FC<Props> = ({ image, name, formeRound = false }) => {
   // import Context UrlContext
-  const { validateAppColor } = useContext(UrlContext);
+  const { color } = useContext(UrlContext);
 
   return (
     <>
@@ -32,10 +32,10 @@ export const ImageRound: FC<Props> = ({ image, name, formeRound = false }) => {
       ) : (
         <div className="">
           <div
-            className={`flex items-center justify-center ${validateAppColor.colorProduct} w-[100px] h-[100px] ${formeRound ? 'rounded-full' : 'rounded-[20px]'
+            className={`flex items-center justify-center ${color.colorProduct} w-[100px] h-[100px] ${formeRound ? 'rounded-full' : 'rounded-[20px]'
               }`}
           >
-            <TbShoppingBag size={50} color={validateAppColor.colorApp} />
+            <TbShoppingBag size={50} color={color.colorApp} />
           </div>
         </div>
       )}

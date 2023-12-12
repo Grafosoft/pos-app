@@ -16,19 +16,18 @@ import { UrlContext } from '@/pages/[nameApp]'
 export const NavBar: FC = () => {
 
   // import Context UrlContext
-  const { name, validateAppColor} = useContext(UrlContext);
-
+  const { name, color} = useContext(UrlContext);
 
   return (
     <>
-      <div className={`max-h-16 flex w-full bg-[${validateAppColor.colorApp}] text-[#7828C] p-5 justify-between`}>
+      <div className={`max-h-16 flex w-full text-[#7828C] p-5 justify-between`} style={{background:`${color.colorApp}`}}>
         <div className="flex items-center">
           <Image src={`/images/${name}.png`} width={50} alt="Cuental Logo" />
           <Spacer x={5} />
           <h1 className="text-2xl font-medium text-white">{name.toUpperCase()} POS</h1>
         </div>
         <div className="flex items-center">
-          <SwitchTheme color={validateAppColor.colorApp} />
+          <SwitchTheme color={color.colorApp} />
           <TbBellFilled
             size={25}
             className="cursor-pointer mx-3"

@@ -13,7 +13,7 @@ interface Estructure {
     | undefined
 }
 
-export const ValidateAppColor = (name: string | undefined) => {
+export const validateAppColor = (name: string) => {
     let object: Estructure = {
         colorApp: "",
         colorProduct: "",
@@ -49,5 +49,4 @@ export const ValidateAppColor = (name: string | undefined) => {
                 colorComponent: "primary"
             }
     }
-    //return object;
 }

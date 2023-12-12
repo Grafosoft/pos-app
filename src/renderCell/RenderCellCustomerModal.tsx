@@ -20,7 +20,7 @@ export const RenderCellCustomerModal: FC<Props> = ({
 }) => {
   const fullName = `${customer.commercialName}  ${customer.firstName} ${customer.middleName} ${customer.firstSurname} ${customer.secondSurname}`
   // import Context UrlContext
-  const { validateAppColor } = useContext(UrlContext);
+  const { color } = useContext(UrlContext);
 
 
   const handleSaveCustomer = () => {
@@ -53,7 +53,7 @@ export const RenderCellCustomerModal: FC<Props> = ({
     case 'action':
       return (
         <TbArrowBigRightLineFilled
-          color={validateAppColor.colorApp}
+          color={color.colorApp}
           cursor="pointer"
           onClick={handleSaveCustomer}
         />

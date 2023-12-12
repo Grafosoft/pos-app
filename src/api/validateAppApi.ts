@@ -1,34 +1,10 @@
 import axios from 'axios'
 
 
-export const ValidateAppApi = (name: string | undefined) => {
+export const validateAppApi = (name: string) => {
 
-    let parameterAxios = {}
-    switch (name) {
-        case "cuental":
-            parameterAxios = {
-                baseURL: 'https://lab.cuental.com/api/v1/'
-            }
-            break;
-        case "valual":
-            parameterAxios = {
-                baseURL: 'https://lab.valual.com/api/v1/'
-            }
-            break;
-        case "otro":
-            parameterAxios = {
-                baseURL: 'https://lab.valual.com/api/v1/'
-            }
-            break;
-        default:
-            parameterAxios = {
-                baseURL: 'https://lab.valual.com/api/v1/'
-            }
-
-    }
-
+    let parameterAxios = { baseURL: `https://lab.${name}.com/api/v1/`}
     const cuentalApi =  axios.create(parameterAxios)
-
-
+    
     return cuentalApi;
 }

@@ -31,7 +31,7 @@ export const ModalEdit: FC<Props> = ({element}) => {
     const { productList, setProductList } = context
 
     // import Context UrlContext
-  const { validateAppColor } = useContext(UrlContext);
+  const { color } = useContext(UrlContext);
 
   // Function delete in product
   const deleteProductOfCar = (idEliminar: number) => {
@@ -139,7 +139,7 @@ export const ModalEdit: FC<Props> = ({element}) => {
         </Button>
       </div>
       <div>
-        <CountData productObject={element} color={validateAppColor.colorComponent} />
+        <CountData productObject={element} color={color.colorComponent} />
       </div>
     </div >
 

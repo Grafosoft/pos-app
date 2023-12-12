@@ -35,7 +35,7 @@ export const ModalBill: FC<Props> = ({ isOpen, onOpenChange, subTotalProducts, t
     const [dataSellers, setDataSellers] = useState<Seller[]>([])
 
     // import Context UrlContext
-    const { companyId, apikey, validateAppColor, functionApi  } = useContext(UrlContext);
+    const { companyId, apikey, color, functionApi  } = useContext(UrlContext);
 
     // INVOICE PARAMETERS CONTEXT
     const { setParametersInfo } = useContext(ParametersContext)
@@ -122,14 +122,14 @@ export const ModalBill: FC<Props> = ({ isOpen, onOpenChange, subTotalProducts, t
                         </ModalBody>
                         <ModalFooter>
                             <Button
-                                color={validateAppColor.colorComponent}
+                                color={color.colorComponent}
                                 variant="flat"
                                 className="w-full rounded-md"
                             >
                                 Generar D.E./POS
                             </Button>
                             <Button
-                                color={validateAppColor.colorComponent}
+                                color={color.colorComponent}
                                 variant="flat"
                                 className="w-full rounded-md"
                             >
