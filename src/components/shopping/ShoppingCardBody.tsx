@@ -1,6 +1,6 @@
 import { type FC, useContext } from 'react'
 
-import { Card, CardBody } from '@nextui-org/react'
+import { Card, CardBody, Spacer } from '@nextui-org/react'
 
 import { ShowPrices } from '@/utils/ShowPrices'
 import { TruncateText } from '@/utils/TruncateText'
@@ -29,6 +29,44 @@ export const ShoppingCardBody: FC = () => {
         </div>
       ) : (
         productList.map((element, index) => {
+          const discount = element.discount
+          const tax = element.value * (totalTaxPer(element.tax) / 100)
+          const total = element.value
+          const subTotal = total - tax
+
+          const arrayPrices = [
+            {
+              name: 'SubTotal: ',
+              value: subTotal
+            },
+            {
+              name: 'Descuento: ',
+              value: discount
+            },
+            {
+              name: 'Total Impuesto: ',
+              value: tax
+            },
+            {
+              name: 'Total: ',
+              value: total
+            }
+          ]
+
+          const arrayTax = []
+
+          for (let index = 0; index < element.tax.length; index++) {
+            const elementTax = element.tax[index]
+
+            const taxObject = {
+              name: `Impuesto (${elementTax.percentage}%): `,
+              title: 'Total Impuesto: ',
+              value: total * (elementTax.percentage / 100)
+            }
+
+            arrayTax.push(taxObject)
+          }
+
           return (
             <Card className="mb-3" key={element.id}>
               <CardBody>
@@ -46,12 +84,11 @@ export const ShoppingCardBody: FC = () => {
                       <p className="text-small text-default-500">
                         {TruncateText(element.group.name)}
                       </p>
-                      <ShowPrices
-                        discount={element.discount}
-                        tax={element.value * (totalTaxPer(element.tax) / 100)}
-                        taxPorcentage={totalTaxPer(element.tax)}
-                        total={element.value}
-                      />
+                      <div className="flex">
+                        <ShowPrices arrayPrices={arrayPrices} />
+                        <Spacer x={5} />
+                        <ShowPrices arrayPrices={arrayTax} />
+                      </div>
                     </div>
                   </div>
                   <ModalEdit element={element} />

@@ -1,4 +1,4 @@
-import { type FC, useContext, useState } from 'react'
+import { type FC, useContext, useState, useEffect } from 'react'
 import {
   Button,
   Input,
@@ -7,6 +7,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Spacer,
   useDisclosure
 } from '@nextui-org/react'
 import { CountData } from '../CountData/CountData'
@@ -14,6 +15,8 @@ import { TbEdit, TbTrash } from 'react-icons/tb'
 import { ProductContext, UrlContext } from '@/pages/[nameApp]'
 import { type ProductList } from '@/interface/products'
 import { totalTaxPer } from '@/utils/totalPaxPer'
+import { SelectObject } from '../objectSelect/ObjectsSelect'
+import { type SelectTax } from '@/interface/invoiceParameters'
 
 interface Props {
   element: ProductList
@@ -28,7 +31,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
   const { productList, setProductList } = context
 
   // import Context UrlContext
-  const { color } = useContext(UrlContext)
+  const { companyId, apikey, color, functionApi } = useContext(UrlContext)
 
   // Function delete in product
   const deleteProductOfCar = (idEliminar: number) => {
@@ -57,6 +60,20 @@ export const ModalEdit: FC<Props> = ({ element }) => {
     onClose()
   }
 
+  const [taxSettings, setTaxSettings] = useState<SelectTax[]>([])
+
+  useEffect(() => {
+    const petiApi = async () => {
+      const { data } = await functionApi.get(
+        `settings/invoices/items?companyId=${companyId}&apikey=${apikey}`
+      )
+      setTaxSettings(data.taxes)
+    }
+    petiApi()
+  }, [apikey, companyId, functionApi])
+
+  console.log(taxSettings)
+
   return (
     <div className="flex flex-col items-center gap-4 ">
       <div className="flex gap-3">
@@ -81,10 +98,9 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                   <div className="p-5">
                     <Input
                       type="number"
-                      label="Price"
+                      label="Descuento"
                       placeholder="0"
                       labelPlacement="outside"
-                      // value={discountState.toString()}
                       onValueChange={e => {
                         setDiscountState(parseInt(e))
                       }}
@@ -94,6 +110,17 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                         </div>
                       }
                     />
+                    <Spacer y={5} />
+                    {element.tax.map(
+                      (element, index) =>
+                        taxSettings.length !== 0 && (
+                          <SelectObject
+                            key={index}
+                            arrayFind={taxSettings}
+                            textType="Impuesto"
+                          />
+                        )
+                    )}
                   </div>
                 </ModalBody>
                 <ModalFooter>

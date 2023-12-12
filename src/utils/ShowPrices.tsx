@@ -3,24 +3,24 @@ import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react'
 import { IoIosArrowBack, IoIosArrowDown } from 'react-icons/io'
 
 interface Props {
-  total: number
-  discount: number
-  tax: number
-  taxPorcentage: number
+  arrayPrices: Prices[]
 }
 
-export const ShowPrices: FC<Props> = ({
-  total,
-  discount,
-  tax,
-  taxPorcentage
-}) => {
+interface Prices {
+  title?: string
+  name: string
+  value: number
+}
+
+export const ShowPrices: FC<Props> = ({ arrayPrices }) => {
   const [isOpenPopover, setIsOpenPopover] = useState(false)
   const formatDouble = new Intl.NumberFormat('en-DE')
 
   const ChickInProvider = (e: boolean) => {
     setIsOpenPopover(e)
   }
+
+  const length = arrayPrices.length - 1
 
   return (
     <div className="cursor-pointer">
@@ -33,8 +33,12 @@ export const ShowPrices: FC<Props> = ({
       >
         <PopoverTrigger>
           <div className="flex items-center">
-            <p className="mr-10 text-default-500">Total: </p>
-            <p>$ {formatDouble.format(total)}</p>
+            <p className="mr-2 text-default-500">
+              {arrayPrices[length].title
+                ? arrayPrices[length].title
+                : arrayPrices[length].name}
+            </p>
+            <p>$ {formatDouble.format(arrayPrices[length].value)}</p>
             <div className="ml-2 ">
               {isOpenPopover ? (
                 <IoIosArrowBack size={15} />
@@ -47,16 +51,14 @@ export const ShowPrices: FC<Props> = ({
         <PopoverContent>
           <div className="flex p-2 ">
             <div className=" text-default-500">
-              <p className="">SubTotal: </p>
-              <p className="">Descuento: </p>
-              <p className="">Impuesto ({taxPorcentage}%): </p>
-              <p className="">Total: </p>
+              {arrayPrices.map((element, index) => (
+                <p key={index}>{element.name}</p>
+              ))}
             </div>
-            <div className="flex flex-col items-end w-[150px]">
-              <span> $ {formatDouble.format(total - tax)}</span>
-              <span> $ {formatDouble.format(discount)}</span>
-              <span> $ {formatDouble.format(tax)}</span>
-              <span> $ {formatDouble.format(total)}</span>
+            <div className="flex flex-col items-end w-[100px]">
+              {arrayPrices.map((element, index) => (
+                <span key={index}> $ {formatDouble.format(element.value)}</span>
+              ))}
             </div>
           </div>
         </PopoverContent>

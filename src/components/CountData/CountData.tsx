@@ -67,6 +67,7 @@ export const CountData: FC<Props> = ({
         element.totalAmount =
           element.value * (totalTaxPer(element.tax) / 100) + element.value
       }
+      console.log(element)
 
       return element
     })

@@ -65,7 +65,12 @@ export const ModalBill: FC<Props> = ({
 
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="2xl">
+      <Modal
+        isOpen={isOpen}
+        isDismissable={false}
+        onOpenChange={onOpenChange}
+        size="2xl"
+      >
         <ModalContent>
           {onClose => (
             <>
