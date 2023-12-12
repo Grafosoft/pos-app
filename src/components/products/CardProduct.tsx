@@ -4,6 +4,7 @@ import { ProductContext } from '@/pages/[nameApp]'
 import { type interfaceProduct } from '@/interface/products'
 import { TruncateText } from '../../utils/TruncateText'
 import { ImageRound } from '../imageRound/ImageRound'
+import { addProductCart } from '@/utils/addProductCart'
 
 interface Props {
   product: interfaceProduct
@@ -16,42 +17,9 @@ export const CardProduct: FC<Props> = ({ product }) => {
   const { productList, setProductList } = context
 
   const handleSaveProduct = () => {
-    const productExis = productList.find(element => element.id === product.id)
-
-    if (!productExis) {
-      setProductList([
-        ...productList,
-        {
-          id: product.id,
-          quantity: 1,
-          value: product.salePrice,
-          price: product.salePrice,
-          discount: 0,
-          description: '',
-          discountAmount: 0,
-          totalAmount:
-            product.salePrice + product.salePrice * (product.tax.value / 100),
-          item: {
-            id: product.id,
-            name: product.name
-          },
-          tax: [
-            {
-              id: product.tax.id,
-              name: product.tax.name,
-              value: 0,
-              percentage: product.tax.value
-            }
-          ],
-          image: product.image,
-          group: {
-            id: product.group.id,
-            name: product.group.name
-          }
-        }
-      ])
-    }
+    addProductCart(productList, setProductList, product)
   }
+
   return (
     <div className="flex justify-center  h-[30vh] w-[27vh] ">
       <Card
