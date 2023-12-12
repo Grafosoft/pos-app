@@ -1,8 +1,6 @@
-import { FC, useContext, useState } from "react"
+import { type FC, useContext, useState } from 'react'
 import {
   Button,
-  Card,
-  CardBody,
   Input,
   Modal,
   ModalBody,
@@ -13,25 +11,24 @@ import {
 } from '@nextui-org/react'
 import { CountData } from '../CountData/CountData'
 import { TbEdit, TbTrash } from 'react-icons/tb'
-import { ProductContext } from "@/pages/[nameApp]"
-import { UrlContext } from '@/pages/[nameApp]'
-import { ProductList } from "@/interface/products"
-import { totalTaxPer } from "@/utils/totalPaxPer"
+import { ProductContext, UrlContext } from '@/pages/[nameApp]'
+import { type ProductList } from '@/interface/products'
+import { totalTaxPer } from '@/utils/totalPaxPer'
 
 interface Props {
-  element:ProductList
+  element: ProductList
 }
 
-export const ModalEdit: FC<Props> = ({element}) => {
+export const ModalEdit: FC<Props> = ({ element }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [discountState, setDiscountState] = useState(0)
 
-    // ProductContext
-    const context = useContext(ProductContext)
-    const { productList, setProductList } = context
+  // ProductContext
+  const context = useContext(ProductContext)
+  const { productList, setProductList } = context
 
-    // import Context UrlContext
-  const { color } = useContext(UrlContext);
+  // import Context UrlContext
+  const { color } = useContext(UrlContext)
 
   // Function delete in product
   const deleteProductOfCar = (idEliminar: number) => {
@@ -60,7 +57,6 @@ export const ModalEdit: FC<Props> = ({element}) => {
     onClose()
   }
 
-
   return (
     <div className="flex flex-col items-center gap-4 ">
       <div className="flex gap-3">
@@ -72,7 +68,7 @@ export const ModalEdit: FC<Props> = ({element}) => {
           onPress={onOpen}
           aria-label="Like"
         >
-          <TbEdit size={15}  />
+          <TbEdit size={15} />
         </Button>
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
           <ModalContent>
@@ -94,9 +90,7 @@ export const ModalEdit: FC<Props> = ({element}) => {
                       }}
                       startContent={
                         <div className="pointer-events-none flex items-center">
-                          <span className="text-default-400 text-small">
-                            $
-                          </span>
+                          <span className="text-default-400 text-small">$</span>
                         </div>
                       }
                     />
@@ -112,11 +106,7 @@ export const ModalEdit: FC<Props> = ({element}) => {
                   >
                     Guardar
                   </Button>
-                  <Button
-                    color="danger"
-                    variant="flat"
-                    onPress={onClose}
-                  >
+                  <Button color="danger" variant="flat" onPress={onClose}>
                     Cerrar
                   </Button>
                 </ModalFooter>
@@ -141,7 +131,6 @@ export const ModalEdit: FC<Props> = ({element}) => {
       <div>
         <CountData productObject={element} color={color.colorComponent} />
       </div>
-    </div >
-
+    </div>
   )
 }

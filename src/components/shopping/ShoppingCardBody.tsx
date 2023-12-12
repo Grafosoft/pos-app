@@ -1,38 +1,21 @@
-import { type FC, useContext, useState } from 'react'
+import { type FC, useContext } from 'react'
 
-import {
-  Button,
-  Card,
-  CardBody,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure
-} from '@nextui-org/react'
+import { Card, CardBody } from '@nextui-org/react'
 
 import { ShowPrices } from '@/utils/ShowPrices'
-import { type ProductList } from '@/interface/products'
 import { TruncateText } from '@/utils/TruncateText'
 import { ProductContext } from '@/pages/[nameApp]'
 
 import { ImageRound } from '../imageRound/ImageRound'
-import { CountData } from '../CountData/CountData'
-import { TbEdit, TbShoppingCartPlus, TbTrash } from 'react-icons/tb'
+import { TbShoppingCartPlus } from 'react-icons/tb'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import { ModalEdit } from '../modals/ModalEdit'
 
 // COMPONENT
 export const ShoppingCardBody: FC = () => {
-
-
   // ProductContext
   const context = useContext(ProductContext)
-  const { productList, setProductList } = context
-
-
+  const { productList } = context
 
   return (
     <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA] dark:bg-[#18181B]">
@@ -71,10 +54,7 @@ export const ShoppingCardBody: FC = () => {
                       />
                     </div>
                   </div>
-                  <ModalEdit
-                    element={element}
-                  />
-
+                  <ModalEdit element={element} />
                 </div>
               </CardBody>
             </Card>

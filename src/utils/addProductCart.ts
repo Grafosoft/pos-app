@@ -1,5 +1,6 @@
 import { type interfaceProduct, type ProductList } from '@/interface/products'
 import { type Dispatch, type SetStateAction } from 'react'
+import { totalTaxPer } from './totalPaxPer'
 
 export const addProductCart = (
   productList: ProductList[],
@@ -40,5 +41,21 @@ export const addProductCart = (
         }
       }
     ])
+  } else {
+    const validId = (element: ProductList) => element.id === product.id
+    const indexFilterProduct = productList.findIndex(validId)
+
+    const arrayEdit = productList.map((element, index) => {
+      if (index === indexFilterProduct) {
+        element.quantity = element.quantity + 1
+        element.value = element.price * element.quantity
+        element.totalAmount =
+          element.value * (totalTaxPer(element.tax) / 100) + element.value
+      }
+
+      return element
+    })
+
+    setProductList(arrayEdit)
   }
 }

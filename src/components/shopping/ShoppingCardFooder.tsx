@@ -1,14 +1,8 @@
-
-import { ProductContext } from '@/pages/[nameApp]'
+import { ProductContext, UrlContext } from '@/pages/[nameApp]'
 import { totalTaxPer } from '@/utils/totalPaxPer'
-import {
-  Button,
-  useDisclosure
-} from '@nextui-org/react'
+import { Button, useDisclosure } from '@nextui-org/react'
 import { type FC, useContext, useState, useEffect } from 'react'
 import { ModalBill } from '../modals/ModalBill'
-import { UrlContext } from '@/pages/[nameApp]'
-
 
 // COMPONENT
 export const ShoppingCardFooder: FC = () => {
@@ -17,18 +11,15 @@ export const ShoppingCardFooder: FC = () => {
   const { productList } = context
 
   // import Context UrlContext
-  const { color } = useContext(UrlContext);
-
+  const { color } = useContext(UrlContext)
 
   // VARIABLES OF USESTATE
   const [subTotalProducts, setSubTotalProducts] = useState(0)
   const [totalDiscountProducts, setTotalDiscountProducts] = useState(0)
   const [totalTaxProducts, setTotalTaxProducts] = useState(0)
 
-
   // CONTROLLERS OF MODAL
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
 
   // Format Double
   const formatDouble = new Intl.NumberFormat('en-DE')
@@ -49,12 +40,10 @@ export const ShoppingCardFooder: FC = () => {
       (acumulator, element) => acumulator + element.value,
       0
     )
-    // console.log(totalTax)
 
     setSubTotalProducts(subTotal - totalTax)
     setTotalDiscountProducts(totalDiscount)
     setTotalTaxProducts(totalTax)
-
   }, [productList])
 
   return (
@@ -81,7 +70,7 @@ export const ShoppingCardFooder: FC = () => {
         <Button
           onPress={onOpen}
           className={`flex justify-between w-full mt-5 mb-4`}
-          style={{background:`${color.colorApp}`}}
+          style={{ background: `${color.colorApp}` }}
           radius="sm"
           size="lg"
           isDisabled={
@@ -108,7 +97,6 @@ export const ShoppingCardFooder: FC = () => {
           totalDiscountProducts={totalDiscountProducts}
           totalTaxProducts={totalTaxProducts}
         />
-
       </div>
       <div className="text-default-500">
         <p>{productList.length} Productos</p>
