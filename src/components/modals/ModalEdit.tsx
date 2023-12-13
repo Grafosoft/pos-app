@@ -111,12 +111,15 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                       }
                     />
                     <Spacer y={5} />
+
+
                     {element.tax.map(
-                      (element, index) =>
+                      (elemenTax, index) =>
                         taxSettings.length !== 0 && (
                           <SelectObject
                             key={index}
                             arrayFind={taxSettings}
+                            defaultSelectedKeys={elemenTax.id}
                             textType="Impuesto"
                           />
                         )
