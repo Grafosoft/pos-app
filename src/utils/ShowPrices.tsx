@@ -4,6 +4,7 @@ import { IoIosArrowBack, IoIosArrowDown } from 'react-icons/io'
 
 interface Props {
   arrayPrices: Prices[]
+  total: number
 }
 
 interface Prices {
@@ -12,7 +13,7 @@ interface Prices {
   value: number
 }
 
-export const ShowPrices: FC<Props> = ({ arrayPrices }) => {
+export const ShowPrices: FC<Props> = ({ arrayPrices, total }) => {
   const [isOpenPopover, setIsOpenPopover] = useState(false)
   const formatDouble = new Intl.NumberFormat('en-DE')
 
@@ -38,7 +39,10 @@ export const ShowPrices: FC<Props> = ({ arrayPrices }) => {
                 ? arrayPrices[length].title
                 : arrayPrices[length].name}
             </p>
-            <div className="flex"><p className="mr-1">$</p>{formatDouble.format(arrayPrices[length].value)}</div>
+            <div className="flex">
+              <p className="mr-1">$</p>
+              {formatDouble.format(total)}
+            </div>
             <div className="ml-2 ">
               {isOpenPopover ? (
                 <IoIosArrowBack size={15} />

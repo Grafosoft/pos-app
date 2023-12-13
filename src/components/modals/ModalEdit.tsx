@@ -13,10 +13,10 @@ import {
 import { CountData } from '../CountData/CountData'
 import { TbEdit, TbTrash } from 'react-icons/tb'
 import { ProductContext, UrlContext } from '@/pages/[nameApp]'
-import { type ProductList } from '@/interface/products'
+import { type Tax, type ProductList } from '@/interface/products'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import { SelectObject } from '../objectSelect/ObjectsSelect'
-import { type SelectTax } from '@/interface/invoiceParameters'
+import { RiAddFill } from 'react-icons/ri'
 
 interface Props {
   element: ProductList
@@ -25,11 +25,13 @@ interface Props {
 export const ModalEdit: FC<Props> = ({ element }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [discountState, setDiscountState] = useState(0)
-  const [newTax, setNewTax] = useState<SelectTax[]>([])
 
   // ProductContext
   const context = useContext(ProductContext)
   const { productList, setProductList } = context
+
+  // TAX LIST SELECT
+  const [newTax, setNewTax] = useState<Tax[]>([])
 
   // import Context UrlContext
   const { companyId, apikey, color, functionApi } = useContext(UrlContext)
@@ -54,14 +56,16 @@ export const ModalEdit: FC<Props> = ({ element }) => {
           element.value + (element.value * totalTaxPer(element.tax)) / 100
         element.discount = discountState
         element.totalAmount = element.totalAmount - discountState
+        element.tax = newTax
       }
+      console.log(element)
       return element
     })
     setProductList(arrayEditDiscount)
     onClose()
   }
 
-  const [taxSettings, setTaxSettings] = useState<SelectTax[]>([])
+  const [taxSettings, setTaxSettings] = useState<Tax[]>([])
 
   useEffect(() => {
     const petiApi = async () => {
@@ -72,19 +76,21 @@ export const ModalEdit: FC<Props> = ({ element }) => {
       setNewTax(element.tax)
     }
     petiApi()
-  }, [apikey, companyId, functionApi])
+  }, [apikey, companyId, element.tax, functionApi])
 
-  const HandlerAddTax = () => {
-    let ValidateNewTax = newTax.find((element) => element.id === 0);
-    if (!ValidateNewTax ) {
-      let newTaxObject = [
+  const handlerAddTax = () => {
+    const ValidateNewTax = newTax.find(element => element.id === 0)
+    // const validateExistingTax = element.tax.find(element => element.id === )
+    if (!ValidateNewTax) {
+      const newTaxObject = [
         ...newTax,
         {
           id: 0,
-          name: "",
+          name: '',
           value: 0,
           percentage: 0
-        }]
+        }
+      ]
       setNewTax(newTaxObject)
     }
   }
@@ -106,9 +112,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
           <ModalContent>
             {onClose => (
               <>
-                <ModalHeader>
-                  {element.item.name}
-                </ModalHeader>
+                <ModalHeader>{element.item.name}</ModalHeader>
                 <ModalBody>
                   <div className="p-3 flex flex-col items-center ">
                     <Input
@@ -126,6 +130,18 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                       }
                     />
                     <Spacer y={5} />
+                    <div className="w-full flex justify-between items-center my-4">
+                      <p className="text-sm">Lista de Impuestos</p>
+                      <Button
+                        size="sm"
+                        onClick={handlerAddTax}
+                        variant="flat"
+                        isIconOnly
+                        color="success"
+                      >
+                        <RiAddFill size={17} />
+                      </Button>
+                    </div>
                     <div className="w-full flex flex-col items-center gap-3 overflow-scroll max-h-[200px] ">
                       {newTax.map(
                         (elemenTax, index) =>
@@ -133,7 +149,9 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                             <SelectObject
                               key={index}
                               arrayFind={taxSettings}
-                              defaultSelectedKeys={elemenTax.id? elemenTax.id : 0}
+                              defaultSelectedKeys={
+                                elemenTax.id ? elemenTax.id : 0
+                              }
                               textType="Impuesto"
                               newTax={newTax}
                               setNewTax={setNewTax}
@@ -141,13 +159,6 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                           )
                       )}
                     </div>
-                    <Button
-                      className='mt-4'
-                      onClick={HandlerAddTax}
-                      variant="flat"
-                      color="success">
-                      Agregar Impuesto
-                    </Button>
                   </div>
                 </ModalBody>
                 <ModalFooter>

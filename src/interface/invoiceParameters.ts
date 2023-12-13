@@ -1,10 +1,12 @@
+import { type Tax } from './products'
+
 export interface InvoiceParameters {
   companyId: number
   companyName: string
   description: string
-  numerations: Numeration[]
-  warehouses: Seller[]
-  sellers: Seller[]
+  numerations: Tax[]
+  warehouses: Tax[]
+  sellers: Tax[]
   paymentMethods: PaymentMethod[]
   currencies: Currency[]
 }
@@ -12,6 +14,14 @@ export interface InvoiceParameters {
 export interface Currency {
   id: string
   code: string
+}
+
+export interface ParameterInterface {
+  id: number
+  name: string
+  authorization?: null
+  value?: number
+  percentage?: number
 }
 
 export interface Numeration {

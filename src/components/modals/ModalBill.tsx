@@ -1,9 +1,5 @@
 import { type FC, useContext, useEffect, useState } from 'react'
-import {
-  type InvoiceParameters,
-  type Numeration,
-  type Seller
-} from '@/interface/invoiceParameters'
+import { type InvoiceParameters } from '@/interface/invoiceParameters'
 import {
   Button,
   Input,
@@ -17,6 +13,7 @@ import { SelectObject } from '@/components/objectSelect/ObjectsSelect'
 import { InputBill } from '../inputsBill/InputBill'
 import { ParametersContext } from '../shopping/ShoppingCart'
 import { UrlContext } from '@/pages/[nameApp]'
+import { type Tax } from '@/interface/products'
 
 interface Props {
   isOpen: boolean
@@ -33,9 +30,9 @@ export const ModalBill: FC<Props> = ({
   totalDiscountProducts,
   totalTaxProducts
 }) => {
-  const [dataWareHouses, setDataWareHouses] = useState<Seller[]>([])
-  const [dataNumerations, setDataNumerations] = useState<Numeration[]>([])
-  const [dataSellers, setDataSellers] = useState<Seller[]>([])
+  const [dataWareHouses, setDataWareHouses] = useState<Tax[]>([])
+  const [dataNumerations, setDataNumerations] = useState<Tax[]>([])
+  const [dataSellers, setDataSellers] = useState<Tax[]>([])
 
   // import Context UrlContext
   const { companyId, apikey, color, functionApi } = useContext(UrlContext)
@@ -75,18 +72,30 @@ export const ModalBill: FC<Props> = ({
           {onClose => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Datos y Generacion de factura
+                Datos Finales
               </ModalHeader>
               <ModalBody className="flex flex-col p-5 ">
                 <div className="flex gap-3">
                   <SelectObject
                     arrayFind={dataNumerations}
                     textType="Numeración"
+                    newTax={[]}
+                    setNewTax={() => {}}
                   />
-                  <SelectObject arrayFind={dataWareHouses} textType="Bodega" />
+                  <SelectObject
+                    arrayFind={dataWareHouses}
+                    textType="Bodega"
+                    newTax={[]}
+                    setNewTax={() => {}}
+                  />
                 </div>
                 <div>
-                  <SelectObject arrayFind={dataSellers} textType="Vendedor" />
+                  <SelectObject
+                    arrayFind={dataSellers}
+                    textType="Vendedor"
+                    newTax={[]}
+                    setNewTax={() => {}}
+                  />
                 </div>
                 <div>
                   <Input
