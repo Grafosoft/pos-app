@@ -72,7 +72,10 @@ export const ModalEdit: FC<Props> = ({ element }) => {
     petiApi()
   }, [apikey, companyId, functionApi])
 
-  console.log(taxSettings)
+  const HandlerAddTax = () =>{
+    console.log(taxSettings);
+    
+  }
 
   return (
     <div className="flex flex-col items-center gap-4 ">
@@ -91,11 +94,11 @@ export const ModalEdit: FC<Props> = ({ element }) => {
           <ModalContent>
             {onClose => (
               <>
-                <ModalHeader className="flex flex-col gap-1">
+                <ModalHeader>
                   {element.item.name}
                 </ModalHeader>
                 <ModalBody>
-                  <div className="p-5">
+                  <div className="p-3 flex flex-col items-center">
                     <Input
                       type="number"
                       label="Descuento"
@@ -111,7 +114,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                       }
                     />
                     <Spacer y={5} />
-                    
+
                     {element.tax.map(
                       (elemenTax, index) =>
                         taxSettings.length !== 0 && (
@@ -123,6 +126,13 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                           />
                         )
                     )}
+                    <Button
+                      className='mt-4'
+                      onClick={HandlerAddTax}
+                      variant="flat"
+                      color="success">
+                      Agregar Impuesto
+                    </Button>
                   </div>
                 </ModalBody>
                 <ModalFooter>

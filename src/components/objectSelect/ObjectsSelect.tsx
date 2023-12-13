@@ -13,17 +13,8 @@ interface Props {
   defaultSelectedKeys?: number
 }
 
-const animals = [
-  { label: "Cat", value: "cat", description: "The second most popular pet in the world", id: 1 },
-  { label: "Dog", value: "dog", description: "The most popular pet in the world", id: 2 },
-  { label: "Elephant", value: "elephant", description: "The largest land animal", id: 3 },
-  { label: "Lion", value: "lion", description: "The king of the jungle", id: 4 }
-]
-
-
 export const SelectObject: FC<Props> = ({ arrayFind, textType, defaultSelectedKeys }) => {
   const [select, setSelect] = useState<Selection>(new Set([]))
-  console.log(defaultSelectedKeys)
 
   return (
     <>
@@ -36,7 +27,6 @@ export const SelectObject: FC<Props> = ({ arrayFind, textType, defaultSelectedKe
         onSelectionChange={setSelect}
       >
         {arrayFind.map((element, index) => {
-          console.log(element)
           return (
           <SelectItem key={element.id} value={element.id}>
             {element.name}
