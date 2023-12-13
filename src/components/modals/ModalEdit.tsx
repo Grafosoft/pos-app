@@ -25,6 +25,7 @@ interface Props {
 export const ModalEdit: FC<Props> = ({ element }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [discountState, setDiscountState] = useState(0)
+  const [newTax, setNewTax] = useState<SelectTax[]>([])
 
   // ProductContext
   const context = useContext(ProductContext)
@@ -68,13 +69,24 @@ export const ModalEdit: FC<Props> = ({ element }) => {
         `settings/invoices/items?companyId=${companyId}&apikey=${apikey}`
       )
       setTaxSettings(data.taxes)
+      setNewTax(element.tax)
     }
     petiApi()
   }, [apikey, companyId, functionApi])
 
-  const HandlerAddTax = () =>{
-    console.log(taxSettings);
-    
+  const HandlerAddTax = () => {
+    let ValidateNewTax = newTax.find((element) => element.id === 0);
+    if (!ValidateNewTax ) {
+      let newTaxObject = [
+        ...newTax,
+        {
+          id: 0,
+          name: "",
+          value: 0,
+          percentage: 0
+        }]
+      setNewTax(newTaxObject)
+    }
   }
 
   return (
@@ -98,7 +110,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                   {element.item.name}
                 </ModalHeader>
                 <ModalBody>
-                  <div className="p-3 flex flex-col items-center">
+                  <div className="p-3 flex flex-col items-center ">
                     <Input
                       type="number"
                       label="Descuento"
@@ -114,18 +126,21 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                       }
                     />
                     <Spacer y={5} />
-
-                    {element.tax.map(
-                      (elemenTax, index) =>
-                        taxSettings.length !== 0 && (
-                          <SelectObject
-                            key={index}
-                            arrayFind={taxSettings}
-                            defaultSelectedKeys={elemenTax.id}
-                            textType="Impuesto"
-                          />
-                        )
-                    )}
+                    <div className="w-full flex flex-col items-center gap-3 overflow-scroll max-h-[200px] ">
+                      {newTax.map(
+                        (elemenTax, index) =>
+                          taxSettings.length !== 0 && (
+                            <SelectObject
+                              key={index}
+                              arrayFind={taxSettings}
+                              defaultSelectedKeys={elemenTax.id? elemenTax.id : 0}
+                              textType="Impuesto"
+                              newTax={newTax}
+                              setNewTax={setNewTax}
+                            />
+                          )
+                      )}
+                    </div>
                     <Button
                       className='mt-4'
                       onClick={HandlerAddTax}
