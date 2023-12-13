@@ -67,6 +67,8 @@ export const ShoppingCardBody: FC = () => {
             arrayTax.push(taxObject)
           }
 
+          console.log(tax)
+
           return (
             <Card className="mb-3" key={element.id}>
               <CardBody>
@@ -85,9 +87,9 @@ export const ShoppingCardBody: FC = () => {
                         {TruncateText(element.group.name)}
                       </p>
                       <div className="2xl:flex">
-                        <ShowPrices arrayPrices={arrayPrices} />
+                        <ShowPrices arrayPrices={arrayPrices} total={total} />
                         <Spacer x={5} />
-                        <ShowPrices arrayPrices={arrayTax} />
+                        <ShowPrices arrayPrices={arrayTax} total={tax} />
                       </div>
                     </div>
                   </div>
