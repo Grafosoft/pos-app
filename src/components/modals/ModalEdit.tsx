@@ -111,8 +111,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                       }
                     />
                     <Spacer y={5} />
-
-
+                    
                     {element.tax.map(
                       (elemenTax, index) =>
                         taxSettings.length !== 0 && (

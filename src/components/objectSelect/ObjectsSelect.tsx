@@ -10,7 +10,7 @@ import React, { type FC } from 'react'
 interface Props {
   arrayFind: Numeration[] | Seller[] | SelectTax[]
   textType: string
-  defaultSelectedKeys: number
+  defaultSelectedKeys?: number
 }
 
 const animals = [
@@ -32,7 +32,7 @@ export const SelectObject: FC<Props> = ({ arrayFind, textType, defaultSelectedKe
         label={`Seleccione ${textType}`}
         placeholder={textType}
         className="w-full"
-        defaultSelectedKeys={[(defaultSelectedKeys).toString()]}
+        defaultSelectedKeys={defaultSelectedKeys? [(defaultSelectedKeys).toString()]:[]}
         onSelectionChange={setSelect}
       >
         {arrayFind.map((element, index) => {

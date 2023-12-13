@@ -84,7 +84,7 @@ export const ShoppingCardBody: FC = () => {
                       <p className="text-small text-default-500">
                         {TruncateText(element.group.name)}
                       </p>
-                      <div className="flex">
+                      <div className="2xl:flex">
                         <ShowPrices arrayPrices={arrayPrices} />
                         <Spacer x={5} />
                         <ShowPrices arrayPrices={arrayTax} />
