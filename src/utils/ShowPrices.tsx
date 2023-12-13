@@ -38,7 +38,7 @@ export const ShowPrices: FC<Props> = ({ arrayPrices }) => {
                 ? arrayPrices[length].title
                 : arrayPrices[length].name}
             </p>
-            <p>$ {formatDouble.format(arrayPrices[length].value)}</p>
+            <div className="flex"><p className="mr-1">$</p>{formatDouble.format(arrayPrices[length].value)}</div>
             <div className="ml-2 ">
               {isOpenPopover ? (
                 <IoIosArrowBack size={15} />
