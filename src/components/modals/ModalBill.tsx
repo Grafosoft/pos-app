@@ -35,6 +35,12 @@ export const ModalBill: FC<Props> = ({
   const [dataNumerations, setDataNumerations] = useState<Tax[]>([])
   const [dataSellers, setDataSellers] = useState<Tax[]>([])
 
+  //* VARIABLES END FOR BILL
+  const [valueTextArea, setValueTextArea] = useState("")
+  const [ wareHousesEnd , setWareHousesEnd ] = useState<Tax[]>([])
+  const [ numerationEnd, setNumerationEnd ] = useState<Tax[]>([])
+  const [ sellerEnd, setSellerEnd ] = useState<Tax[]>([])
+
   // import Context UrlContext
   const { companyId, apikey, color, functionApi } = useContext(UrlContext)
 
@@ -61,6 +67,12 @@ export const ModalBill: FC<Props> = ({
     petiApi()
   }, [apikey, companyId, functionApi, setParametersInfo])
 
+/*   useEffect(()=>{
+    console.log(wareHousesEnd);
+    console.log(numerationEnd);
+    console.log(sellerEnd);
+  },[wareHousesEnd,numerationEnd,sellerEnd])
+ */
   return (
     <>
       <Modal
@@ -80,22 +92,22 @@ export const ModalBill: FC<Props> = ({
                   <SelectObject
                     arrayFind={dataNumerations}
                     textType="Numeración"
-                    newTax={[]}
-                    setNewTax={() => { }}
+                    newTax={numerationEnd}
+                    setNewTax={setNumerationEnd}
                   />
                   <SelectObject
                     arrayFind={dataWareHouses}
                     textType="Bodega"
-                    newTax={[]}
-                    setNewTax={() => { }}
+                    newTax={wareHousesEnd}
+                    setNewTax={setWareHousesEnd}
                   />
                 </div>
                 <div>
                   <SelectObject
                     arrayFind={dataSellers}
                     textType="Vendedor"
-                    newTax={[]}
-                    setNewTax={() => { }}
+                    newTax={sellerEnd}
+                    setNewTax={setSellerEnd}
                   />
                 </div>
                 <div>
@@ -141,6 +153,8 @@ export const ModalBill: FC<Props> = ({
                   </p>
                   <Textarea
                     label="Observaciones:"
+                    value={valueTextArea}
+                    onValueChange={setValueTextArea}
                     //style={{fontSize :"20px"}}
                     placeholder="Enter your description"
                     className=""
