@@ -67,8 +67,6 @@ export const ShoppingCardBody: FC = () => {
             arrayTax.push(taxObject)
           }
 
-          console.log(tax)
-
           return (
             <Card className="mb-3" key={element.id}>
               <CardBody>

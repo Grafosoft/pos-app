@@ -7,7 +7,8 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  Textarea
 } from '@nextui-org/react'
 import { SelectObject } from '@/components/objectSelect/ObjectsSelect'
 import { InputBill } from '../inputsBill/InputBill'
@@ -80,13 +81,13 @@ export const ModalBill: FC<Props> = ({
                     arrayFind={dataNumerations}
                     textType="Numeración"
                     newTax={[]}
-                    setNewTax={() => {}}
+                    setNewTax={() => { }}
                   />
                   <SelectObject
                     arrayFind={dataWareHouses}
                     textType="Bodega"
                     newTax={[]}
-                    setNewTax={() => {}}
+                    setNewTax={() => { }}
                   />
                 </div>
                 <div>
@@ -94,7 +95,7 @@ export const ModalBill: FC<Props> = ({
                     arrayFind={dataSellers}
                     textType="Vendedor"
                     newTax={[]}
-                    setNewTax={() => {}}
+                    setNewTax={() => { }}
                   />
                 </div>
                 <div>
@@ -115,8 +116,8 @@ export const ModalBill: FC<Props> = ({
                     isReadOnly={true}
                     defaultValue={formatDouble.format(
                       subTotalProducts +
-                        totalTaxProducts -
-                        totalDiscountProducts
+                      totalTaxProducts -
+                      totalDiscountProducts
                     )}
                   />
                   <InputBill
@@ -132,6 +133,17 @@ export const ModalBill: FC<Props> = ({
                     textTitle="Cambio"
                     isReadOnly={true}
                     defaultValue={'2000'}
+                  />
+                </div>
+                <div className="w-full">
+                  <p className="dark:text-default-500 text-slate-500 text-sm ml-1 ">
+
+                  </p>
+                  <Textarea
+                    label="Observaciones:"
+                    //style={{fontSize :"20px"}}
+                    placeholder="Enter your description"
+                    className=""
                   />
                 </div>
               </ModalBody>
