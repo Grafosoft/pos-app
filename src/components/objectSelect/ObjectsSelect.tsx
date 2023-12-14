@@ -26,27 +26,31 @@ export const SelectObject: FC<Props> = ({
 }) => {
   const [taxsReadiSelected, setTaxsReadiSelected] = useState<string[]>([])
 
-  const handleSelectionChangeTax = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const indexArrayEditTax = newTax.findIndex(
-      element => element.id === taxId
-    )
-    const arrayEditTax = newTax.map((element, index) => {
-      if (indexArrayEditTax === index) {
-        const objectTax = arrayFind.find(
-          element => element.id === parseInt(e.target.value)
-        )
-        if (objectTax) {
-          element = objectTax
+  const handleSelectionChangeTax = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    if (taxId === undefined) {
+      const newObjectBill = arrayFind.filter(
+        element => element.id === parseInt(e.target.value)
+      )
+      setNewTax(newObjectBill)
+    } else {
+      const indexArrayEditTax = newTax.findIndex(
+        element => element.id === taxId
+      )
+      const arrayEditTax = newTax.map((element, index) => {
+        if (indexArrayEditTax === index) {
+          const objectTax = arrayFind.find(
+            element => element.id === parseInt(e.target.value)
+          )
+          if (objectTax) {
+            element = objectTax
+          }
         }
-      }
-      return element
-    })
-    setNewTax(arrayEditTax)
-  }
-
-  const handleSelectionChangeBill = (e: React.ChangeEvent<HTMLSelectElement>)=>{
-    let newObjectBill = arrayFind.filter((element)=> element.id === parseInt(e.target.value));
-    setNewTax(newObjectBill);
+        return element
+      })
+      setNewTax(arrayEditTax)
+    }
   }
 
   // Function delete in Tax
@@ -71,11 +75,9 @@ export const SelectObject: FC<Props> = ({
           placeholder={textType}
           className="w-full"
           disabledKeys={taxsReadiSelected}
-          selectedKeys={taxId ? [taxId.toString()] : ""}
-          defaultSelectedKeys={
-            taxId ? [taxId.toString()] : []
-          }
-          onChange={(taxId)?handleSelectionChangeTax:handleSelectionChangeBill}
+          selectedKeys={taxId ? [taxId.toString()] : ''}
+          defaultSelectedKeys={taxId ? [taxId.toString()] : []}
+          onChange={handleSelectionChangeTax}
         >
           {arrayFind.map((element, index) => {
             return (
@@ -85,23 +87,22 @@ export const SelectObject: FC<Props> = ({
             )
           })}
         </Select>
-        {((arrayFind[0].percentage !== undefined) && (taxId !== newTax[0].id)) ?
+        {arrayFind[0].percentage !== undefined && taxId !== newTax[0].id ? (
           <Button
             onClick={() => {
-              deleteProductOfCar(taxId? taxId : 0)
+              deleteProductOfCar(taxId ?? 0)
             }}
             isIconOnly
             color="danger"
             variant="flat"
-
             size="sm"
             edaria-label="Take a photo"
           >
             <TbTrash size={15} />
           </Button>
-          : ""
-          }
-
+        ) : (
+          ''
+        )}
       </div>
     </>
   )

@@ -36,10 +36,10 @@ export const ModalBill: FC<Props> = ({
   const [dataSellers, setDataSellers] = useState<Tax[]>([])
 
   //* VARIABLES END FOR BILL
-  const [valueTextArea, setValueTextArea] = useState("")
-  const [ wareHousesEnd , setWareHousesEnd ] = useState<Tax[]>([])
-  const [ numerationEnd, setNumerationEnd ] = useState<Tax[]>([])
-  const [ sellerEnd, setSellerEnd ] = useState<Tax[]>([])
+  const [valueTextArea, setValueTextArea] = useState('')
+  const [wareHousesEnd, setWareHousesEnd] = useState<Tax[]>([])
+  const [numerationEnd, setNumerationEnd] = useState<Tax[]>([])
+  const [sellerEnd, setSellerEnd] = useState<Tax[]>([])
 
   // import Context UrlContext
   const { companyId, apikey, color, functionApi } = useContext(UrlContext)
@@ -67,12 +67,12 @@ export const ModalBill: FC<Props> = ({
     petiApi()
   }, [apikey, companyId, functionApi, setParametersInfo])
 
-/*   useEffect(()=>{
-    console.log(wareHousesEnd);
-    console.log(numerationEnd);
-    console.log(sellerEnd);
-  },[wareHousesEnd,numerationEnd,sellerEnd])
- */
+  useEffect(() => {
+    console.log(wareHousesEnd)
+    console.log(numerationEnd)
+    console.log(sellerEnd)
+  }, [wareHousesEnd, numerationEnd, sellerEnd])
+
   return (
     <>
       <Modal
@@ -128,8 +128,8 @@ export const ModalBill: FC<Props> = ({
                     isReadOnly={true}
                     defaultValue={formatDouble.format(
                       subTotalProducts +
-                      totalTaxProducts -
-                      totalDiscountProducts
+                        totalTaxProducts -
+                        totalDiscountProducts
                     )}
                   />
                   <InputBill
@@ -148,14 +148,12 @@ export const ModalBill: FC<Props> = ({
                   />
                 </div>
                 <div className="w-full">
-                  <p className="dark:text-default-500 text-slate-500 text-sm ml-1 ">
-
-                  </p>
+                  <p className="dark:text-default-500 text-slate-500 text-sm ml-1 "></p>
                   <Textarea
                     label="Observaciones:"
                     value={valueTextArea}
                     onValueChange={setValueTextArea}
-                    //style={{fontSize :"20px"}}
+                    // style={{fontSize :"20px"}}
                     placeholder="Enter your description"
                     className=""
                   />
