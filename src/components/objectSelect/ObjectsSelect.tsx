@@ -25,7 +25,6 @@ export const SelectObject: FC<Props> = ({
   setNewTax
 }) => {
   const [taxsReadiSelected, setTaxsReadiSelected] = useState<string[]>([])
-  const [autoselect, setautoSelect] = useState<string[]>([])
 
   const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const indexArrayEditTax = newTax.findIndex(
