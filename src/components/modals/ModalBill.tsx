@@ -15,6 +15,7 @@ import { InputBill } from '../inputsBill/InputBill'
 import { ParametersContext } from '../shopping/ShoppingCart'
 import { UrlContext } from '@/pages/[nameApp]'
 import { type Tax } from '@/interface/products'
+import { PaymentRow } from '../paymentRow/PaymentRow'
 
 interface Props {
   isOpen: boolean
@@ -24,6 +25,12 @@ interface Props {
   totalTaxProducts: number
 }
 
+export interface PaymentArray {
+  paymentMethods: Tax[]
+  banks: Tax[]
+  value: number
+}
+
 export const ModalBill: FC<Props> = ({
   isOpen,
   onOpenChange,
@@ -31,15 +38,29 @@ export const ModalBill: FC<Props> = ({
   totalDiscountProducts,
   totalTaxProducts
 }) => {
-  const [dataWareHouses, setDataWareHouses] = useState<Tax[]>([])
-  const [dataNumerations, setDataNumerations] = useState<Tax[]>([])
-  const [dataSellers, setDataSellers] = useState<Tax[]>([])
-
   //* VARIABLES END FOR BILL
   const [valueTextArea, setValueTextArea] = useState('')
   const [wareHousesEnd, setWareHousesEnd] = useState<Tax[]>([])
   const [numerationEnd, setNumerationEnd] = useState<Tax[]>([])
   const [sellerEnd, setSellerEnd] = useState<Tax[]>([])
+
+  const [paymentArray, setPaymentArray] = useState<PaymentArray[]>([
+    {
+      paymentMethods: [
+        {
+          id: 0,
+          name: ''
+        }
+      ],
+      banks: [
+        {
+          id: 0,
+          name: ''
+        }
+      ],
+      value: 0
+    }
+  ])
 
   // import Context UrlContext
   const { companyId, apikey, color, functionApi } = useContext(UrlContext)
@@ -48,7 +69,7 @@ export const ModalBill: FC<Props> = ({
   const { customerSearch } = useContext(ParametersContext)
 
   // INVOICE PARAMETERS CONTEXT
-  const { setParametersInfo } = useContext(ParametersContext)
+  const { parametersInfo, setParametersInfo } = useContext(ParametersContext)
   // -- USARLO AL ABRIR LA MODAL CON EL RESUMEN DE LA FACTURA --
 
   // Format Double
@@ -60,9 +81,6 @@ export const ModalBill: FC<Props> = ({
         `settings/invoices?companyId=${companyId}&page=0&apikey=${apikey}`
       )
       setParametersInfo(data)
-      setDataWareHouses(data.warehouses)
-      setDataNumerations(data.numerations)
-      setDataSellers(data.sellers)
     }
     petiApi()
   }, [apikey, companyId, functionApi, setParametersInfo])
@@ -71,7 +89,8 @@ export const ModalBill: FC<Props> = ({
     console.log(wareHousesEnd)
     console.log(numerationEnd)
     console.log(sellerEnd)
-  }, [wareHousesEnd, numerationEnd, sellerEnd])
+    console.log(valueTextArea)
+  }, [wareHousesEnd, numerationEnd, sellerEnd, valueTextArea])
 
   return (
     <>
@@ -90,13 +109,13 @@ export const ModalBill: FC<Props> = ({
               <ModalBody className="flex flex-col p-5 ">
                 <div className="flex gap-3">
                   <SelectObject
-                    arrayFind={dataNumerations}
+                    arrayFind={parametersInfo.numerations}
                     textType="Numeración"
                     newTax={numerationEnd}
                     setNewTax={setNumerationEnd}
                   />
                   <SelectObject
-                    arrayFind={dataWareHouses}
+                    arrayFind={parametersInfo.warehouses}
                     textType="Bodega"
                     newTax={wareHousesEnd}
                     setNewTax={setWareHousesEnd}
@@ -104,7 +123,7 @@ export const ModalBill: FC<Props> = ({
                 </div>
                 <div>
                   <SelectObject
-                    arrayFind={dataSellers}
+                    arrayFind={parametersInfo.sellers}
                     textType="Vendedor"
                     newTax={sellerEnd}
                     setNewTax={setSellerEnd}
@@ -119,6 +138,18 @@ export const ModalBill: FC<Props> = ({
                     defaultValue={customerSearch.name}
                     className="w-full "
                   />
+                </div>
+                <div>
+                  {paymentArray.map(
+                    (element, index) =>
+                      parametersInfo.paymentMethods.length !== 0 && (
+                        <PaymentRow
+                          paymentArray={paymentArray}
+                          setPaymentArray={setPaymentArray}
+                          key={index}
+                        />
+                      )
+                  )}
                 </div>
                 <div className="flex p-2 items-center rounded-md gap-3 h-[80px] dark:bg-zinc-700 bg-slate-100 mt-20	">
                   <InputBill

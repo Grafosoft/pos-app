@@ -29,11 +29,19 @@ export const SelectObject: FC<Props> = ({
   const handleSelectionChangeTax = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    console.log(typeof e.target.value)
     if (taxId === undefined) {
-      const newObjectBill = arrayFind.filter(
-        element => element.id === parseInt(e.target.value)
-      )
-      setNewTax(newObjectBill)
+      if (typeof e.target.value === 'string') {
+        const newObjectBill = arrayFind.filter(
+          element => element.id.toString() === e.target.value
+        )
+        setNewTax(newObjectBill)
+      } else {
+        const newObjectBill = arrayFind.filter(
+          element => element.id === parseInt(e.target.value)
+        )
+        setNewTax(newObjectBill)
+      }
     } else {
       const indexArrayEditTax = newTax.findIndex(
         element => element.id === taxId

@@ -7,8 +7,9 @@ export interface InvoiceParameters {
   numerations: Tax[]
   warehouses: Tax[]
   sellers: Tax[]
-  paymentMethods: PaymentMethod[]
+  paymentMethods: Tax[]
   currencies: Currency[]
+  banks: Tax[]
 }
 
 export interface Currency {
