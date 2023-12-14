@@ -94,9 +94,8 @@ export const ModalEdit: FC<Props> = ({ element }) => {
       setNewTax(newTaxObject)
     }
   }
-  const handleCloseModal = () =>{
+  const handleCloseModal = () => {
     setNewTax(element.tax)
-
   }
 
   return (
@@ -112,7 +111,13 @@ export const ModalEdit: FC<Props> = ({ element }) => {
         >
           <TbEdit size={15} />
         </Button>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} hideCloseButton={true} isDismissable={false} onClose={handleCloseModal} >
+        <Modal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          hideCloseButton={true}
+          isDismissable={false}
+          onClose={handleCloseModal}
+        >
           <ModalContent>
             {onClose => (
               <>
@@ -123,7 +128,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                       type="number"
                       label="Descuento"
                       placeholder="0"
-                      defaultValue={(element.discount).toString()}
+                      defaultValue={element.discount.toString()}
                       labelPlacement="outside"
                       onValueChange={e => {
                         setDiscountState(parseInt(e))
@@ -154,9 +159,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                             <SelectObject
                               key={index}
                               arrayFind={taxSettings}
-                              taxId={
-                                elemenTax.id ? elemenTax.id : 0
-                              }
+                              taxId={elemenTax.id ? elemenTax.id : 0}
                               textType="Impuesto"
                               newTax={newTax}
                               setNewTax={setNewTax}

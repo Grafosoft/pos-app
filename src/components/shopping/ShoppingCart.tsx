@@ -9,10 +9,11 @@ import React, {
 import { ShoppingCardHeader } from './ShoppingCardHeader'
 import { ShoppingCardBody } from './ShoppingCardBody'
 import { ShoppingCardFooder } from './ShoppingCardFooder'
+import { type InvoiceParameters } from '@/interface/invoiceParameters'
 
 interface PriceContextTye {
-  parametersInfo: object
-  setParametersInfo: Dispatch<SetStateAction<object>>
+  parametersInfo: InvoiceParameters
+  setParametersInfo: Dispatch<SetStateAction<InvoiceParameters>>
   customerSearch: {
     id: number
     name: string
@@ -21,14 +22,34 @@ interface PriceContextTye {
 }
 
 export const ParametersContext = createContext<PriceContextTye>({
-  parametersInfo: {},
+  parametersInfo: {
+    companyId: 0,
+    companyName: '',
+    description: '',
+    numerations: [],
+    warehouses: [],
+    sellers: [],
+    currencies: [],
+    paymentMethods: [],
+    banks: []
+  },
   setParametersInfo: () => {},
   customerSearch: { id: 0, name: '' },
   setCustomerSearch: () => {}
 })
 
 export const ShoppingCart: FC = () => {
-  const [parametersInfo, setParametersInfo] = useState({})
+  const [parametersInfo, setParametersInfo] = useState<InvoiceParameters>({
+    companyId: 0,
+    companyName: '',
+    description: '',
+    numerations: [],
+    warehouses: [],
+    sellers: [],
+    currencies: [],
+    paymentMethods: [],
+    banks: []
+  })
   const [customerSearch, setCustomerSearch] = useState({
     id: 0,
     name: ''
