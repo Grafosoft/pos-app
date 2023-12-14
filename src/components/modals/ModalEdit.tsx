@@ -46,6 +46,8 @@ export const ModalEdit: FC<Props> = ({ element }) => {
     elementProduct: ProductList,
     onClose: () => void
   ) => {
+    const newTaxModifict = newTax.filter(element => element.id !== 0)
+
     const indexProduct = productList.findIndex(
       element => element.id === elementProduct.id
     )
@@ -56,9 +58,8 @@ export const ModalEdit: FC<Props> = ({ element }) => {
           element.value + (element.value * totalTaxPer(element.tax)) / 100
         element.discount = discountState
         element.totalAmount = element.totalAmount - discountState
-        element.tax = newTax
+        element.tax = newTaxModifict
       }
-      console.log(element)
       return element
     })
     setProductList(arrayEditDiscount)
@@ -80,7 +81,6 @@ export const ModalEdit: FC<Props> = ({ element }) => {
 
   const handlerAddTax = () => {
     const ValidateNewTax = newTax.find(element => element.id === 0)
-    // const validateExistingTax = element.tax.find(element => element.id === )
     if (!ValidateNewTax) {
       const newTaxObject = [
         ...newTax,
@@ -93,6 +93,10 @@ export const ModalEdit: FC<Props> = ({ element }) => {
       ]
       setNewTax(newTaxObject)
     }
+  }
+  const handleCloseModal = () =>{
+    setNewTax(element.tax)
+
   }
 
   return (
@@ -108,7 +112,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
         >
           <TbEdit size={15} />
         </Button>
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} hideCloseButton={true} isDismissable={false} onClose={handleCloseModal} >
           <ModalContent>
             {onClose => (
               <>
@@ -119,6 +123,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                       type="number"
                       label="Descuento"
                       placeholder="0"
+                      defaultValue={(element.discount).toString()}
                       labelPlacement="outside"
                       onValueChange={e => {
                         setDiscountState(parseInt(e))
@@ -149,7 +154,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                             <SelectObject
                               key={index}
                               arrayFind={taxSettings}
-                              defaultSelectedKeys={
+                              taxId={
                                 elemenTax.id ? elemenTax.id : 0
                               }
                               textType="Impuesto"

@@ -1,4 +1,4 @@
-import { Select, SelectItem } from '@nextui-org/react'
+import { Button, Select, SelectItem } from '@nextui-org/react'
 import React, {
   type Dispatch,
   type SetStateAction,
@@ -7,11 +7,12 @@ import React, {
   type FC
 } from 'react'
 import { type Tax } from '@/interface/products'
+import { TbTrash } from 'react-icons/tb'
 
 interface Props {
   arrayFind: Tax[]
   textType: string
-  defaultSelectedKeys?: number
+  taxId?: number
   newTax: Tax[]
   setNewTax: Dispatch<SetStateAction<Tax[]>>
 }
@@ -19,17 +20,16 @@ interface Props {
 export const SelectObject: FC<Props> = ({
   arrayFind,
   textType,
-  defaultSelectedKeys,
+  taxId,
   newTax,
   setNewTax
 }) => {
   const [taxsReadiSelected, setTaxsReadiSelected] = useState<string[]>([])
 
-  const handleSelectionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectionChangeTax = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const indexArrayEditTax = newTax.findIndex(
-      element => element.id === defaultSelectedKeys
+      element => element.id === taxId
     )
-
     const arrayEditTax = newTax.map((element, index) => {
       if (indexArrayEditTax === index) {
         const objectTax = arrayFind.find(
@@ -44,35 +44,65 @@ export const SelectObject: FC<Props> = ({
     setNewTax(arrayEditTax)
   }
 
+  const handleSelectionChangeBill = (e: React.ChangeEvent<HTMLSelectElement>)=>{
+    let newObjectBill = arrayFind.filter((element)=> element.id === parseInt(e.target.value));
+    setNewTax(newObjectBill);
+  }
+
+  // Function delete in Tax
+  const deleteProductOfCar = (idEliminar: number) => {
+    const arrayDelete = newTax.filter(element => element.id !== idEliminar)
+    setNewTax(arrayDelete)
+  }
+
   useEffect(() => {
     const arrayItemsReadiSelect = newTax.map(element => {
       return element.id.toString()
     })
-
     setTaxsReadiSelected(arrayItemsReadiSelect)
   }, [newTax])
 
   return (
     <>
-      <Select
-        size="sm"
-        label={`Seleccione ${textType}`}
-        placeholder={textType}
-        className="w-full"
-        disabledKeys={taxsReadiSelected}
-        defaultSelectedKeys={
-          defaultSelectedKeys ? [defaultSelectedKeys.toString()] : []
-        }
-        onChange={handleSelectionChange}
-      >
-        {arrayFind.map((element, index) => {
-          return (
-            <SelectItem key={element.id} value={element.id}>
-              {element.name}
-            </SelectItem>
-          )
-        })}
-      </Select>
+      <div className="w-full flex items-center gap-2">
+        <Select
+          size="sm"
+          label={`Seleccione ${textType}`}
+          placeholder={textType}
+          className="w-full"
+          disabledKeys={taxsReadiSelected}
+          selectedKeys={taxId ? [taxId.toString()] : ""}
+          defaultSelectedKeys={
+            taxId ? [taxId.toString()] : []
+          }
+          onChange={(taxId)?handleSelectionChangeTax:handleSelectionChangeBill}
+        >
+          {arrayFind.map((element, index) => {
+            return (
+              <SelectItem key={element.id} value={element.id}>
+                {element.name}
+              </SelectItem>
+            )
+          })}
+        </Select>
+        {((arrayFind[0].percentage !== undefined) && (taxId !== newTax[0].id)) ?
+          <Button
+            onClick={() => {
+              deleteProductOfCar(taxId? taxId : 0)
+            }}
+            isIconOnly
+            color="danger"
+            variant="flat"
+
+            size="sm"
+            edaria-label="Take a photo"
+          >
+            <TbTrash size={15} />
+          </Button>
+          : ""
+          }
+
+      </div>
     </>
   )
 }
