@@ -64,6 +64,24 @@ export const ModalBill: FC<Props> = ({
     }
   ])
 
+  const handleCloseModal = () => {
+    setPaymentArray([
+      {
+        paymentMethod: {
+          id: 0,
+          name: ''
+        },
+        bank: {
+          id: 0,
+          name: ''
+        },
+        value: 0,
+        voucher: '',
+        id: 0
+      }
+    ])
+  }
+
   // import Context UrlContext
   const { companyId, apikey, color, functionApi } = useContext(UrlContext)
 
@@ -96,8 +114,14 @@ export const ModalBill: FC<Props> = ({
 
   const handlerAddPaymentMethod = () => {
     const newId = paymentArray.length - 1
-    const idValidate = paymentArray.filter(element => element.id === 0)
-    if (idValidate) {
+    const paymentValidate = paymentArray.findIndex(
+      element =>
+        element.paymentMethod.id === 0 && element.paymentMethod.name === ''
+    )
+    const bankValidate = paymentArray.findIndex(
+      element => element.bank.id === 0 && element.bank.name === ''
+    )
+    if (paymentValidate === -1 && bankValidate) {
       const newPaymentArray = [
         ...paymentArray,
         {
@@ -130,6 +154,7 @@ export const ModalBill: FC<Props> = ({
         isDismissable={false}
         onOpenChange={onOpenChange}
         size="4xl"
+        onClose={handleCloseModal}
       >
         <ModalContent>
           {onClose => (
