@@ -8,11 +8,16 @@ import React, {
 } from 'react'
 import { type Tax } from '@/interface/products'
 import { TbTrash } from 'react-icons/tb'
+import { type PaymentArray } from '../modals/ModalBill'
 
 interface Props {
   arrayFind: Tax[]
+  paymentArray?: PaymentArray[]
+  setPaymentArray?: Dispatch<SetStateAction<PaymentArray[]>>
   textType: string
   taxId?: number
+  isBank?: boolean
+  elementPaymentId?: number
   newTax: Tax[]
   setNewTax: Dispatch<SetStateAction<Tax[]>>
 }
@@ -21,6 +26,10 @@ export const SelectObject: FC<Props> = ({
   arrayFind,
   textType,
   taxId,
+  isBank,
+  paymentArray,
+  setPaymentArray,
+  elementPaymentId,
   newTax,
   setNewTax
 }) => {
@@ -29,12 +38,46 @@ export const SelectObject: FC<Props> = ({
   const handleSelectionChangeTax = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    console.log(typeof e.target.value)
     if (taxId === undefined) {
-      if (typeof e.target.value === 'string') {
+      if (elementPaymentId !== undefined) {
         const newObjectBill = arrayFind.filter(
           element => element.id.toString() === e.target.value
         )
+        if (paymentArray && setPaymentArray) {
+          if (!isBank) {
+            const paymentArrayIndex = arrayFind?.findIndex(
+              element => element.id === elementPaymentId
+            )
+
+            const paymentArrayEdit = paymentArray.map((element, index) => {
+              if (paymentArrayIndex === index) {
+                const objectPayment = arrayFind.find(
+                  element => element.id.toString() === e.target.value
+                )
+                if (objectPayment) {
+                  element.paymentMethod = objectPayment
+                }
+              }
+              return element
+            })
+
+            setPaymentArray(paymentArrayEdit)
+          } else {
+            const bankArrayEdit = paymentArray.map((element, index) => {
+              if (elementPaymentId === index) {
+                const objectbank = arrayFind.find(
+                  element => element.id.toString() === e.target.value
+                )
+                if (objectbank) {
+                  element.bank = objectbank
+                }
+              }
+              return element
+            })
+
+            setPaymentArray(bankArrayEdit)
+          }
+        }
         setNewTax(newObjectBill)
       } else {
         const newObjectBill = arrayFind.filter(
@@ -74,6 +117,27 @@ export const SelectObject: FC<Props> = ({
     setTaxsReadiSelected(arrayItemsReadiSelect)
   }, [newTax])
 
+  const returnPaymentId = () => {
+    const objectFF = paymentArray?.find(element => {
+      return element.id === elementPaymentId
+    })
+
+    if (
+      objectFF?.paymentMethod.id !== 0 &&
+      objectFF?.paymentMethod.name !== ''
+    ) {
+      if (objectFF) {
+        if (!isBank) {
+          return [objectFF?.paymentMethod.id.toString()]
+        } else {
+          return [objectFF?.bank.id.toString()]
+        }
+      }
+    } else {
+      return ''
+    }
+  }
+
   return (
     <>
       <div className="w-full flex items-center gap-2">
@@ -83,7 +147,7 @@ export const SelectObject: FC<Props> = ({
           placeholder={textType}
           className="w-full"
           disabledKeys={taxsReadiSelected}
-          selectedKeys={taxId ? [taxId.toString()] : ''}
+          selectedKeys={taxId ? [taxId.toString()] : returnPaymentId()}
           defaultSelectedKeys={taxId ? [taxId.toString()] : []}
           onChange={handleSelectionChangeTax}
         >
