@@ -28,9 +28,10 @@ interface Props {
 }
 
 export interface PaymentArray {
-  paymentMethods: Tax[]
-  banks: Tax[]
+  paymentMethod: Tax
+  bank: Tax
   value: number
+  voucher: string
   id: number
 }
 
@@ -49,22 +50,37 @@ export const ModalBill: FC<Props> = ({
 
   const [paymentArray, setPaymentArray] = useState<PaymentArray[]>([
     {
-      paymentMethods: [
-        {
-          id: 0,
-          name: ''
-        }
-      ],
-      banks: [
-        {
-          id: 0,
-          name: ''
-        }
-      ],
+      paymentMethod: {
+        id: 0,
+        name: ''
+      },
+      bank: {
+        id: 0,
+        name: ''
+      },
       value: 0,
+      voucher: '',
       id: 0
     }
   ])
+
+  const handleCloseModal = () => {
+    setPaymentArray([
+      {
+        paymentMethod: {
+          id: 0,
+          name: ''
+        },
+        bank: {
+          id: 0,
+          name: ''
+        },
+        value: 0,
+        voucher: '',
+        id: 0
+      }
+    ])
+  }
 
   // import Context UrlContext
   const { companyId, apikey, color, functionApi } = useContext(UrlContext)
@@ -97,35 +113,39 @@ export const ModalBill: FC<Props> = ({
   }, [wareHousesEnd, numerationEnd, sellerEnd, valueTextArea])
 
   const handlerAddPaymentMethod = () => {
-    let newId = paymentArray.length - 1;
-    console.log(paymentArray[newId].id + 1);
-    const idValidate = paymentArray.filter((element) => element.id === 0)
-    if (idValidate) {
-      let newPaymentArray = [
+    const newId = paymentArray.length - 1
+    const paymentValidate = paymentArray.findIndex(
+      element =>
+        element.paymentMethod.id === 0 && element.paymentMethod.name === ''
+    )
+    const bankValidate = paymentArray.findIndex(
+      element => element.bank.id === 0 && element.bank.name === ''
+    )
+    if (paymentValidate === -1 && bankValidate) {
+      const newPaymentArray = [
         ...paymentArray,
         {
-          paymentMethods: [
-            {
-              id: 0,
-              name: ''
-            }
-          ],
-          banks: [
-            {
-              id: 0,
-              name: ''
-            }
-          ],
+          paymentMethod: {
+            id: 0,
+            name: ''
+          },
+          bank: {
+            id: 0,
+            name: ''
+          },
           value: 0,
+          voucher: '',
           id: paymentArray[newId].id + 1
         }
       ]
-      setPaymentArray(newPaymentArray);
-
+      setPaymentArray(newPaymentArray)
     }
-    console.log("estamos bien papito")
+    console.log('estamos bien papito')
   }
 
+  useEffect(() => {
+    console.log(paymentArray)
+  }, [paymentArray])
 
   return (
     <>
@@ -133,7 +153,8 @@ export const ModalBill: FC<Props> = ({
         isOpen={isOpen}
         isDismissable={false}
         onOpenChange={onOpenChange}
-        size="2xl"
+        size="4xl"
+        onClose={handleCloseModal}
       >
         <ModalContent>
           {onClose => (
@@ -169,39 +190,39 @@ export const ModalBill: FC<Props> = ({
                     size="sm"
                     isReadOnly
                     variant="faded"
-                    //label="Tercero"
-                    placeholder='Tercero'
+                    // label="Tercero"
+                    placeholder="Tercero"
                     defaultValue={customerSearch.name}
                     className="w-full"
                     startContent={<TbUsers size={20} className="" />}
                   />
                 </div>
                 <div className="p-2">
-                <div className="flex justify-between">
-                  <p>Agregar Metodo de Pago:</p>
-                  <Button
-                    size="sm"
-                    onClick={handlerAddPaymentMethod}
-                    variant="flat"
-                    isIconOnly
-                    color="success"
-                  >
-                    <RiAddFill size={17} />
-                  </Button>
-                </div>
-                <div className='overflow-scroll max-h-[180px]'>
-                  {paymentArray.map(
-                    (element, index) =>
-                      parametersInfo.paymentMethods.length !== 0 && (
-                        <PaymentRow
-                          paymentArray={paymentArray}
-                          elementPayment={element}
-                          setPaymentArray={setPaymentArray}
-                          key={index}
-                        />
-                      )
-                  )}
-                </div>
+                  <div className="flex justify-between">
+                    <p>Metodos de Pago</p>
+                    <Button
+                      size="sm"
+                      onClick={handlerAddPaymentMethod}
+                      variant="flat"
+                      isIconOnly
+                      color="success"
+                    >
+                      <RiAddFill size={17} />
+                    </Button>
+                  </div>
+                  <div className="overflow-scroll max-h-[180px]">
+                    {paymentArray.map(
+                      (element, index) =>
+                        parametersInfo.paymentMethods.length !== 0 && (
+                          <PaymentRow
+                            paymentArray={paymentArray}
+                            elementPayment={element}
+                            setPaymentArray={setPaymentArray}
+                            key={index}
+                          />
+                        )
+                    )}
+                  </div>
                 </div>
                 <div className="flex p-2 items-center rounded-md gap-3 h-[80px] dark:bg-zinc-700 bg-slate-100 mt-2	">
                   <InputBill
@@ -211,8 +232,8 @@ export const ModalBill: FC<Props> = ({
                     isReadOnly={true}
                     defaultValue={formatDouble.format(
                       subTotalProducts +
-                      totalTaxProducts -
-                      totalDiscountProducts
+                        totalTaxProducts -
+                        totalDiscountProducts
                     )}
                   />
                   <InputBill
@@ -254,6 +275,9 @@ export const ModalBill: FC<Props> = ({
                   color={color.colorComponent}
                   variant="flat"
                   className="w-full rounded-md"
+                  onClick={() => {
+                    console.log(paymentArray)
+                  }}
                 >
                   Generar Factura
                 </Button>
