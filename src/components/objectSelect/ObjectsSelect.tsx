@@ -79,7 +79,7 @@ export const SelectObject: FC<Props> = ({
       <div className="w-full flex items-center gap-2">
         <Select
           size="sm"
-          label={`Seleccione ${textType}`}
+          label={`${textType}`}
           placeholder={textType}
           className="w-full"
           disabledKeys={taxsReadiSelected}
