@@ -15,9 +15,9 @@ interface Props {
   paymentArray?: PaymentArray[]
   setPaymentArray?: Dispatch<SetStateAction<PaymentArray[]>>
   textType: string
-  taxId?: number
+  typeSelect?: string
   isBank?: boolean
-  elementPaymentId?: number
+  elementIterations?: Tax | PaymentArray
   newTax: Tax[]
   setNewTax: Dispatch<SetStateAction<Tax[]>>
 }
@@ -25,11 +25,11 @@ interface Props {
 export const SelectObject: FC<Props> = ({
   arrayFind,
   textType,
-  taxId,
   isBank,
+  typeSelect,
   paymentArray,
   setPaymentArray,
-  elementPaymentId,
+  elementIterations,
   newTax,
   setNewTax
 }) => {
@@ -38,69 +38,35 @@ export const SelectObject: FC<Props> = ({
   const handleSelectionChangeTax = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    if (taxId === undefined) {
-      if (elementPaymentId !== undefined) {
-        const newObjectBill = arrayFind.filter(
-          element => element.id.toString() === e.target.value
+    switch (typeSelect) {
+
+      case "TaxSelect":
+        const indexArrayEditTax = newTax.findIndex(
+          element => element.id === elementIterations?.id
         )
-        if (paymentArray && setPaymentArray) {
-          if (!isBank) {
-            const paymentArrayIndex = arrayFind?.findIndex(
-              element => element.id === elementPaymentId
+        const arrayEditTax = newTax.map((element, index) => {
+          if (indexArrayEditTax === index) {
+            const objectTax = arrayFind.find(
+              element => element.id === parseInt(e.target.value)
             )
-
-            const paymentArrayEdit = paymentArray.map((element, index) => {
-              if (paymentArrayIndex === index) {
-                const objectPayment = arrayFind.find(
-                  element => element.id.toString() === e.target.value
-                )
-                if (objectPayment) {
-                  element.paymentMethod = objectPayment
-                }
-              }
-              return element
-            })
-
-            setPaymentArray(paymentArrayEdit)
-          } else {
-            const bankArrayEdit = paymentArray.map((element, index) => {
-              if (elementPaymentId === index) {
-                const objectbank = arrayFind.find(
-                  element => element.id.toString() === e.target.value
-                )
-                if (objectbank) {
-                  element.bank = objectbank
-                }
-              }
-              return element
-            })
-
-            setPaymentArray(bankArrayEdit)
+            if (objectTax) {
+              element = objectTax
+            }
           }
-        }
-        setNewTax(newObjectBill)
-      } else {
+          return element
+        })
+        setNewTax(arrayEditTax)
+        break;
+
+      case "dataSeller":
         const newObjectBill = arrayFind.filter(
           element => element.id === parseInt(e.target.value)
         )
         setNewTax(newObjectBill)
-      }
-    } else {
-      const indexArrayEditTax = newTax.findIndex(
-        element => element.id === taxId
-      )
-      const arrayEditTax = newTax.map((element, index) => {
-        if (indexArrayEditTax === index) {
-          const objectTax = arrayFind.find(
-            element => element.id === parseInt(e.target.value)
-          )
-          if (objectTax) {
-            element = objectTax
-          }
-        }
-        return element
-      })
-      setNewTax(arrayEditTax)
+        console.log("LOGICA DEL DATA SELLER");
+        break;
+      default:
+        console.log("NO DENTRA A NINGUNO SEÑOR")
     }
   }
 
@@ -119,7 +85,7 @@ export const SelectObject: FC<Props> = ({
 
   const returnPaymentId = () => {
     const objectFF = paymentArray?.find(element => {
-      return element.id === elementPaymentId
+      return element.id === elementIterations?.id
     })
 
     if (
@@ -134,6 +100,7 @@ export const SelectObject: FC<Props> = ({
         }
       }
     } else {
+
       return ''
     }
   }
@@ -147,8 +114,8 @@ export const SelectObject: FC<Props> = ({
           placeholder={textType}
           className="w-full"
           disabledKeys={taxsReadiSelected}
-          selectedKeys={taxId ? [taxId.toString()] : returnPaymentId()}
-          defaultSelectedKeys={taxId ? [taxId.toString()] : []}
+          selectedKeys={elementIterations?.id ? [elementIterations?.id.toString()] : returnPaymentId()}
+          defaultSelectedKeys={elementIterations?.id ? [elementIterations?.id.toString()] : []}
           onChange={handleSelectionChangeTax}
         >
           {arrayFind.map((element, index) => {
@@ -159,10 +126,10 @@ export const SelectObject: FC<Props> = ({
             )
           })}
         </Select>
-        {arrayFind[0].percentage !== undefined && taxId !== newTax[0].id ? (
+        {arrayFind[0].percentage !== undefined && elementIterations?.id !== newTax[0].id && (
           <Button
             onClick={() => {
-              deleteProductOfCar(taxId ?? 0)
+              deleteProductOfCar(elementIterations?.id ?? 0)
             }}
             isIconOnly
             color="danger"
@@ -172,8 +139,6 @@ export const SelectObject: FC<Props> = ({
           >
             <TbTrash size={15} />
           </Button>
-        ) : (
-          ''
         )}
       </div>
     </>

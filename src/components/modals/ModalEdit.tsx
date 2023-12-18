@@ -154,13 +154,14 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                     </div>
                     <div className="w-full flex flex-col items-center gap-3 overflow-scroll max-h-[200px] ">
                       {newTax.map(
-                        (elemenTax, index) =>
+                        (elementTax, index) =>
                           taxSettings.length !== 0 && (
                             <SelectObject
                               key={index}
                               arrayFind={taxSettings}
-                              taxId={elemenTax.id ? elemenTax.id : 0}
+                              elementIterations={elementTax}
                               textType="Impuesto"
+                              typeSelect={"TaxSelect"}
                               newTax={newTax}
                               setNewTax={setNewTax}
                             />

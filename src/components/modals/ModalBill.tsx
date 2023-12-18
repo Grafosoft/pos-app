@@ -121,7 +121,7 @@ export const ModalBill: FC<Props> = ({
     const bankValidate = paymentArray.findIndex(
       element => element.bank.id === 0 && element.bank.name === ''
     )
-    if (paymentValidate === -1 && bankValidate) {
+    if (paymentValidate === -1 && bankValidate === - 1) {
       const newPaymentArray = [
         ...paymentArray,
         {
@@ -138,13 +138,23 @@ export const ModalBill: FC<Props> = ({
           id: paymentArray[newId].id + 1
         }
       ]
-      setPaymentArray(newPaymentArray)
+      const arrayFindPaymentMethodsIndex = newPaymentArray.map(
+        (element, index) => {
+          element.id = index
+          return element
+        }
+      )
+      setPaymentArray(arrayFindPaymentMethodsIndex)
     }
-    console.log('estamos bien papito')
+
   }
 
   useEffect(() => {
-    console.log(paymentArray)
+    console.log(paymentArray,"USE EFFECT");
+/*     let totalValue = paymentArray.reduce((acumulador, element)=> acumulador + element.value,0)
+    console.log(totalValue,"TOTAL VALUE"); */
+
+
   }, [paymentArray])
 
   return (
@@ -167,12 +177,14 @@ export const ModalBill: FC<Props> = ({
                   <SelectObject
                     arrayFind={parametersInfo.numerations}
                     textType="Numeración"
+                    typeSelect="dataSeller"
                     newTax={numerationEnd}
                     setNewTax={setNumerationEnd}
                   />
                   <SelectObject
                     arrayFind={parametersInfo.warehouses}
                     textType="Bodega"
+                    typeSelect="dataSeller"
                     newTax={wareHousesEnd}
                     setNewTax={setWareHousesEnd}
                   />
@@ -181,6 +193,7 @@ export const ModalBill: FC<Props> = ({
                   <SelectObject
                     arrayFind={parametersInfo.sellers}
                     textType="Vendedor"
+                    typeSelect="dataSeller"
                     newTax={sellerEnd}
                     setNewTax={setSellerEnd}
                   />
@@ -276,7 +289,6 @@ export const ModalBill: FC<Props> = ({
                   variant="flat"
                   className="w-full rounded-md"
                   onClick={() => {
-                    console.log(paymentArray)
                   }}
                 >
                   Generar Factura

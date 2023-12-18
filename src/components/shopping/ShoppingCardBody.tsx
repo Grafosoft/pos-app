@@ -61,7 +61,7 @@ export const ShoppingCardBody: FC = () => {
             const taxObject = {
               name: `Impuesto (${elementTax.percentage}%): `,
               title: 'Total Impuesto: ',
-              value: total * (elementTax.percentage / 100)
+              value: total * ((elementTax.percentage?elementTax.percentage:0 ) / 100)
             }
 
             arrayTax.push(taxObject)
