@@ -1,5 +1,6 @@
 import React, {
   useState,
+  useEffect,
   type FC,
   useContext,
   type Dispatch,
@@ -32,7 +33,7 @@ export const PaymentRow: FC<Props> = ({
   const [paymentMethodArray, setPaymentMethodArray] = useState<Tax[]>([])
   const [bankArray, setBankArray] = useState<Tax[]>([])
   const [valueInput, setValueInput] = useState(elementPayment.value.toString())
-  const [boucherInput, setBoucherInput] = useState('')
+  const [voucherInput, setVoucherInput] = useState(elementPayment.voucher)
 
   const arrayFindPaymentMethodsIndex = parametersInfo.paymentMethods.map(
     (element, index) => {
@@ -48,16 +49,26 @@ export const PaymentRow: FC<Props> = ({
 
     const arrayRenameId = arrayDelete.map((element, index) => {
       element.id = index
-      setValueInput(element.value.toString())
+      //setValueInput(element.value.toString())
       return element
     })
 
     setPaymentArray(arrayRenameId)
   }
-  const handleVoucherAndValor = (e: ChangeEvent<HTMLInputElement>) => {
-    setValueInput(e.target.value)
-    elementPayment.value = parseInt(e.target.value)
-    // elementPayment.voucher = boucherInput
+
+  useEffect(()=>{
+        elementPayment.value = parseInt(valueInput)
+        elementPayment.voucher = voucherInput
+  },[valueInput, voucherInput])
+
+  const handleVoucherAndValor = (e: ChangeEvent<HTMLInputElement>,tipo:string) => {
+    if(tipo === "valor"){
+      elementPayment.value = parseInt(e.target.value)
+      setValueInput(e.target.value)
+    }else{
+      elementPayment.voucher = e.target.value
+      setVoucherInput(e.target.value)
+    }
   }
 
   return (
@@ -92,16 +103,18 @@ export const PaymentRow: FC<Props> = ({
           </div>
         }
         className=""
-        value={valueInput}
+        value={(elementPayment.value).toString()}
         // onValueChange={setValueInput}
-        onChange={handleVoucherAndValor}
+        onChange={(e) =>handleVoucherAndValor(e,"valor")}
       />
+
+
       <Input
         label="Voucher"
         size="sm"
-        value={boucherInput}
-        onValueChange={setBoucherInput}
-        onChange={handleVoucherAndValor}
+        value={elementPayment.voucher}
+        //onValueChange={setBVucherInput}
+        onChange={(e)=> handleVoucherAndValor(e,"voucher")}
       />
       {paymentArray[0].id !== elementPayment.id ? (
         <Button
