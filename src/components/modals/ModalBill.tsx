@@ -47,13 +47,11 @@ export const ModalBill: FC<Props> = ({
   const [wareHousesEnd, setWareHousesEnd] = useState<Tax[]>([])
   const [numerationEnd, setNumerationEnd] = useState<Tax[]>([])
   const [sellerEnd, setSellerEnd] = useState<Tax[]>([])
+  const [objectEfectivo , setObjectEfectivo] = useState<Tax>({id:0,name:''})
 
   const [paymentArray, setPaymentArray] = useState<PaymentArray[]>([
     {
-      paymentMethod: {
-        id: 0,
-        name: ''
-      },
+      paymentMethod: objectEfectivo,
       bank: {
         id: 0,
         name: ''
@@ -67,10 +65,7 @@ export const ModalBill: FC<Props> = ({
   const handleCloseModal = () => {
     setPaymentArray([
       {
-        paymentMethod: {
-          id: 0,
-          name: ''
-        },
+        paymentMethod: objectEfectivo,
         bank: {
           id: 0,
           name: ''
@@ -99,8 +94,12 @@ export const ModalBill: FC<Props> = ({
     const petiApi = async () => {
       const { data } = await functionApi.get<InvoiceParameters>(
         `settings/invoices?companyId=${companyId}&page=0&apikey=${apikey}`
-      )
+        )
+        const objectEfectivofilter = data.paymentMethods.find((element)=> element.name === "Efectivo")
+        setObjectEfectivo((objectEfectivofilter)?objectEfectivofilter : {id:0,name:''})
       setParametersInfo(data)
+      console.log(data.paymentMethods)
+
     }
     petiApi()
   }, [apikey, companyId, functionApi, setParametersInfo])
@@ -121,14 +120,13 @@ export const ModalBill: FC<Props> = ({
     const bankValidate = paymentArray.findIndex(
       element => element.bank.id === 0 && element.bank.name === ''
     )
-    if (paymentValidate === -1 && bankValidate) {
+
+
+    if (paymentValidate === -1 && bankValidate === - 1) {
       const newPaymentArray = [
         ...paymentArray,
         {
-          paymentMethod: {
-            id: 0,
-            name: ''
-          },
+          paymentMethod: objectEfectivo,
           bank: {
             id: 0,
             name: ''
@@ -138,13 +136,20 @@ export const ModalBill: FC<Props> = ({
           id: paymentArray[newId].id + 1
         }
       ]
-      setPaymentArray(newPaymentArray)
+      const arrayFindPaymentMethodsIndex = newPaymentArray.map(
+        (element, index) => {
+          element.id = index
+          return element
+        }
+      )
+      setPaymentArray(arrayFindPaymentMethodsIndex)
     }
-    console.log('estamos bien papito')
+
   }
 
   useEffect(() => {
-    console.log(paymentArray)
+    console.log(paymentArray);
+
   }, [paymentArray])
 
   return (
@@ -167,12 +172,14 @@ export const ModalBill: FC<Props> = ({
                   <SelectObject
                     arrayFind={parametersInfo.numerations}
                     textType="Numeración"
+                    typeSelect="dataSeller"
                     newTax={numerationEnd}
                     setNewTax={setNumerationEnd}
                   />
                   <SelectObject
                     arrayFind={parametersInfo.warehouses}
                     textType="Bodega"
+                    typeSelect="dataSeller"
                     newTax={wareHousesEnd}
                     setNewTax={setWareHousesEnd}
                   />
@@ -181,6 +188,7 @@ export const ModalBill: FC<Props> = ({
                   <SelectObject
                     arrayFind={parametersInfo.sellers}
                     textType="Vendedor"
+                    typeSelect="dataSeller"
                     newTax={sellerEnd}
                     setNewTax={setSellerEnd}
                   />
@@ -276,7 +284,6 @@ export const ModalBill: FC<Props> = ({
                   variant="flat"
                   className="w-full rounded-md"
                   onClick={() => {
-                    console.log(paymentArray)
                   }}
                 >
                   Generar Factura

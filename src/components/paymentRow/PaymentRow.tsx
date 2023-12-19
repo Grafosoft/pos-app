@@ -5,13 +5,13 @@ import React, {
   type Dispatch,
   type SetStateAction
 } from 'react'
-import { SelectObject } from '../objectSelect/ObjectsSelect'
 import { ParametersContext } from '../shopping/ShoppingCart'
 import { Button, Input } from '@nextui-org/react'
 import { type Tax } from '@/interface/products'
 import { type PaymentArray } from '../modals/ModalBill'
 import { TbTrash } from 'react-icons/tb'
 import { GiDialPadlock } from 'react-icons/gi'
+import { PaymentSelect } from '../objectSelect/PaymentSelect'
 
 interface Props {
   paymentArray: PaymentArray[]
@@ -32,38 +32,6 @@ export const PaymentRow: FC<Props> = ({
   const [bankArray, setBankArray] = useState<Tax[]>([])
   const [valueInput, setValueInput] = useState('')
   const [boucherInput, setBoucherInput] = useState('')
-  // const [paymentArrayFilter, setPaymentArrayFilter] = useState<PaymentArray>({
-  //   paymentMethod: { id: 0, name: '' },
-  //   bank: { id: 0, name: '' },
-  //   value: 0,
-  //   id: 0
-  // })
-
-  // useEffect(() => {
-  //   // const paymentArrayFilterr = paymentArray.find(
-  //   //   element => element.id === elementPayment.id
-  //   // )
-  //   setPaymentArrayFilter({
-  //     paymentMethod: paymentMethodArray[0],
-  //     bank: bankArray[0],
-  //     value: parseInt(valueInput),
-  //     id: elementPayment.id
-  //   })
-
-  //   // {
-  //   //       paymentMethods: paymentMethodArray,
-  //   //       banks: bankArray,
-  //   //       value: parseInt(valueInput),
-  //   //       id: elementPayment.id
-  //   //     }
-  //   console.log(paymentArrayFilter)
-  // }, [
-  //   bankArray,
-  //   elementPayment.id,
-  //   paymentArray,
-  //   paymentMethodArray,
-  //   valueInput
-  // ])
 
   const arrayFindPaymentMethodsIndex = parametersInfo.paymentMethods.map(
     (element, index) => {
@@ -76,36 +44,41 @@ export const PaymentRow: FC<Props> = ({
     const arrayDelete = paymentArray.filter(
       element => element.id !== idEliminar
     )
-    console.log(arrayDelete)
-    setPaymentArray(arrayDelete)
+
+    const arrayRenameId = arrayDelete.map(
+      (element, index) => {
+        element.id = index
+        return element
+      }
+    )
+    setPaymentArray(arrayRenameId)
   }
   const handleVoucherAndValor = () => {
     // const elementEdit = paymentArray.find((element) => element.id === elementPayment.id)
     elementPayment.value = parseInt(valueInput)
     elementPayment.voucher = boucherInput
-    console.log(elementPayment, 'ELEMET')
   }
 
   return (
     <div className="flex justify-between p-2 gap-2 items-center">
-      <SelectObject
+      <PaymentSelect
         arrayFind={arrayFindPaymentMethodsIndex}
         textType="Pago"
-        elementPaymentId={elementPayment.id}
+        elementPayment={elementPayment}
         paymentArray={paymentArray}
         setPaymentArray={setPaymentArray}
-        newTax={paymentMethodArray}
-        setNewTax={setPaymentMethodArray}
+        newArrayReturn={paymentMethodArray}
+        setnewArrayReturn={setPaymentMethodArray}
       />
-      <SelectObject
+      <PaymentSelect
         arrayFind={parametersInfo.banks}
         textType="Caja/Banco"
-        elementPaymentId={elementPayment.id}
-        isBank
+        elementPayment={elementPayment}
+        isBank={true}
         paymentArray={paymentArray}
         setPaymentArray={setPaymentArray}
-        newTax={bankArray}
-        setNewTax={setBankArray}
+        newArrayReturn={bankArray}
+        setnewArrayReturn={setBankArray}
       />
 
       <Input
