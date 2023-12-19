@@ -47,11 +47,13 @@ export const ModalBill: FC<Props> = ({
   const [wareHousesEnd, setWareHousesEnd] = useState<Tax[]>([])
   const [numerationEnd, setNumerationEnd] = useState<Tax[]>([])
   const [sellerEnd, setSellerEnd] = useState<Tax[]>([])
-  const [objectEfectivo , setObjectEfectivo] = useState<Tax>({id:0,name:''})
 
   const [paymentArray, setPaymentArray] = useState<PaymentArray[]>([
     {
-      paymentMethod: objectEfectivo,
+      paymentMethod: {
+        id: 0,
+        name: 'Efectivo'
+      },
       bank: {
         id: 0,
         name: ''
@@ -65,7 +67,10 @@ export const ModalBill: FC<Props> = ({
   const handleCloseModal = () => {
     setPaymentArray([
       {
-        paymentMethod: objectEfectivo,
+        paymentMethod: {
+          id: 0,
+          name: 'Efectivo'
+        },
         bank: {
           id: 0,
           name: ''
@@ -94,22 +99,11 @@ export const ModalBill: FC<Props> = ({
     const petiApi = async () => {
       const { data } = await functionApi.get<InvoiceParameters>(
         `settings/invoices?companyId=${companyId}&page=0&apikey=${apikey}`
-        )
-        const objectEfectivofilter = data.paymentMethods.find((element)=> element.name === "Efectivo")
-        setObjectEfectivo((objectEfectivofilter)?objectEfectivofilter : {id:0,name:''})
+      )
       setParametersInfo(data)
-      console.log(data.paymentMethods)
-
     }
     petiApi()
   }, [apikey, companyId, functionApi, setParametersInfo])
-
-  useEffect(() => {
-    console.log(wareHousesEnd)
-    console.log(numerationEnd)
-    console.log(sellerEnd)
-    console.log(valueTextArea)
-  }, [wareHousesEnd, numerationEnd, sellerEnd, valueTextArea])
 
   const handlerAddPaymentMethod = () => {
     const newId = paymentArray.length - 1
@@ -121,12 +115,11 @@ export const ModalBill: FC<Props> = ({
       element => element.bank.id === 0 && element.bank.name === ''
     )
 
-
-    if (paymentValidate === -1 && bankValidate === - 1) {
+    if (paymentValidate === -1 && bankValidate === -1) {
       const newPaymentArray = [
         ...paymentArray,
         {
-          paymentMethod: objectEfectivo,
+          paymentMethod: { id: 0, name: 'Efectivo' },
           bank: {
             id: 0,
             name: ''
@@ -144,13 +137,7 @@ export const ModalBill: FC<Props> = ({
       )
       setPaymentArray(arrayFindPaymentMethodsIndex)
     }
-
   }
-
-  useEffect(() => {
-    console.log(paymentArray);
-
-  }, [paymentArray])
 
   return (
     <>
@@ -283,8 +270,7 @@ export const ModalBill: FC<Props> = ({
                   color={color.colorComponent}
                   variant="flat"
                   className="w-full rounded-md"
-                  onClick={() => {
-                  }}
+                  onClick={() => {}}
                 >
                   Generar Factura
                 </Button>

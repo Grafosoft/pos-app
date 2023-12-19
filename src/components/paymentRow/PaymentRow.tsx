@@ -3,7 +3,8 @@ import React, {
   type FC,
   useContext,
   type Dispatch,
-  type SetStateAction
+  type SetStateAction,
+  type ChangeEvent
 } from 'react'
 import { ParametersContext } from '../shopping/ShoppingCart'
 import { Button, Input } from '@nextui-org/react'
@@ -30,7 +31,7 @@ export const PaymentRow: FC<Props> = ({
   // Payment Method
   const [paymentMethodArray, setPaymentMethodArray] = useState<Tax[]>([])
   const [bankArray, setBankArray] = useState<Tax[]>([])
-  const [valueInput, setValueInput] = useState('')
+  const [valueInput, setValueInput] = useState(elementPayment.value.toString())
   const [boucherInput, setBoucherInput] = useState('')
 
   const arrayFindPaymentMethodsIndex = parametersInfo.paymentMethods.map(
@@ -45,18 +46,18 @@ export const PaymentRow: FC<Props> = ({
       element => element.id !== idEliminar
     )
 
-    const arrayRenameId = arrayDelete.map(
-      (element, index) => {
-        element.id = index
-        return element
-      }
-    )
+    const arrayRenameId = arrayDelete.map((element, index) => {
+      element.id = index
+      setValueInput(element.value.toString())
+      return element
+    })
+
     setPaymentArray(arrayRenameId)
   }
-  const handleVoucherAndValor = () => {
-    // const elementEdit = paymentArray.find((element) => element.id === elementPayment.id)
-    elementPayment.value = parseInt(valueInput)
-    elementPayment.voucher = boucherInput
+  const handleVoucherAndValor = (e: ChangeEvent<HTMLInputElement>) => {
+    setValueInput(e.target.value)
+    elementPayment.value = parseInt(e.target.value)
+    // elementPayment.voucher = boucherInput
   }
 
   return (
@@ -85,7 +86,6 @@ export const PaymentRow: FC<Props> = ({
         label="Valor"
         type="number"
         size="sm"
-        onChange={handleVoucherAndValor}
         startContent={
           <div className="pointer-events-none flex items-center">
             <span className="text-default-400 text-small">$</span>
@@ -93,7 +93,8 @@ export const PaymentRow: FC<Props> = ({
         }
         className=""
         value={valueInput}
-        onValueChange={setValueInput}
+        // onValueChange={setValueInput}
+        onChange={handleVoucherAndValor}
       />
       <Input
         label="Voucher"
