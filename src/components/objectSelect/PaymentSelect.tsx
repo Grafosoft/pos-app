@@ -1,11 +1,5 @@
-import { Button, Select, SelectItem } from '@nextui-org/react'
-import React, {
-  type Dispatch,
-  type SetStateAction,
-  useEffect,
-  useState,
-  type FC
-} from 'react'
+import { Select, SelectItem } from '@nextui-org/react'
+import React, { type Dispatch, type SetStateAction, type FC } from 'react'
 import { type Tax } from '@/interface/products'
 import { type PaymentArray } from '../modals/ModalBill'
 
@@ -30,46 +24,44 @@ export const PaymentSelect: FC<Props> = ({
   newArrayReturn,
   setnewArrayReturn
 }) => {
-
   const handleSelectionChangeTax = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-        const newObjectPayment = arrayFind.filter(
-          element => element.id.toString() === e.target.value
-        )
-          if (!isBank) {
-            const paymentArrayIndex = arrayFind.findIndex(
-              element => element.id === elementPayment.id
-            )
-            const paymentArrayEdit = paymentArray.map((element, index) => {
-              if (paymentArrayIndex === index) {
-                const objectPayment = arrayFind.find(
-                  element => element.id.toString() === e.target.value
-                )
-                if (objectPayment) {
-                  element.paymentMethod = objectPayment
-                }
-              }
-              return element
-            })
-            setPaymentArray(paymentArrayEdit)
-          } else {
-            const bankArrayEdit = paymentArray.map((element, index) => {
-              if (elementPayment.id === index) {
-                const objectbank = arrayFind.find(
-                  element => element.id.toString() === e.target.value
-                )
-                if (objectbank) {
-                  element.bank = objectbank
-                }
-              }
-              return element
-            })
-            setPaymentArray(bankArrayEdit)
+    const newObjectPayment = arrayFind.filter(
+      element => element.id.toString() === e.target.value
+    )
+    if (!isBank) {
+      const paymentArrayIndex = arrayFind.findIndex(
+        element => element.id === elementPayment.id
+      )
+      const paymentArrayEdit = paymentArray.map((element, index) => {
+        if (paymentArrayIndex === index) {
+          const objectPayment = arrayFind.find(
+            element => element.id.toString() === e.target.value
+          )
+          if (objectPayment) {
+            element.paymentMethod = objectPayment
+          }
         }
-        setnewArrayReturn(newObjectPayment)
+        return element
+      })
+      setPaymentArray(paymentArrayEdit)
+    } else {
+      const bankArrayEdit = paymentArray.map((element, index) => {
+        if (elementPayment.id === index) {
+          const objectbank = arrayFind.find(
+            element => element.id.toString() === e.target.value
+          )
+          if (objectbank) {
+            element.bank = objectbank
+          }
+        }
+        return element
+      })
+      setPaymentArray(bankArrayEdit)
+    }
+    setnewArrayReturn(newObjectPayment)
   }
-
 
   const returnPaymentId = () => {
     const objectnow = paymentArray.find(element => {
@@ -77,17 +69,14 @@ export const PaymentSelect: FC<Props> = ({
     })
     if (objectnow) {
       if (isBank) {
-        return (objectnow.bank.id === 0)? '' : [(objectnow.bank.id).toString()]
-      }else{
-        const objectEfectivo = paymentArray.find(element => {
-          return element.paymentMethod.name === "Efectivo"
-        })
-        return (objectEfectivo)? [(objectEfectivo.id).toString()] :(objectnow.paymentMethod.id === 0)? '' : [(objectnow.paymentMethod.id).toString()]
+        return objectnow.bank.id === 0 ? '' : [objectnow.bank.id.toString()]
+      } else {
+        return [objectnow.paymentMethod.id.toString()]
       }
     }
-    return [];
+    return []
   }
-  console.log(returnPaymentId())
+  console.log(paymentArray)
 
   return (
     <>

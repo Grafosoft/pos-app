@@ -30,7 +30,7 @@ export const PaymentRow: FC<Props> = ({
   // Payment Method
   const [paymentMethodArray, setPaymentMethodArray] = useState<Tax[]>([])
   const [bankArray, setBankArray] = useState<Tax[]>([])
-  const [valueInput, setValueInput] = useState('')
+  const [valueInput, setValueInput] = useState(elementPayment.value.toString())
   const [boucherInput, setBoucherInput] = useState('')
 
   const arrayFindPaymentMethodsIndex = parametersInfo.paymentMethods.map(
@@ -45,12 +45,10 @@ export const PaymentRow: FC<Props> = ({
       element => element.id !== idEliminar
     )
 
-    const arrayRenameId = arrayDelete.map(
-      (element, index) => {
-        element.id = index
-        return element
-      }
-    )
+    const arrayRenameId = arrayDelete.map((element, index) => {
+      element.id = index
+      return element
+    })
     setPaymentArray(arrayRenameId)
   }
   const handleVoucherAndValor = () => {
