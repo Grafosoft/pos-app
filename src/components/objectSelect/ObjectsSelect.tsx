@@ -12,11 +12,8 @@ import { type PaymentArray } from '../modals/ModalBill'
 
 interface Props {
   arrayFind: Tax[]
-  paymentArray?: PaymentArray[]
-  setPaymentArray?: Dispatch<SetStateAction<PaymentArray[]>>
   textType: string
-  typeSelect?: string
-  isBank?: boolean
+  typeSelect: string
   elementIterations?: Tax | PaymentArray
   newTax: Tax[]
   setNewTax: Dispatch<SetStateAction<Tax[]>>
@@ -25,15 +22,13 @@ interface Props {
 export const SelectObject: FC<Props> = ({
   arrayFind,
   textType,
-  isBank,
   typeSelect,
-  paymentArray,
-  setPaymentArray,
   elementIterations,
   newTax,
   setNewTax
 }) => {
   const [taxsReadiSelected, setTaxsReadiSelected] = useState<string[]>([])
+  const [taxSelexteKey, setTaxSelexteKey] = useState<string[]>([])
 
   const handleSelectionChangeTax = (
     e: React.ChangeEvent<HTMLSelectElement>
@@ -57,13 +52,11 @@ export const SelectObject: FC<Props> = ({
         })
         setNewTax(arrayEditTax)
         break;
-
       case "dataSeller":
         const newObjectBill = arrayFind.filter(
           element => element.id === parseInt(e.target.value)
         )
         setNewTax(newObjectBill)
-        console.log("LOGICA DEL DATA SELLER");
         break;
       default:
         console.log("NO DENTRA A NINGUNO SEÑOR")
@@ -77,33 +70,16 @@ export const SelectObject: FC<Props> = ({
   }
 
   useEffect(() => {
-    const arrayItemsReadiSelect = newTax.map(element => {
-      return element.id.toString()
-    })
-    setTaxsReadiSelected(arrayItemsReadiSelect)
-  }, [newTax])
-
-  const returnPaymentId = () => {
-    const objectFF = paymentArray?.find(element => {
-      return element.id === elementIterations?.id
-    })
-
-    if (
-      objectFF?.paymentMethod.id !== 0 &&
-      objectFF?.paymentMethod.name !== ''
-    ) {
-      if (objectFF) {
-        if (!isBank) {
-          return [objectFF?.paymentMethod.id.toString()]
-        } else {
-          return [objectFF?.bank.id.toString()]
-        }
-      }
-    } else {
-
-      return ''
+    if(elementIterations?.id !== undefined){
+      const arrayItemsReadiSelect = newTax.map(element => {
+        return element.id.toString()
+      })
+      setTaxsReadiSelected(arrayItemsReadiSelect)
+    }else{
+      let newKey = (newTax.length >= 1) ?[(newTax[0].id).toString()]:[];
+      setTaxSelexteKey(newKey)
     }
-  }
+  }, [newTax])
 
   return (
     <>
@@ -114,8 +90,8 @@ export const SelectObject: FC<Props> = ({
           placeholder={textType}
           className="w-full"
           disabledKeys={taxsReadiSelected}
-          selectedKeys={elementIterations?.id ? [elementIterations?.id.toString()] : returnPaymentId()}
-          defaultSelectedKeys={elementIterations?.id ? [elementIterations?.id.toString()] : []}
+          selectedKeys={elementIterations?.id ? [elementIterations?.id.toString()] :  taxSelexteKey }
+          defaultSelectedKeys={elementIterations?.id ? [elementIterations?.id.toString()] : taxSelexteKey}
           onChange={handleSelectionChangeTax}
         >
           {arrayFind.map((element, index) => {

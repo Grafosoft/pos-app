@@ -47,13 +47,11 @@ export const ModalBill: FC<Props> = ({
   const [wareHousesEnd, setWareHousesEnd] = useState<Tax[]>([])
   const [numerationEnd, setNumerationEnd] = useState<Tax[]>([])
   const [sellerEnd, setSellerEnd] = useState<Tax[]>([])
+  const [objectEfectivo , setObjectEfectivo] = useState<Tax>({id:0,name:''})
 
   const [paymentArray, setPaymentArray] = useState<PaymentArray[]>([
     {
-      paymentMethod: {
-        id: 0,
-        name: ''
-      },
+      paymentMethod: objectEfectivo,
       bank: {
         id: 0,
         name: ''
@@ -67,10 +65,7 @@ export const ModalBill: FC<Props> = ({
   const handleCloseModal = () => {
     setPaymentArray([
       {
-        paymentMethod: {
-          id: 0,
-          name: ''
-        },
+        paymentMethod: objectEfectivo,
         bank: {
           id: 0,
           name: ''
@@ -99,8 +94,12 @@ export const ModalBill: FC<Props> = ({
     const petiApi = async () => {
       const { data } = await functionApi.get<InvoiceParameters>(
         `settings/invoices?companyId=${companyId}&page=0&apikey=${apikey}`
-      )
+        )
+        const objectEfectivofilter = data.paymentMethods.find((element)=> element.name === "Efectivo")
+        setObjectEfectivo((objectEfectivofilter)?objectEfectivofilter : {id:0,name:''})
       setParametersInfo(data)
+      console.log(data.paymentMethods)
+
     }
     petiApi()
   }, [apikey, companyId, functionApi, setParametersInfo])
@@ -121,14 +120,13 @@ export const ModalBill: FC<Props> = ({
     const bankValidate = paymentArray.findIndex(
       element => element.bank.id === 0 && element.bank.name === ''
     )
+
+
     if (paymentValidate === -1 && bankValidate === - 1) {
       const newPaymentArray = [
         ...paymentArray,
         {
-          paymentMethod: {
-            id: 0,
-            name: ''
-          },
+          paymentMethod: objectEfectivo,
           bank: {
             id: 0,
             name: ''
@@ -150,10 +148,7 @@ export const ModalBill: FC<Props> = ({
   }
 
   useEffect(() => {
-    console.log(paymentArray,"USE EFFECT");
-/*     let totalValue = paymentArray.reduce((acumulador, element)=> acumulador + element.value,0)
-    console.log(totalValue,"TOTAL VALUE"); */
-
+    console.log(paymentArray);
 
   }, [paymentArray])
 

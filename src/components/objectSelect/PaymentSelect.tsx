@@ -30,7 +30,6 @@ export const PaymentSelect: FC<Props> = ({
   newArrayReturn,
   setnewArrayReturn
 }) => {
-  const [taxsReadiSelected, setTaxsReadiSelected] = useState<string[]>([])
 
   const handleSelectionChangeTax = (
     e: React.ChangeEvent<HTMLSelectElement>
@@ -38,18 +37,10 @@ export const PaymentSelect: FC<Props> = ({
         const newObjectPayment = arrayFind.filter(
           element => element.id.toString() === e.target.value
         )
-        const nullPropertis = arrayFind.filter(
-          element => (element.id == 0 && element.name == '')
-        )
-
-        console.log(nullPropertis, "PROPERTIS")
-
           if (!isBank) {
             const paymentArrayIndex = arrayFind.findIndex(
               element => element.id === elementPayment.id
             )
-            console.log(paymentArrayIndex, "PAYMENT ARRAY INDEX")
-
             const paymentArrayEdit = paymentArray.map((element, index) => {
               if (paymentArrayIndex === index) {
                 const objectPayment = arrayFind.find(
@@ -61,7 +52,6 @@ export const PaymentSelect: FC<Props> = ({
               }
               return element
             })
-
             setPaymentArray(paymentArrayEdit)
           } else {
             const bankArrayEdit = paymentArray.map((element, index) => {
@@ -75,40 +65,29 @@ export const PaymentSelect: FC<Props> = ({
               }
               return element
             })
-
             setPaymentArray(bankArrayEdit)
         }
         setnewArrayReturn(newObjectPayment)
   }
 
-  useEffect(() => {
-    const arrayItemsReadiSelect = newArrayReturn.map(element => {
-      return element.id.toString()
-    })
-    setTaxsReadiSelected(arrayItemsReadiSelect)
-  }, [newArrayReturn])
-
 
   const returnPaymentId = () => {
-    const objectFF = paymentArray?.find(element => {
+    const objectnow = paymentArray.find(element => {
       return element.id === elementPayment.id
     })
-
-    if (
-      objectFF?.paymentMethod.id !== 0 &&
-      objectFF?.paymentMethod.name !== ''
-    ) {
-      if (objectFF) {
-        if (!isBank) {
-          return [objectFF?.paymentMethod.id.toString()]
-        } else {
-          return [objectFF?.bank.id.toString()]
-        }
+    if (objectnow) {
+      if (isBank) {
+        return (objectnow.bank.id === 0)? '' : [(objectnow.bank.id).toString()]
+      }else{
+        const objectEfectivo = paymentArray.find(element => {
+          return element.paymentMethod.name === "Efectivo"
+        })
+        return (objectEfectivo)? [(objectEfectivo.id).toString()] :(objectnow.paymentMethod.id === 0)? '' : [(objectnow.paymentMethod.id).toString()]
       }
-    } else {
-      return ''
     }
+    return [];
   }
+  console.log(returnPaymentId())
 
   return (
     <>
@@ -117,10 +96,9 @@ export const PaymentSelect: FC<Props> = ({
           size="sm"
           label={`${textType}`}
           placeholder={textType}
-          className="w-full"
-          disabledKeys={taxsReadiSelected}
+          className="w-[20vh]"
           selectedKeys={returnPaymentId()}
-          defaultSelectedKeys={[]}
+          defaultSelectedKeys={returnPaymentId()}
           onChange={handleSelectionChangeTax}
         >
           {arrayFind.map((element, index) => {

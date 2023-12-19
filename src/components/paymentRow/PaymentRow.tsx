@@ -51,15 +51,12 @@ export const PaymentRow: FC<Props> = ({
         return element
       }
     )
-    
-    console.log(arrayRenameId)
     setPaymentArray(arrayRenameId)
   }
   const handleVoucherAndValor = () => {
     // const elementEdit = paymentArray.find((element) => element.id === elementPayment.id)
     elementPayment.value = parseInt(valueInput)
     elementPayment.voucher = boucherInput
-    console.log(elementPayment, 'ELEMET')
   }
 
   return (
@@ -77,7 +74,7 @@ export const PaymentRow: FC<Props> = ({
         arrayFind={parametersInfo.banks}
         textType="Caja/Banco"
         elementPayment={elementPayment}
-        isBank
+        isBank={true}
         paymentArray={paymentArray}
         setPaymentArray={setPaymentArray}
         newArrayReturn={bankArray}
