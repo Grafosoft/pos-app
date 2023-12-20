@@ -21,7 +21,7 @@ export const addProductCart = (
         description: '',
         discountAmount: 0,
         totalAmount:
-          product.salePrice + product.salePrice * (product.tax.value / 100),
+          product.salePrice + product.salePrice * ((product.tax.value)?product.tax.value / 100:0),
         item: {
           id: product.id,
           name: product.name

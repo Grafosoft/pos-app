@@ -25,7 +25,7 @@ export interface ProductList {
   totalAmount: number // valor total del producto despues de restar y sumar los valores anteriores
   item: Group
   tax: Tax[]
-  paymentMethod: Group
+  paymentMethod?: Group
   image: string | null
   group: Group
 }
