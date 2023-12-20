@@ -64,24 +64,6 @@ export const ModalBill: FC<Props> = ({
     }
   ])
 
-  const handleCloseModal = () => {
-    setPaymentArray([
-      {
-        paymentMethod: {
-          id: 0,
-          name: 'Efectivo'
-        },
-        bank: {
-          id: 0,
-          name: ''
-        },
-        value: 0,
-        voucher: '',
-        id: 0
-      }
-    ])
-  }
-
   // import Context UrlContext
   const { companyId, apikey, color, functionApi } = useContext(UrlContext)
 
@@ -146,7 +128,7 @@ export const ModalBill: FC<Props> = ({
         isDismissable={false}
         onOpenChange={onOpenChange}
         size="4xl"
-        onClose={handleCloseModal}
+        //onClose={handleCloseModal}
       >
         <ModalContent>
           {onClose => (
