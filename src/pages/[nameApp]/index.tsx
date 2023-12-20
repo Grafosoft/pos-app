@@ -78,13 +78,13 @@ export default function Home({ PropsServer }: Props) {
           style={{ minHeight: 'calc(100vh - 128px)' }}
         >
           <div
-            className="col-span-5 md:col-span-6 lg:col-span-7 p-5 pb-0 "
+            className="col-span-5 md:col-span-5 lg:col-span-7 p-5 pb-0 "
             style={{ minHeight: 'calc(100vh - 128px)' }}
           >
             <Products />
           </div>
           <div
-            className="col-span-7 md:col-span-6 lg:col-span-5 bg-white dark:border-slate-800 dark:bg-black border-l"
+            className="col-span-7 md:col-span-7 lg:col-span-5 bg-white dark:border-slate-800 dark:bg-black border-l"
             style={{ minHeight: 'calc(100vh - 128px)' }}
           >
             <ShoppingCart />

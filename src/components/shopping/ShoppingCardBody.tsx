@@ -1,4 +1,4 @@
-import { type FC, useContext } from 'react'
+import { type FC, useContext,useEffect,useState } from 'react'
 
 import { Card, CardBody, Spacer } from '@nextui-org/react'
 
@@ -17,6 +17,12 @@ export const ShoppingCardBody: FC = () => {
   const context = useContext(ProductContext)
   const { productList } = context
 
+  // Extrac Width Actualiti
+  const [width, getwidth] = useState(0);
+  useEffect(()=>{
+    const validateWidth = window.innerWidth
+    getwidth(validateWidth)
+  },[])
   return (
     <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA] dark:bg-[#18181B]">
       {productList.length === 0 ? (
@@ -67,11 +73,12 @@ export const ShoppingCardBody: FC = () => {
             arrayTax.push(taxObject)
           }
 
+
           return (
             <Card className="mb-3" key={element.id}>
               <CardBody>
-                <div className="flex justify-between  items-center">
-                  <div className="flex gap-3">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-3">
                     <ImageRound
                       image={element.image}
                       name={element.item.name}
@@ -79,7 +86,7 @@ export const ShoppingCardBody: FC = () => {
                     />
                     <div className="flex flex-col justify-around">
                       <p className="text-xl font-medium">
-                        {TruncateText(element.item.name)}
+                        {TruncateText(element.item.name, (width < 1230 ) ? 28 : 60 )}
                       </p>
                       <p className="text-small text-default-500">
                         {TruncateText(element.group.name)}
