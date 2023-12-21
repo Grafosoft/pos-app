@@ -18,6 +18,9 @@ import { type Tax } from '@/interface/products'
 import { PaymentRow } from '../paymentRow/PaymentRow'
 import { TbUsers } from 'react-icons/tb'
 import { RiAddFill } from 'react-icons/ri'
+import { ProductContext } from '@/pages/[nameApp]'
+import { totalTaxPer } from '@/utils/totalPaxPer'
+
 
 interface Props {
   isOpen: boolean
@@ -42,6 +45,10 @@ export const ModalBill: FC<Props> = ({
   totalDiscountProducts,
   totalTaxProducts
 }) => {
+  //CONTEX OF PRODUCTS
+  const context = useContext(ProductContext)
+  const { productList, setProductList } = context
+
   //* VARIABLES END FOR BILL
   const [valueTextArea, setValueTextArea] = useState('')
   const [wareHousesEnd, setWareHousesEnd] = useState<Tax[]>([])
@@ -119,6 +126,36 @@ export const ModalBill: FC<Props> = ({
       )
       setPaymentArray(arrayFindPaymentMethodsIndex)
     }
+  }
+
+  const handleGenereBill = () => {
+    console.log("GENERAMOS")
+    let total =( subTotalProducts +totalTaxProducts -totalDiscountProducts)
+
+    let discountAmount = productList.reduce((acumulador, element )=> acumulador + element.discount, 0)
+    let totalTax = productList.reduce((acumulator, element) =>acumulator + (totalTaxPer(element.tax) / 100) * element.value,0)
+
+
+    const dataBillInJson = {
+      id:0,
+      date: new Date().toISOString().slice(0, 10),
+      status:"",
+      observation: valueTextArea,
+      contact:{id:0,name:customerSearch.name},
+      numeration:numerationEnd[0],
+      wareHouse:wareHousesEnd[0],
+      seller:sellerEnd[0],
+      totalAmount:total,
+      discountAmount:discountAmount,
+      taxAmount:totalTax,
+      paymentAmount:"",
+      paymentRow:paymentArray,
+      items:productList
+    }
+
+    console.log(dataBillInJson)
+
+
   }
 
   return (
@@ -245,6 +282,7 @@ export const ModalBill: FC<Props> = ({
                   color={color.colorComponent}
                   variant="flat"
                   className="w-full rounded-md"
+                  onClick={handleGenereBill}
                 >
                   Generar D.E./POS
                 </Button>
