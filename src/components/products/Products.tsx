@@ -30,7 +30,10 @@ export const Products: FC = () => {
       const { data } = await functionApi.get<interfaceProduct[]>(
         `items/?companyId=${companyId}&page=0&apikey=${apikey}&name=`
       )
-      setdatosProductos(data)
+      if (valueSearch.length < 1) {
+        setdatosProductos(data)
+      }
+
     }
 
     peticionProductos()
@@ -55,11 +58,17 @@ export const Products: FC = () => {
     buscarProducto()
     inputRef.current?.focus()
   }
+    // Extrac Width Actualiti
+    const [width, getwidth] = useState(0);
+    useEffect(()=>{
+      const validateWidth = window.innerWidth
+      getwidth(validateWidth)
+    },[])
 
   return (
     <div className="">
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-start w-full mb-3 rounted-lg">
+        <div className="flex justify-center w-full mb-3 rounted-lg">
           {/* // div que contiene el input del buscador */}
           <Input
             className="w-[30vh] md:w-[58vh] lg:w-[88vh] 2xl:w-[117vh]"
@@ -83,14 +92,14 @@ export const Products: FC = () => {
           </Button>
         </div>
       </form>
-      <div className="flex justify-start">
+      <div className="flex justify-center">
         {/* // contenedor de las cards de los productos */}
         <div
-          className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-cols-1 gap-5 p-3 overflow-auto"
-          style={{ maxHeight: 'calc(100vh - 215px)' }}
+          className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-cols-1 gap-2 lg:gap-5 p-3 overflow-auto"
+          style={{ maxHeight: (width < 1230)? 'calc(100vh - 165px)' : 'calc(100vh - 215px)' }}
         >
           {datosProductos.length <= 0 ? (
-            <div className="flex flex-col items-center w-[30vh] md:w-[58vh] lg:w-[70vh] lg:ml-20 2xl:w-[75vh]   ">
+            <div className="flex flex-col items-center w-[30vh] md:w-[58vh] lg:w-[70vh] lg:ml-20 2xl:w-[75vh]">
               <Image
                 className="w-3/4 m-8 md:ml-16 lg:ml-20 2xl:ml-52"
                 src="/images/empty-products.png"
