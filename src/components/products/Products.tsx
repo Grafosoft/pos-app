@@ -33,11 +33,10 @@ export const Products: FC = () => {
       if (valueSearch.length < 1) {
         setdatosProductos(data)
       }
-
     }
 
     peticionProductos()
-  }, [apikey, companyId, functionApi])
+  }, [apikey, companyId, functionApi, valueSearch])
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -58,12 +57,12 @@ export const Products: FC = () => {
     buscarProducto()
     inputRef.current?.focus()
   }
-    // Extrac Width Actualiti
-    const [width, getwidth] = useState(0);
-    useEffect(()=>{
-      const validateWidth = window.innerWidth
-      getwidth(validateWidth)
-    },[])
+  // Extrac Width Actualiti
+  const [width, getwidth] = useState(0)
+  useEffect(() => {
+    const validateWidth = window.innerWidth
+    getwidth(validateWidth)
+  }, [])
 
   return (
     <div className="">
@@ -96,7 +95,10 @@ export const Products: FC = () => {
         {/* // contenedor de las cards de los productos */}
         <div
           className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 grid-cols-1 gap-2 lg:gap-5 p-3 overflow-auto"
-          style={{ maxHeight: (width < 1230)? 'calc(100vh - 165px)' : 'calc(100vh - 215px)' }}
+          style={{
+            maxHeight:
+              width < 1230 ? 'calc(100vh - 165px)' : 'calc(100vh - 215px)'
+          }}
         >
           {datosProductos.length <= 0 ? (
             <div className="flex flex-col items-center w-[30vh] md:w-[58vh] lg:w-[70vh] lg:ml-20 2xl:w-[75vh]">

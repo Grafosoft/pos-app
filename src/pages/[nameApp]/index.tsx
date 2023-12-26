@@ -2,7 +2,10 @@ import { Products } from '@/components/products/Products'
 import { ShoppingCart } from '@/components/shopping/ShoppingCart'
 import { type ProductList } from '@/interface/products'
 import type { GetServerSideProps } from 'next'
-import { validateAppColor } from '@/utils/validateAppColor'
+import {
+  type EstructureColor,
+  validateAppColor
+} from '@/utils/validateAppColor'
 import { NavBar } from '@/components/navbar/NavBar'
 
 import {
@@ -18,24 +21,13 @@ interface ProductContextType {
   productList: ProductList[]
   setProductList: Dispatch<SetStateAction<ProductList[]>>
 }
-interface Estructure {
-  colorApp: string
-  colorProduct: string
-  colorComponent:
-    | 'default'
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'warning'
-    | 'danger'
-    | undefined
-}
-interface VariablesUrl {
+
+export interface VariablesUrl {
   companyId: string
   apikey: string
   name: string
   functionApi: AxiosInstance
-  color: Estructure
+  color: EstructureColor
 }
 
 interface Props {
@@ -48,7 +40,7 @@ export const UrlContext = createContext<VariablesUrl>({
   name: '',
   functionApi: axios.create({}),
   color: {
-    colorApp: '',
+    colorApp: 'ffff',
     colorProduct: '',
     colorComponent: 'primary'
   }
@@ -72,7 +64,7 @@ export default function Home({ PropsServer }: Props) {
       value={{ companyId, apikey, functionApi, color, name }}
     >
       <ProductContext.Provider value={{ productList, setProductList }}>
-        <NavBar />
+        <NavBar name={name} color={color} />
         <div
           className="grid grid-cols-12"
           style={{ minHeight: 'calc(100vh - 128px)' }}

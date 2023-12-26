@@ -3,23 +3,42 @@ import React, { useContext, type FC } from 'react'
 
 import { UrlContext } from '@/pages/[nameApp]'
 import { TbShoppingBag } from 'react-icons/tb'
+import { MdTableBar } from 'react-icons/md'
+import { type EstructureColor } from '@/utils/validateAppColor'
 
 interface Props {
   image: string | null
   name: string
+  colorIcon?: EstructureColor
   formeRound?: boolean
 }
 
-export const ImageRound: FC<Props> = ({ image, name, formeRound = false }) => {
+export const ImageRound: FC<Props> = ({
+  image,
+  name = 'product',
+  colorIcon = {},
+  formeRound = false
+}) => {
   // import Context UrlContext
-  const { color } = useContext(UrlContext);
+  const { color } = useContext(UrlContext)
 
+  let icono = <TbShoppingBag size={50} color={color.colorApp} />
+
+  switch (name) {
+    case 'product':
+      icono = <TbShoppingBag size={50} color={color.colorApp} />
+      break
+    case 'table':
+      icono = <MdTableBar size={50} color={colorIcon.colorApp} />
+      break
+  }
   return (
     <>
       {image && image.length > 3 ? (
         <div
-          className={`flex items-center rounded-full ${formeRound ? 'rounded-full' : 'rounded-[20px]'
-            }`}
+          className={`flex items-center rounded-full ${
+            formeRound ? 'rounded-full' : 'rounded-[20px]'
+          }`}
         >
           <Image
             alt="Card background"
@@ -32,10 +51,13 @@ export const ImageRound: FC<Props> = ({ image, name, formeRound = false }) => {
       ) : (
         <div className="">
           <div
-            className={`flex items-center justify-center ${color.colorProduct} w-[100px] h-[100px] ${formeRound ? 'rounded-full' : 'rounded-[20px]'
-              }`}
+            className={`flex items-center justify-center ${
+              colorIcon.colorApp ? colorIcon.colorProduct : color.colorProduct
+            } w-[100px] h-[100px] ${
+              formeRound ? 'rounded-full' : 'rounded-[20px]'
+            }`}
           >
-            <TbShoppingBag size={50} color={color.colorApp} />
+            {icono}
           </div>
         </div>
       )}

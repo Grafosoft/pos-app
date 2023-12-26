@@ -1,4 +1,4 @@
-interface Estructure {
+export interface EstructureColor {
   colorApp: string
   colorProduct: string
   colorComponent:
@@ -12,7 +12,7 @@ interface Estructure {
 }
 
 export const validateAppColor = (name: string) => {
-  let object: Estructure = {
+  let object: EstructureColor = {
     colorApp: '',
     colorProduct: '',
     colorComponent: 'secondary'

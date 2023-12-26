@@ -1,4 +1,4 @@
-import { useContext,useState,useEffect, type FC } from 'react'
+import { useContext, useState, useEffect, type FC } from 'react'
 import { Card, CardBody, CardHeader } from '@nextui-org/react'
 import { ProductContext } from '@/pages/[nameApp]'
 import { type interfaceProduct } from '@/interface/products'
@@ -20,11 +20,11 @@ export const CardProduct: FC<Props> = ({ product }) => {
     addProductCart(productList, setProductList, product)
   }
   // Extrac Width Actualiti
-  const [width, getwidth] = useState(0);
-  useEffect(()=>{
+  const [width, getwidth] = useState(0)
+  useEffect(() => {
     const validateWidth = window.innerWidth
     getwidth(validateWidth)
-  },[])
+  }, [])
   return (
     <div className="flex justify-center  h-[32vh] lg:h-[30vh] w-[27vh] ">
       <Card
@@ -47,13 +47,11 @@ export const CardProduct: FC<Props> = ({ product }) => {
               {TruncateText(product.name, 16)}
             </p>
             <small className="text-default-500 text-center text-md  ">
-              {TruncateText(product.group.name, (width < 1230)? 16 : 28)}
+              {TruncateText(product.group.name, width < 1230 ? 16 : 28)}
             </small>
           </div>
           <div className="font-medium text-large mt-10">
-            <p className="">
-              $ {formatDouble.format(product.salePrice)}
-            </p>
+            <p className="">$ {formatDouble.format(product.salePrice)}</p>
           </div>
         </CardBody>
       </Card>

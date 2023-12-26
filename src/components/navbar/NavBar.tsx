@@ -1,5 +1,5 @@
-import { Image, Spacer, User } from '@nextui-org/react'
-import { useContext, type FC } from 'react'
+import { Image, Link, Spacer, User } from '@nextui-org/react'
+import { type FC } from 'react'
 import { SwitchTheme } from '../switch/SwitchTheme'
 import {
   TbBellFilled,
@@ -11,20 +11,27 @@ import {
   TbTagStarred,
   TbUserDollar
 } from 'react-icons/tb'
-import { UrlContext } from '@/pages/[nameApp]'
 
-export const NavBar: FC = () => {
+import { type EstructureColor } from '@/utils/validateAppColor'
 
-  // import Context UrlContext
-  const { name, color} = useContext(UrlContext);
+interface Props {
+  name: string
+  color: EstructureColor
+}
 
+export const NavBar: FC<Props> = ({ name, color }) => {
   return (
     <>
-      <div className={`max-h-16 flex w-full text-[#7828C] p-5 justify-between`} style={{background:`${color.colorApp}`}}>
+      <div
+        className={`max-h-16 flex w-full text-[#7828C] p-5 justify-between`}
+        style={{ background: `${color.colorApp}` }}
+      >
         <div className="flex items-center">
           <Image src={`/images/${name}.png`} width={50} alt="Cuental Logo" />
           <Spacer x={5} />
-          <h1 className="text-2xl font-medium text-white">{name.toUpperCase()} POS</h1>
+          <h1 className="text-2xl font-medium text-white">
+            {name.toUpperCase()} POS
+          </h1>
         </div>
         <div className="flex items-center">
           <SwitchTheme color={color.colorApp} />
@@ -50,16 +57,26 @@ export const NavBar: FC = () => {
       <div className="max-h-16 flex w-full p-5 bg-white dark:bg-inherit justify-between border-b dark:border-slate-800">
         <div className="flex items-center cursor-pointer">
           <TbTag size={20} style={{ color: '#A4B0BE' }} />
-          <p className="text-[#A4B0BE] ml-1">Venta sencilla</p>
+          <Link
+            href={`http://localhost:3000/${name}?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`}
+            className="text-[#A4B0BE] ml-1"
+          >
+            Venta sencilla
+          </Link>
           <Spacer x={10} />
           <TbTagStarred size={20} style={{ color: '#A4B0BE' }} />
-          <p className="text-[#A4B0BE] ml-1">Venta por mesa</p>
+          <Link
+            href={`http://localhost:3000/${name}/mesas?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`}
+            className="text-[#A4B0BE] ml-1"
+          >
+            Venta por mesa
+          </Link>
           <Spacer x={10} />
           <TbUserDollar size={20} style={{ color: '#A4B0BE' }} />
-          <p className="text-[#A4B0BE] ml-1">Venta por cliente</p>
+          <Link className="text-[#A4B0BE] ml-1">Venta por cliente</Link>
           <Spacer x={10} />
           <TbInbox size={20} style={{ color: '#A4B0BE' }} />
-          <p className="text-[#A4B0BE] ml-1">Informes</p>
+          <Link className="text-[#A4B0BE] ml-1">Informes</Link>
         </div>
         <User name="Fredy Rangel" description="fredyrangelcba@hotmail.com" />
       </div>
