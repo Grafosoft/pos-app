@@ -65,10 +65,10 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
       style={{ minHeight: 'calc(100vh - 128px)' }}
     >
       <div
-        className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-7 grid-cols-1 gap-2 lg:gap-5 p-3 overflow-auto"
+        className="grid sm:grid-cols-1 ms:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 grid-cols-1 gap-2 lg:gap-5 p-3 overflow-auto"
         style={{
           maxHeight:
-            width < 1230 ? 'calc(100vh - 165px)' : 'calc(100vh - 160px)'
+            width < 1230 ? 'calc(100vh - 100px)' : 'calc(100vh - 160px)'
         }}
       >
         {tables.map((element, index) => {
