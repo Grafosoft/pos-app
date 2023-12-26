@@ -1,4 +1,4 @@
-import { useState, type FC, useEffect } from 'react'
+import { useState, type FC, useEffect, useContext } from 'react'
 import { TablesCard } from './TablesCard'
 import { IoAdd } from 'react-icons/io5'
 
@@ -11,8 +11,15 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
-  Input
+  Input,
+  Select,
+  SelectItem
 } from '@nextui-org/react'
+import { converterHexadecimalToRgb } from '@/utils/hexadeToRgb'
+
+import { MdOutlineTableBar, MdTableRestaurant } from 'react-icons/md'
+import { FcTabletAndroid } from 'react-icons/fc'
+import { UrlContext } from '@/pages/[nameApp]/mesas'
 
 export interface Tables {
   id: number
@@ -28,12 +35,30 @@ interface Props {
 export const TablesContainer: FC<Props> = ({ tables }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
-  // Extrac Width Actualiti
+    // import Context UrlContext
+    const { color } = useContext(UrlContext)
+
+  const [newColorInput, setNewColorInput] = useState(color.colorApp)
+
   const [width, getwidth] = useState(0)
   useEffect(() => {
     const validateWidth = window.innerWidth
     getwidth(validateWidth)
-  }, [])
+    console.log(converterHexadecimalToRgb(newColorInput))
+  }, [newColorInput])
+
+  const icons = [
+    {
+      item: <MdOutlineTableBar size={40} />
+    },
+    {
+      item: <MdTableRestaurant size={40} />
+    },
+    {
+      item: <FcTabletAndroid size={40} />
+    }
+  ]
+
   return (
     <div
       className="col-span-12 p-5 pb-0 "
@@ -68,9 +93,31 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                 </ModalHeader>
                 <ModalBody>
                   <Input label="Nombre" size="sm" className="" />
-                  <div className="flex items-center ">
-                    <label className="mr-5">Color:</label>
-                    <input type="color" />
+                  <div className="flex items-center gap-2 ">
+                    {/*  <label className="mr-5">Color:</label> */}
+                    <Input
+                      type="color"
+                      size="sm"
+                      startContent={<div>Color</div>}
+                      value={newColorInput}
+                      onValueChange={setNewColorInput}
+                    />
+                    <Select
+                      size="sm"
+                      label="Select an animal"
+                      className="max-w-xs"
+                    >
+                      {icons.map((icono, index) => (
+                        <SelectItem
+                          className="flex flex-col items-center"
+                          key={index}
+                          textValue={`Mesa #${index + 1}`}
+                          value={index}
+                        >
+                          {icono.item}
+                        </SelectItem>
+                      ))}
+                    </Select>
                   </div>
                 </ModalBody>
                 <ModalFooter>
