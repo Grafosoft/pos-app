@@ -21,15 +21,15 @@ export const validateAppColor = (name: string) => {
   switch (name) {
     case 'cuental':
       return (object = {
-        colorApp: '#3C3F99',
-        colorProduct: 'bg-purple-100',
+        colorApp: 'rgba(60,63,153,1)',
+        colorProduct: 'rgb(243, 232, 255)',
         colorComponent: 'primary'
       })
       break
     case 'valual':
       return (object = {
-        colorApp: '#00B4FF',
-        colorProduct: 'bg-sky-100',
+        colorApp: 'rgba(0,180,255,1)',
+        colorProduct: 'rgba(0,180,255,0.2)',
         colorComponent: 'primary'
       })
       break
@@ -42,8 +42,8 @@ export const validateAppColor = (name: string) => {
       break
     default:
       return (object = {
-        colorApp: '#00B4FF',
-        colorProduct: 'bg-sky-100',
+        colorApp: 'rgba(0,180,255,1)',
+        colorProduct: 'rgba(0,180,255,0.2)',
         colorComponent: 'primary'
       })
   }
