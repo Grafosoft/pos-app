@@ -13,13 +13,13 @@ const config: Config = {
     extend: {
       screens:{
         'sm': '640px',
-        'md': '820px',
+        'ms': '780px',
+        'md': '900px',
         'lg': '1230px',
         'xl': '1280px',
         '2xl': '1610px'
       }
     },
-
   },
   darkMode: 'class',
   plugins: [nextui()]

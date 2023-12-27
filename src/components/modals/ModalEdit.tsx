@@ -161,7 +161,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                               arrayFind={taxSettings}
                               elementIterations={elementTax}
                               textType="Impuesto"
-                              typeSelect={"TaxSelect"}
+                              typeSelect={'TaxSelect'}
                               newTax={newTax}
                               setNewTax={setNewTax}
                             />

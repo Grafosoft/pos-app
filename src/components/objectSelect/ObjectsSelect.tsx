@@ -34,32 +34,35 @@ export const SelectObject: FC<Props> = ({
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     switch (typeSelect) {
-
-      case "TaxSelect":
-        const indexArrayEditTax = newTax.findIndex(
-          element => element.id === elementIterations?.id
-        )
-        const arrayEditTax = newTax.map((element, index) => {
-          if (indexArrayEditTax === index) {
-            const objectTax = arrayFind.find(
-              element => element.id === parseInt(e.target.value)
-            )
-            if (objectTax) {
-              element = objectTax
+      case 'TaxSelect':
+        {
+          const indexArrayEditTax = newTax.findIndex(
+            element => element.id === elementIterations?.id
+          )
+          const arrayEditTax = newTax.map((element, index) => {
+            if (indexArrayEditTax === index) {
+              const objectTax = arrayFind.find(
+                element => element.id === parseInt(e.target.value)
+              )
+              if (objectTax) {
+                element = objectTax
+              }
             }
-          }
-          return element
-        })
-        setNewTax(arrayEditTax)
-        break;
-      case "dataSeller":
-        const newObjectBill = arrayFind.filter(
-          element => element.id === parseInt(e.target.value)
-        )
-        setNewTax(newObjectBill)
-        break;
+            return element
+          })
+          setNewTax(arrayEditTax)
+        }
+        break
+      case 'dataSeller':
+        {
+          const newObjectBill = arrayFind.filter(
+            element => element.id === parseInt(e.target.value)
+          )
+          setNewTax(newObjectBill)
+        }
+        break
       default:
-        console.log("NO DENTRA A NINGUNO SEÑOR")
+        console.log('NOMBRE DE SELECT ENVIADO INEXISTENTE')
     }
   }
 
@@ -70,16 +73,16 @@ export const SelectObject: FC<Props> = ({
   }
 
   useEffect(() => {
-    if(elementIterations?.id !== undefined){
+    if (elementIterations?.id !== undefined) {
       const arrayItemsReadiSelect = newTax.map(element => {
         return element.id.toString()
       })
       setTaxsReadiSelected(arrayItemsReadiSelect)
-    }else{
-      let newKey = (newTax.length >= 1) ?[(newTax[0].id).toString()]:[];
+    } else {
+      const newKey = newTax.length >= 1 ? [newTax[0].id.toString()] : []
       setTaxSelexteKey(newKey)
     }
-  }, [newTax])
+  }, [elementIterations?.id, newTax])
 
   return (
     <>
@@ -90,8 +93,16 @@ export const SelectObject: FC<Props> = ({
           placeholder={textType}
           className="w-full"
           disabledKeys={taxsReadiSelected}
-          selectedKeys={elementIterations?.id ? [elementIterations?.id.toString()] :  taxSelexteKey }
-          defaultSelectedKeys={elementIterations?.id ? [elementIterations?.id.toString()] : taxSelexteKey}
+          selectedKeys={
+            elementIterations?.id
+              ? [elementIterations?.id.toString()]
+              : taxSelexteKey
+          }
+          defaultSelectedKeys={
+            elementIterations?.id
+              ? [elementIterations?.id.toString()]
+              : taxSelexteKey
+          }
           onChange={handleSelectionChangeTax}
         >
           {arrayFind.map((element, index) => {
@@ -102,20 +113,21 @@ export const SelectObject: FC<Props> = ({
             )
           })}
         </Select>
-        {arrayFind[0].percentage !== undefined && elementIterations?.id !== newTax[0].id && (
-          <Button
-            onClick={() => {
-              deleteProductOfCar(elementIterations?.id ?? 0)
-            }}
-            isIconOnly
-            color="danger"
-            variant="flat"
-            size="sm"
-            edaria-label="Take a photo"
-          >
-            <TbTrash size={15} />
-          </Button>
-        )}
+        {arrayFind[0].percentage !== undefined &&
+          elementIterations?.id !== newTax[0].id && (
+            <Button
+              onClick={() => {
+                deleteProductOfCar(elementIterations?.id ?? 0)
+              }}
+              isIconOnly
+              color="danger"
+              variant="flat"
+              size="sm"
+              edaria-label="Take a photo"
+            >
+              <TbTrash size={15} />
+            </Button>
+          )}
       </div>
     </>
   )
