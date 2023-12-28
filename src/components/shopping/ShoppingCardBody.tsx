@@ -1,15 +1,15 @@
-import { type FC, useContext,useEffect,useState } from 'react'
+import { type FC, useContext, useEffect, useState } from 'react'
 
 import { Card, CardBody, Spacer } from '@nextui-org/react'
 
 import { ShowPrices } from '@/utils/ShowPrices'
 import { TruncateText } from '@/utils/TruncateText'
-import { ProductContext } from '@/pages/[nameApp]'
 
 import { ImageRound } from '../imageRound/ImageRound'
 import { TbShoppingCartPlus } from 'react-icons/tb'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import { ModalEdit } from '../modals/ModalEdit'
+import { ProductContext } from '@/context/ProductContext'
 
 // COMPONENT
 export const ShoppingCardBody: FC = () => {
@@ -18,11 +18,11 @@ export const ShoppingCardBody: FC = () => {
   const { productList } = context
 
   // Extrac Width Actualiti
-  const [width, getwidth] = useState(0);
-  useEffect(()=>{
+  const [width, getwidth] = useState(0)
+  useEffect(() => {
     const validateWidth = window.innerWidth
     getwidth(validateWidth)
-  },[])
+  }, [])
   return (
     <div className="w-full overflow-auto max-h-[50vh] min-h-[50vh] p-3 bg-[#F5F6FA] dark:bg-[#18181B]">
       {productList.length === 0 ? (
@@ -67,12 +67,13 @@ export const ShoppingCardBody: FC = () => {
             const taxObject = {
               name: `Impuesto (${elementTax.percentage}%): `,
               title: 'Total Impuesto: ',
-              value: total * ((elementTax.percentage?elementTax.percentage:0 ) / 100)
+              value:
+                total *
+                ((elementTax.percentage ? elementTax.percentage : 0) / 100)
             }
 
             arrayTax.push(taxObject)
           }
-
 
           return (
             <Card className="mb-3" key={element.id}>
@@ -86,7 +87,10 @@ export const ShoppingCardBody: FC = () => {
                     />
                     <div className="flex flex-col justify-around">
                       <p className="text-xl font-medium">
-                        {TruncateText(element.item.name, (width < 1230 ) ? 28 : 60 )}
+                        {TruncateText(
+                          element.item.name,
+                          width < 1230 ? 28 : 60
+                        )}
                       </p>
                       <p className="text-small text-default-500">
                         {TruncateText(element.group.name)}

@@ -2,8 +2,8 @@ import { type CustomerList } from '@/interface/customers'
 import { Chip, User } from '@nextui-org/react'
 import React, { useContext, type FC, type Key } from 'react'
 import { TbArrowBigRightLineFilled } from 'react-icons/tb'
-import { UrlContext } from '@/pages/[nameApp]'
 import { ParametersContext } from '@/components/shopping/ShoppingCart'
+import { UrlContext } from '@/context/UrlContext'
 
 interface Props {
   customer: CustomerList

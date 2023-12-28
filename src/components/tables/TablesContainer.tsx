@@ -25,14 +25,15 @@ import {
 } from '@nextui-org/react'
 import { ConvertRGBtoHex, converterHexadecimalToRgb } from '@/utils/hexadeToRgb'
 
-import { UrlContext } from '@/pages/[nameApp]/mesas'
 import { icons } from '@/utils/selectTableIcons'
+import { UrlContext } from '@/context/UrlContext'
 
 export interface Tables {
   id: number
   name: string
   count: number
   metadata: string
+  data?: string
 }
 
 interface Props {
@@ -46,7 +47,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
   const { color, functionApi } = useContext(UrlContext)
 
   const [nameInputView, setNameInputView] = useState('')
-  const [ isLoading, setIsLoading ] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [newColorInput, setNewColorInput] = useState(
     ConvertRGBtoHex(color.colorApp)
   )
@@ -56,18 +57,13 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
     name: '',
     metadata: ''
   })
-  const [width, getwidth] = useState(0)
   const [selectIconIndex, setSelectIconIndex] = useState('0')
 
   const handleSelectedItem = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectIconIndex(e.target.value)
   }
 
-
-
   useEffect(() => {
-    const validateWidth = window.innerWidth
-    getwidth(validateWidth)
     setTableView({
       ...tableView,
       name: nameInputView,
@@ -87,31 +83,29 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
     if (nameInputView.length === 0) return true
   }, [nameInputView])
 
-
   const handleCreateTable = (onClose: () => void) => {
-    
     if (nameInputView.length !== 0) {
       setIsLoading(true)
       setNameInputView('')
       setNewColorInput(ConvertRGBtoHex(color.colorApp))
       setSelectIconIndex('0')
-      console.log(tableView);
-      
-      functionApi.post('https://lab.cuental.com/api/v1/pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27', tableView)
+      console.log(tableView)
+
+      functionApi.post(
+        'https://lab.cuental.com/api/v1/pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27',
+        tableView
+      )
       location.reload()
-     // onClose()
+      // onClose()
     }
-    
-  } 
+  }
 
   return (
     <div
       className="col-span-12 p-5 pb-0 "
       style={{ minHeight: 'calc(100vh - 128px)' }}
     >
-      <div
-        className="grid sm:grid-cols-1 ms:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 2xl:grid-cols-7 grid-cols-1 gap-2 lg:gap-5 p-3 "
-      >
+      <div className="grid sm:grid-cols-1 ms:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 2xl:grid-cols-7 grid-cols-1 gap-2 lg:gap-5 p-3 ">
         {tables.map((element, index) => {
           return <TablesCard key={index} tableElement={element} />
         })}
@@ -141,7 +135,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                         onValueChange={setNameInputView}
                         value={nameInputView}
                         isInvalid={isEmptyInputName}
-                        errorMessage={isEmptyInputName && "Nombre Requerido"}
+                        errorMessage={isEmptyInputName && 'Nombre Requerido'}
                         label="Nombre"
                         size="sm"
                         className="mb-3"

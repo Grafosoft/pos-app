@@ -1,10 +1,10 @@
 import { useContext, useState, useEffect, type FC } from 'react'
 import { Card, CardBody, CardHeader } from '@nextui-org/react'
-import { ProductContext } from '@/pages/[nameApp]'
 import { type interfaceProduct } from '@/interface/products'
 import { TruncateText } from '../../utils/TruncateText'
 import { ImageRound } from '../imageRound/ImageRound'
 import { addProductCart } from '@/utils/addProductCart'
+import { ProductContext } from '@/context/ProductContext'
 
 interface Props {
   product: interfaceProduct

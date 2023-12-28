@@ -61,7 +61,11 @@ export const NavBar: FC<Props> = ({ name, color }) => {
         <div className="flex items-center cursor-pointer">
           <TbTag size={20} style={{ color: '#A4B0BE' }} />
           <Link
-            onClick={() => push(`/${name}?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`)}
+            onClick={async () =>
+              await push(
+                `/${name}?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
+              )
+            }
             className="text-[#A4B0BE] ml-1"
           >
             Venta sencilla
@@ -69,20 +73,39 @@ export const NavBar: FC<Props> = ({ name, color }) => {
           <Spacer x={10} />
           <TbTagStarred size={20} style={{ color: '#A4B0BE' }} />
           <Link
-            onClick={() => push(`/${name}/mesas?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`)}
+            onClick={async () =>
+              await push(
+                `/${name}/mesas?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
+              )
+            }
             className="text-[#A4B0BE] ml-1"
           >
             Venta por mesa
           </Link>
           <Spacer x={10} />
           <TbUserDollar size={20} style={{ color: '#A4B0BE' }} />
-          <Link className="text-[#A4B0BE] ml-1"
-            onClick={() => push(`/${name}?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`)}
-          >Venta por cliente</Link>
+          <Link
+            className="text-[#A4B0BE] ml-1"
+            onClick={async () =>
+              await push(
+                `/${name}?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
+              )
+            }
+          >
+            Venta por cliente
+          </Link>
           <Spacer x={10} />
           <TbInbox size={20} style={{ color: '#A4B0BE' }} />
-          <Link className="text-[#A4B0BE] ml-1"
-            onClick={() => push(`/${name}?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`)}>Informes</Link>
+          <Link
+            className="text-[#A4B0BE] ml-1"
+            onClick={async () =>
+              await push(
+                `/${name}?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
+              )
+            }
+          >
+            Informes
+          </Link>
         </div>
         <User name="Fredy Rangel" description="fredyrangelcba@hotmail.com" />
       </div>
