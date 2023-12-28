@@ -61,7 +61,6 @@ export const NavBar: FC<Props> = ({ name, color }) => {
         <div className="flex items-center cursor-pointer">
           <TbTag size={20} style={{ color: '#A4B0BE' }} />
           <Link
-            //href={`http://localhost:3000/${name}?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`}
             onClick={() => push(`/${name}?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`)}
             className="text-[#A4B0BE] ml-1"
           >
@@ -71,7 +70,6 @@ export const NavBar: FC<Props> = ({ name, color }) => {
           <TbTagStarred size={20} style={{ color: '#A4B0BE' }} />
           <Link
             onClick={() => push(`/${name}/mesas?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`)}
-            //href={`http://localhost:3000/${name}/mesas?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`}
             className="text-[#A4B0BE] ml-1"
           >
             Venta por mesa
