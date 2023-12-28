@@ -110,9 +110,9 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
             onPress={onOpen}
             isPressable
             radius="md"
-            className="flex cursor-pointer justify-center items-center h-[28vh] lg:h-[25vh] w-[25vh] border-4 border-dashed shadow-sm bg-[#F5F6FA]"
+            className="flex cursor-pointer justify-center items-center h-[28vh] lg:h-[25vh] w-[25vh] border-4 dark:border-[#B3B3B3] border-dashed shadow-sm bg-[#F5F6FA] dark:bg-inherit"
           >
-            <IoAdd size={110} color={'E5E7EB'} />
+            <IoAdd size={110} color={'B3B3B3'} />
           </Card>
         </div>
 
@@ -163,7 +163,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                         />
                       </div>
                     </div>
-                    <div className="w-full bg-slate-100 py-5 flex justify-center rounded-lg">
+                    <div className="w-full bg-[#F5F6FA] dark:bg-neutral-700 py-5 flex justify-center rounded-lg">
                       <TablesCard tableElement={tableView} />
                     </div>
                   </div>
