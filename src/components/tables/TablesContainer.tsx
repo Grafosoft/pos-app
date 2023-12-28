@@ -3,7 +3,8 @@ import {
   type FC,
   useEffect,
   useContext,
-  type ChangeEvent
+  type ChangeEvent,
+  useMemo
 } from 'react'
 import { TablesCard } from './TablesCard'
 import { IoAdd } from 'react-icons/io5'
@@ -42,10 +43,10 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   // import Context UrlContext
-  const { color } = useContext(UrlContext)
+  const { color, functionApi } = useContext(UrlContext)
 
   const [nameInputView, setNameInputView] = useState('')
-
+  const [ isLoading, setIsLoading ] = useState(false)
   const [newColorInput, setNewColorInput] = useState(
     ConvertRGBtoHex(color.colorApp)
   )
@@ -55,14 +56,14 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
     name: '',
     metadata: ''
   })
-
   const [width, getwidth] = useState(0)
-
   const [selectIconIndex, setSelectIconIndex] = useState('0')
 
   const handleSelectedItem = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectIconIndex(e.target.value)
   }
+
+
 
   useEffect(() => {
     const validateWidth = window.innerWidth
@@ -79,16 +80,29 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
         iconIndex: parseInt(selectIconIndex)
       })
     })
-    console.log(tableView)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nameInputView, newColorInput, selectIconIndex])
 
+  const isEmptyInputName = useMemo(() => {
+    if (nameInputView.length === 0) return true
+  }, [nameInputView])
+
+
   const handleCreateTable = (onClose: () => void) => {
-    setNameInputView('')
-    setNewColorInput(ConvertRGBtoHex(color.colorApp))
-    setSelectIconIndex('0')
-    onClose()
-  }
+    
+    if (nameInputView.length !== 0) {
+      setIsLoading(true)
+      setNameInputView('')
+      setNewColorInput(ConvertRGBtoHex(color.colorApp))
+      setSelectIconIndex('0')
+      console.log(tableView);
+      
+      functionApi.post('https://lab.cuental.com/api/v1/pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27', tableView)
+      location.reload()
+     // onClose()
+    }
+    
+  } 
 
   return (
     <div
@@ -96,11 +110,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
       style={{ minHeight: 'calc(100vh - 128px)' }}
     >
       <div
-        className="grid sm:grid-cols-1 ms:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7 grid-cols-1 gap-2 lg:gap-5 p-3 overflow-auto"
-        style={{
-          maxHeight:
-            width < 1230 ? 'calc(100vh - 100px)' : 'calc(100vh - 160px)'
-        }}
+        className="grid sm:grid-cols-1 ms:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 2xl:grid-cols-7 grid-cols-1 gap-2 lg:gap-5 p-3 "
       >
         {tables.map((element, index) => {
           return <TablesCard key={index} tableElement={element} />
@@ -130,6 +140,8 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                       <Input
                         onValueChange={setNameInputView}
                         value={nameInputView}
+                        isInvalid={isEmptyInputName}
+                        errorMessage={isEmptyInputName && "Nombre Requerido"}
                         label="Nombre"
                         size="sm"
                         className="mb-3"
@@ -176,6 +188,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                   <Button
                     color="primary"
                     variant="flat"
+                    isLoading={isLoading}
                     onPress={() => {
                       handleCreateTable(onClose)
                     }}
