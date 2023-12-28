@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader } from '@nextui-org/react'
 // import { MdTableBar } from 'react-icons/md'
 import type { Tables } from './TablesContainer'
 import { ImageRound } from '../imageRound/ImageRound'
-import { UrlContext } from '@/pages/[nameApp]/mesas'
+import { UrlContext } from '@/context/UrlContext'
 
 interface Props {
   tableElement: Tables
@@ -13,7 +13,6 @@ export const TablesCard: FC<Props> = ({ tableElement }) => {
   const { color } = useContext(UrlContext)
   const validateObject =
     tableElement.metadata !== '' ? JSON.parse(tableElement.metadata) : {}
-
 
   return (
     <div className="flex justify-center  h-[28vh] lg:h-[25vh] w-[27vh]">

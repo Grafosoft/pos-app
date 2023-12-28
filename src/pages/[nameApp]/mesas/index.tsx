@@ -6,9 +6,7 @@ import {
   TablesContainer
 } from '../../../components/tables/TablesContainer'
 import { validateAppColor } from '@/utils/validateAppColor'
-import axios from 'axios'
-import { createContext } from 'react'
-import { type VariablesUrl } from '../index'
+import { UrlContext } from '@/context/UrlContext'
 
 interface PropsServer {
   companyId: string
@@ -20,18 +18,6 @@ interface PropsServer {
 interface Props {
   PropsServer: PropsServer
 }
-
-export const UrlContext = createContext<VariablesUrl>({
-  companyId: '',
-  apikey: '',
-  name: '',
-  functionApi: axios.create({}),
-  color: {
-    colorApp: '',
-    colorProduct: '',
-    colorComponent: 'primary'
-  }
-})
 
 export default function ShowTables({ PropsServer }: Props) {
   const { companyId, apikey, name, data } = PropsServer
@@ -57,17 +43,21 @@ export default function ShowTables({ PropsServer }: Props) {
 export const getServerSideProps: GetServerSideProps = async ctx => {
   const params = ctx.params
   const query = ctx.query
+  const companyId = query.companyId?.toString()
+  const apikey = query.apikey?.toString()
 
-  const functionApi = validateAppApi('cuental')
+  const functionApi = validateAppApi(
+    params?.nameApp?.toString() ? params?.nameApp?.toString() : ''
+  )
   const { data } = await functionApi.get(
-    `pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
+    `pos-categories?companyId=${companyId}&apikey=${apikey}`
   )
   const dataReverse = data.reverse()
   const PropsServer = {
     companyId: query.companyId,
     apikey: query.apikey,
     name: params?.nameApp,
-    data:dataReverse
+    data: dataReverse
   }
 
   return {

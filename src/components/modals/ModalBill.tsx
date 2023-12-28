@@ -18,7 +18,8 @@ import { PaymentRow } from '../paymentRow/PaymentRow'
 import { TbUsers } from 'react-icons/tb'
 import { RiAddFill } from 'react-icons/ri'
 import { totalTaxPer } from '@/utils/totalPaxPer'
-import { ProductContext, UrlContext } from '@/pages/[nameApp]'
+import { ProductContext } from '@/context/ProductContext'
+import { UrlContext } from '@/context/UrlContext'
 
 interface Props {
   isOpen: boolean

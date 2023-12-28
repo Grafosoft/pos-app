@@ -2,9 +2,9 @@ import { Button } from '@nextui-org/react'
 import React, { type FC, useState, useContext, useEffect } from 'react'
 import { RiAddFill } from 'react-icons/ri'
 import { TbMinus } from 'react-icons/tb'
-import { ProductContext } from '@/pages/[nameApp]'
 import { type ProductList } from '@/interface/products'
 import { totalTaxPer } from '@/utils/totalPaxPer'
+import { ProductContext } from '@/context/ProductContext'
 
 interface Props {
   color?:

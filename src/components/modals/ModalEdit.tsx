@@ -12,11 +12,12 @@ import {
 } from '@nextui-org/react'
 import { CountData } from '../CountData/CountData'
 import { TbEdit, TbTrash } from 'react-icons/tb'
-import { ProductContext, UrlContext } from '@/pages/[nameApp]'
 import { type Tax, type ProductList } from '@/interface/products'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import { SelectObject } from '../objectSelect/ObjectsSelect'
 import { RiAddFill } from 'react-icons/ri'
+import { ProductContext } from '@/context/ProductContext'
+import { UrlContext } from '@/context/UrlContext'
 
 interface Props {
   element: ProductList

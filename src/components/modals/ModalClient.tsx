@@ -27,7 +27,7 @@ import {
 } from '@nextui-org/react'
 import { type CustomerList } from '@/interface/customers'
 import { TbSearch } from 'react-icons/tb'
-import { UrlContext } from '@/pages/[nameApp]'
+import { UrlContext } from '@/context/UrlContext'
 
 interface Props {
   isOpen: boolean

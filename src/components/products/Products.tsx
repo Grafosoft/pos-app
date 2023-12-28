@@ -11,9 +11,10 @@ import { Button, Image, Input } from '@nextui-org/react'
 import { type interfaceProduct } from '@/interface/products'
 import { CardProduct } from './CardProduct'
 
-import { ProductContext, UrlContext } from '@/pages/[nameApp]'
 import { addProductCart } from '@/utils/addProductCart'
 import { TbSearch } from 'react-icons/tb'
+import { ProductContext } from '@/context/ProductContext'
+import { UrlContext } from '@/context/UrlContext'
 
 export const Products: FC = () => {
   // import Context UrlContext

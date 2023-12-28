@@ -1,53 +1,16 @@
 import { type ProductList } from '@/interface/products'
 import type { GetServerSideProps } from 'next'
-import {
-  type EstructureColor,
-  validateAppColor
-} from '@/utils/validateAppColor'
+import { validateAppColor } from '@/utils/validateAppColor'
 
-import {
-  type Dispatch,
-  type SetStateAction,
-  createContext,
-  useState
-} from 'react'
+import { useState } from 'react'
 import { validateAppApi } from '@/api/validateAppApi'
-import axios, { type AxiosInstance } from 'axios'
 import { SaleView } from '@/components/saleView/SaleView'
-
-interface ProductContextType {
-  productList: ProductList[]
-  setProductList: Dispatch<SetStateAction<ProductList[]>>
-}
-
-export interface VariablesUrl {
-  companyId: string
-  apikey: string
-  name: string
-  functionApi: AxiosInstance
-  color: EstructureColor
-}
+import { ProductContext } from '@/context/ProductContext'
+import { UrlContext, type VariablesUrl } from '@/context/UrlContext'
 
 interface Props {
   PropsServer: VariablesUrl
 }
-
-export const UrlContext = createContext<VariablesUrl>({
-  companyId: '',
-  apikey: '',
-  name: '',
-  functionApi: axios.create({}),
-  color: {
-    colorApp: 'ffff',
-    colorProduct: '',
-    colorComponent: 'primary'
-  }
-})
-
-export const ProductContext = createContext<ProductContextType>({
-  productList: [],
-  setProductList: () => []
-})
 
 export default function Home({ PropsServer }: Props) {
   const { companyId, apikey, name } = PropsServer

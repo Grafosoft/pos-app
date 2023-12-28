@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import React, { useContext, type FC } from 'react'
 
-import { UrlContext } from '@/pages/[nameApp]'
 import { TbShoppingBag } from 'react-icons/tb'
 import { MdTableBar, MdTableRestaurant } from 'react-icons/md'
 import { type EstructureColor } from '@/utils/validateAppColor'
 import { GiRoundTable, GiTabletopPlayers } from 'react-icons/gi'
+import { UrlContext } from '@/context/UrlContext'
 
 interface Props {
   image: string | null

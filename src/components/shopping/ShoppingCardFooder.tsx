@@ -1,8 +1,9 @@
-import { ProductContext, UrlContext } from '@/pages/[nameApp]'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import { Button, useDisclosure } from '@nextui-org/react'
 import { type FC, useContext, useState, useEffect } from 'react'
 import { ModalBill } from '../modals/ModalBill'
+import { ProductContext } from '@/context/ProductContext'
+import { UrlContext } from '@/context/UrlContext'
 
 // COMPONENT
 export const ShoppingCardFooder: FC = () => {

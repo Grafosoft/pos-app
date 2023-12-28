@@ -4,10 +4,10 @@ import { type FC, useEffect, useState } from 'react'
 import { TbSunHigh, TbMoonFilled } from 'react-icons/tb'
 
 interface Props {
-  color:string
+  color: string
 }
 
-export const SwitchTheme: FC<Props> = ({color}) => {
+export const SwitchTheme: FC<Props> = ({ color }) => {
   const { theme, setTheme } = useTheme()
   const [isActiveTheme, setIsActiveTheme] = useState(false)
 

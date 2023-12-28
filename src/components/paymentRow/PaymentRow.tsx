@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useState,
   useEffect,
@@ -49,23 +50,26 @@ export const PaymentRow: FC<Props> = ({
 
     const arrayRenameId = arrayDelete.map((element, index) => {
       element.id = index
-      //setValueInput(element.value.toString())
+      // setValueInput(element.value.toString())
       return element
     })
 
     setPaymentArray(arrayRenameId)
   }
 
-  useEffect(()=>{
-        elementPayment.value = parseInt(valueInput)
-        elementPayment.voucher = voucherInput
-  },[valueInput, voucherInput])
+  useEffect(() => {
+    elementPayment.value = parseInt(valueInput)
+    elementPayment.voucher = voucherInput
+  }, [valueInput, voucherInput])
 
-  const handleVoucherAndValor = (e: ChangeEvent<HTMLInputElement>,tipo:string) => {
-    if(tipo === "valor"){
+  const handleVoucherAndValor = (
+    e: ChangeEvent<HTMLInputElement>,
+    tipo: string
+  ) => {
+    if (tipo === 'valor') {
       elementPayment.value = parseInt(e.target.value)
       setValueInput(e.target.value)
-    }else{
+    } else {
       elementPayment.voucher = e.target.value
       setVoucherInput(e.target.value)
     }
@@ -103,18 +107,21 @@ export const PaymentRow: FC<Props> = ({
           </div>
         }
         className=""
-        value={(elementPayment.value).toString()}
+        value={elementPayment.value.toString()}
         // onValueChange={setValueInput}
-        onChange={(e) =>handleVoucherAndValor(e,"valor")}
+        onChange={e => {
+          handleVoucherAndValor(e, 'valor')
+        }}
       />
-
 
       <Input
         label="Voucher"
         size="sm"
         value={elementPayment.voucher}
-        //onValueChange={setBVucherInput}
-        onChange={(e)=> handleVoucherAndValor(e,"voucher")}
+        // onValueChange={setBVucherInput}
+        onChange={e => {
+          handleVoucherAndValor(e, 'voucher')
+        }}
       />
       {paymentArray[0].id !== elementPayment.id ? (
         <Button
