@@ -62,11 +62,12 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   const { data } = await functionApi.get(
     `pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27`
   )
+  const dataReverse = data.reverse()
   const PropsServer = {
     companyId: query.companyId,
     apikey: query.apikey,
     name: params?.nameApp,
-    data
+    data:dataReverse
   }
 
   return {

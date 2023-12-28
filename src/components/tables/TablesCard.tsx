@@ -14,7 +14,6 @@ export const TablesCard: FC<Props> = ({ tableElement }) => {
   const validateObject =
     tableElement.metadata !== '' ? JSON.parse(tableElement.metadata) : {}
 
-  console.log(validateObject.iconIndex)
 
   return (
     <div className="flex justify-center  h-[28vh] lg:h-[25vh] w-[27vh]">

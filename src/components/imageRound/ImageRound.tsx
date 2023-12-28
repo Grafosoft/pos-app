@@ -32,7 +32,7 @@ export const ImageRound: FC<Props> = ({
       icono = <TbShoppingBag size={50} color={color.colorApp} />
       break
     case 'table':
-      icono = <MdTableBar size={50} color={colorIcon.colorApp} />
+      icono = <MdTableBar size={50} color={colorIcon?.colorApp} />
       break
   }
 
@@ -51,7 +51,6 @@ export const ImageRound: FC<Props> = ({
     }
   ]
 
-  console.log(icons[iconIndex])
   return (
     <>
       {image && image.length > 3 ? (
