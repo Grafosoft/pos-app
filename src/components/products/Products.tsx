@@ -58,12 +58,15 @@ export const Products: FC = () => {
     buscarProducto()
     inputRef.current?.focus()
   }
+  
   // Extrac Width Actualiti
   const [width, getwidth] = useState(0)
   useEffect(() => {
     const validateWidth = window.innerWidth
     getwidth(validateWidth)
-  }, [])
+    console.log(productList);
+    
+  }, [productList])
 
   return (
     <div className="">
