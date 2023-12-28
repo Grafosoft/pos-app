@@ -1,4 +1,10 @@
-import { useState, type FC, useEffect, useContext } from 'react'
+import {
+  useState,
+  type FC,
+  useEffect,
+  useContext,
+  type ChangeEvent
+} from 'react'
 import { TablesCard } from './TablesCard'
 import { IoAdd } from 'react-icons/io5'
 
@@ -13,13 +19,13 @@ import {
   useDisclosure,
   Input,
   Select,
-  SelectItem
+  SelectItem,
+  Divider
 } from '@nextui-org/react'
-import { converterHexadecimalToRgb } from '@/utils/hexadeToRgb'
+import { ConvertRGBtoHex, converterHexadecimalToRgb } from '@/utils/hexadeToRgb'
 
-import { MdOutlineTableBar, MdTableRestaurant } from 'react-icons/md'
-import { FcTabletAndroid } from 'react-icons/fc'
 import { UrlContext } from '@/pages/[nameApp]/mesas'
+import { icons } from '@/utils/selectTableIcons'
 
 export interface Tables {
   id: number
@@ -35,29 +41,54 @@ interface Props {
 export const TablesContainer: FC<Props> = ({ tables }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
-    // import Context UrlContext
-    const { color } = useContext(UrlContext)
+  // import Context UrlContext
+  const { color } = useContext(UrlContext)
 
-  const [newColorInput, setNewColorInput] = useState(color.colorApp)
+  const [nameInputView, setNameInputView] = useState('')
+
+  const [newColorInput, setNewColorInput] = useState(
+    ConvertRGBtoHex(color.colorApp)
+  )
+  const [tableView, setTableView] = useState<Tables>({
+    id: 0,
+    count: 0,
+    name: '',
+    metadata: ''
+  })
 
   const [width, getwidth] = useState(0)
+
+  const [selectIconIndex, setSelectIconIndex] = useState('0')
+
+  const handleSelectedItem = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectIconIndex(e.target.value)
+  }
+
   useEffect(() => {
     const validateWidth = window.innerWidth
     getwidth(validateWidth)
-    console.log(converterHexadecimalToRgb(newColorInput))
-  }, [newColorInput])
+    setTableView({
+      ...tableView,
+      name: nameInputView,
+      metadata: JSON.stringify({
+        colorApp: converterHexadecimalToRgb(newColorInput),
+        colorProduct: converterHexadecimalToRgb(newColorInput).replace(
+          ',1)',
+          ',0.2)'
+        ),
+        iconIndex: parseInt(selectIconIndex)
+      })
+    })
+    console.log(tableView)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nameInputView, newColorInput, selectIconIndex])
 
-  const icons = [
-    {
-      item: <MdOutlineTableBar size={40} />
-    },
-    {
-      item: <MdTableRestaurant size={40} />
-    },
-    {
-      item: <FcTabletAndroid size={40} />
-    }
-  ]
+  const handleCreateTable = (onClose: () => void) => {
+    setNameInputView('')
+    setNewColorInput(ConvertRGBtoHex(color.colorApp))
+    setSelectIconIndex('0')
+    onClose()
+  }
 
   return (
     <div
@@ -74,57 +105,81 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
         {tables.map((element, index) => {
           return <TablesCard key={index} tableElement={element} />
         })}
+        <div className="flex justify-center  h-[28vh] lg:h-[25vh] w-[27vh]">
+          <Card
+            onPress={onOpen}
+            isPressable
+            radius="md"
+            className="flex cursor-pointer justify-center items-center h-[28vh] lg:h-[25vh] w-[25vh] border-4 dark:border-[#B3B3B3] border-dashed shadow-sm bg-[#F5F6FA] dark:bg-inherit"
+          >
+            <IoAdd size={110} color={'B3B3B3'} />
+          </Card>
+        </div>
 
-        <Card
-          onPress={onOpen}
-          isPressable
-          radius="md"
-          className="flex cursor-pointer justify-center items-center h-[28vh] lg:h-[25vh] w-[27vh] border-4 border-dashed shadow-sm bg-[#F5F6FA]"
-        >
-          <IoAdd size={110} color={'E5E7EB'} />
-        </Card>
-
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
           <ModalContent>
             {onClose => (
               <>
-                <ModalHeader className="flex flex-col gap-1">
-                  Crear Mesa
-                </ModalHeader>
+                <ModalHeader className="flex flex-col gap-1"></ModalHeader>
                 <ModalBody>
-                  <Input label="Nombre" size="sm" className="" />
-                  <div className="flex items-center gap-2 ">
-                    {/*  <label className="mr-5">Color:</label> */}
-                    <Input
-                      type="color"
-                      size="sm"
-                      startContent={<div>Color</div>}
-                      value={newColorInput}
-                      onValueChange={setNewColorInput}
-                    />
-                    <Select
-                      size="sm"
-                      label="Select an animal"
-                      className="max-w-xs"
-                    >
-                      {icons.map((icono, index) => (
-                        <SelectItem
-                          className="flex flex-col items-center"
-                          key={index}
-                          textValue={`Mesa #${index + 1}`}
-                          value={index}
+                  <div className="flex items-center justify-between gap-5">
+                    <div className="w-full ">
+                      <h1 className="w-full text-center mb-5 text-xl">
+                        Crear Mesa
+                      </h1>
+                      <Input
+                        onValueChange={setNameInputView}
+                        value={nameInputView}
+                        label="Nombre"
+                        size="sm"
+                        className="mb-3"
+                      />
+                      <div className="flex w-full items-center gap-3">
+                        {/*  <label className="mr-5">Color:</label> */}
+                        <Select
+                          size="sm"
+                          label="Select an animal"
+                          className="max-w-xs"
+                          onChange={handleSelectedItem}
+                          selectedKeys={[selectIconIndex]}
                         >
-                          {icono.item}
-                        </SelectItem>
-                      ))}
-                    </Select>
+                          {icons.map((icono, index) => (
+                            <SelectItem
+                              className="flex flex-col items-center"
+                              key={index}
+                              textValue={`Mesa #${index + 1}`}
+                              value={index}
+                            >
+                              {icono.item}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                        <Input
+                          type="color"
+                          size="sm"
+                          startContent={<div>Color</div>}
+                          value={newColorInput}
+                          onValueChange={setNewColorInput}
+                        />
+                      </div>
+                    </div>
+                    <div className="w-full bg-[#F5F6FA] dark:bg-neutral-700 py-5 flex justify-center rounded-lg">
+                      <TablesCard tableElement={tableView} />
+                    </div>
                   </div>
+                  <Divider orientation="vertical" />
                 </ModalBody>
                 <ModalFooter>
                   <Button color="danger" variant="flat" onPress={onClose}>
                     Cerrar
                   </Button>
-                  <Button color="primary" variant="flat" onPress={onClose}>
+                  <Button
+                    color="primary"
+                    variant="flat"
+                    onPress={() => {
+                      handleCreateTable(onClose)
+                    }}
+                  >
                     Crear
                   </Button>
                 </ModalFooter>
