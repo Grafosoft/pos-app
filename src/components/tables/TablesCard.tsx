@@ -14,17 +14,19 @@ export const TablesCard: FC<Props> = ({ tableElement }) => {
   const { color, apikey, name, companyId } = useContext(UrlContext)
   const validateObject =
     tableElement.metadata !== '' ? JSON.parse(tableElement.metadata) : {}
-    const { push } = useRouter()
+  const { push } = useRouter()
 
   const handlePressCardTable = (idTable: number) => {
     push(`/${name}/mesas/${idTable}?companyId=${companyId}&apikey=${apikey}`)
+    return ''
   }
   return (
     <div className="flex justify-center  h-[28vh] lg:h-[25vh] w-[27vh]">
       <Card
-        onPress={()=> handlePressCardTable(tableElement.id)}
-        className={`p-1 w-[25vh] ${tableElement.id !== 0 ? 'shadow-sm' : 'shadow-md'
-          }`}
+        onPress={() => handlePressCardTable(tableElement.id)}
+        className={`p-1 w-[25vh] ${
+          tableElement.id !== 0 ? 'shadow-sm' : 'shadow-md'
+        }`}
         isPressable
       >
         <CardHeader className="p-0 flex-col items-center">

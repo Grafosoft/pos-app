@@ -67,6 +67,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
     onClose()
   }
 
+
   const [taxSettings, setTaxSettings] = useState<Tax[]>([])
 
   useEffect(() => {

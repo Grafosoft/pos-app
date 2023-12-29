@@ -56,6 +56,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
     count: 0,
     name: '',
     metadata: '',
+    data: ''
   })
   const [selectIconIndex, setSelectIconIndex] = useState('0')
 
@@ -73,60 +74,62 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
           ',1)',
           ',0.2)'
         ),
-        iconIndex: parseInt(selectIconIndex),
+        iconIndex: parseInt(selectIconIndex)
+      }),
+      data: JSON.stringify({
         items: [
           {
-            "id": 11120,
-            "quantity": 1,
-            "value": 150000,
-            "price": 150000,
-            "discount": 0,
-            "description": "",
-            "discountAmount": 0,
-            "totalAmount": 178500,
-            "item": {
-              "id": 11120,
-              "name": "202209210674"
+            id: 11120,
+            quantity: 10,
+            value: 1500000,
+            price: 150000,
+            discount: 0,
+            description: '',
+            discountAmount: 0,
+            totalAmount: 178500,
+            item: {
+              id: 11120,
+              name: '202209210674'
             },
-            "tax": [
+            tax: [
               {
-                "id": 104,
-                "name": "IVA 19",
-                "value": 0,
-                "percentage": 19
+                id: 104,
+                name: 'IVA 19',
+                value: 0,
+                percentage: 19
               }
             ],
-            "image": null,
-            "group": {
-              "id": 14,
-              "name": "LINEA TRAJE DE BAÑO"
+            image: null,
+            group: {
+              id: 14,
+              name: 'LINEA TRAJE DE BAÑO'
             }
           },
           {
-            "id": 11121,
-            "quantity": 1,
-            "value": 80000,
-            "price": 80000,
-            "discount": 0,
-            "description": "",
-            "discountAmount": 0,
-            "totalAmount": 92800,
-            "item": {
-              "id": 11121,
-              "name": "352000532681958"
+            id: 11121,
+            quantity: 1,
+            value: 80000,
+            price: 80000,
+            discount: 0,
+            description: '',
+            discountAmount: 0,
+            totalAmount: 92800,
+            item: {
+              id: 11121,
+              name: '352000532681958'
             },
-            "tax": [
+            tax: [
               {
-                "id": 103,
-                "name": "IVA 16",
-                "value": 0,
-                "percentage": 16
+                id: 103,
+                name: 'IVA 16',
+                value: 0,
+                percentage: 16
               }
             ],
-            "image": null,
-            "group": {
-              "id": 14,
-              "name": "LINEA TRAJE DE BAÑO"
+            image: null,
+            group: {
+              id: 14,
+              name: 'LINEA TRAJE DE BAÑO'
             }
           }
         ]
