@@ -4,19 +4,29 @@ import { Card, CardBody, CardHeader } from '@nextui-org/react'
 import type { Tables } from './TablesContainer'
 import { ImageRound } from '../imageRound/ImageRound'
 import { UrlContext } from '@/context/UrlContext'
+import { useRouter } from 'next/router'
 
 interface Props {
   tableElement: Tables
+  isPressAble: boolean
 }
 
-export const TablesCard: FC<Props> = ({ tableElement }) => {
-  const { color } = useContext(UrlContext)
+export const TablesCard: FC<Props> = ({ tableElement, isPressAble }) => {
+  const { color, apikey, name, companyId } = useContext(UrlContext)
   const validateObject =
     tableElement.metadata !== '' ? JSON.parse(tableElement.metadata) : {}
+  const { push } = useRouter()
 
+  const handlePressCardTable = (idTable: number) => {
+    push(`/${name}/mesas/${idTable}?companyId=${companyId}&apikey=${apikey}`)
+    return ''
+  }
   return (
     <div className="flex justify-center  h-[28vh] lg:h-[25vh] w-[27vh]">
       <Card
+        onPress={
+          isPressAble ? () => handlePressCardTable(tableElement.id) : () => {}
+        }
         className={`p-1 w-[25vh] ${
           tableElement.id !== 0 ? 'shadow-sm' : 'shadow-md'
         }`}

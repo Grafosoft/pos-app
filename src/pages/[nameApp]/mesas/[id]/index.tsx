@@ -18,7 +18,7 @@ export interface VariablesTable {
   name: string
   functionApi: AxiosInstance
   color: EstructureColor
-  data: Tables
+  tableData: Tables
 }
 
 interface Props {
@@ -26,9 +26,20 @@ interface Props {
 }
 
 export default function TableSpecific({ PropsServer }: Props) {
-  const { companyId, apikey, name } = PropsServer
-  console.log(PropsServer)
-  const [productList, setProductList] = useState<ProductList[]>([])
+  const { companyId, apikey, name, tableData } = PropsServer
+  // let dataJson = JSON.parse(tableData?.data)F
+  const idTable = tableData.id
+  console.log(idTable)
+  const metadataTable = JSON.parse(tableData.metadata)
+
+  // console.log(dataJson)
+  const [productList, setProductList] = useState<ProductList[]>(
+    metadataTable.items !== undefined
+      ? metadataTable.items.length === 0
+        ? []
+        : metadataTable.items
+      : []
+  )
 
   // FUNCTION VALIDATE APPCOLOR AND VALIDATE APP-API
   const functionApi = validateAppApi(name)
@@ -36,12 +47,11 @@ export default function TableSpecific({ PropsServer }: Props) {
 
   return (
     <UrlContext.Provider
-      value={{ companyId, apikey, functionApi, color, name }}
+      value={{ companyId, apikey, functionApi, color, name, idTable }}
     >
       <ProductContext.Provider value={{ productList, setProductList }}>
         <SaleView name={name} color={color} />
       </ProductContext.Provider>
-      {/* Cargo */}
     </UrlContext.Provider>
   )
 }
@@ -59,12 +69,13 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   const { data } = await functionApi.get(
     `pos-categories/${id}?companyId=${companyId}&apikey=${apikey}`
   )
+  console.log(data)
 
   const PropsServer = {
     companyId: query.companyId,
     apikey: query.apikey,
     name: params?.nameApp,
-    data
+    tableData: data
   }
 
   return {

@@ -11,15 +11,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      screens:{
-        'sm': '640px',
-        'ms': '780px',
-        'md': '900px',
-        'lg': '1230px',
-        'xl': '1280px',
+      screens: {
+        sm: '640px',
+        ms: '780px',
+        md: '900px',
+        lg: '1230px',
+        xl: '1280px',
         '2xl': '1610px'
       }
-    },
+    }
   },
   darkMode: 'class',
   plugins: [nextui()]

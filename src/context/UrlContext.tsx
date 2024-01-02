@@ -8,6 +8,7 @@ export interface VariablesUrl {
   name: string
   functionApi: AxiosInstance
   color: EstructureColor
+  idTable?: number
 }
 
 export const UrlContext = createContext<VariablesUrl>({
@@ -19,5 +20,6 @@ export const UrlContext = createContext<VariablesUrl>({
     colorApp: 'ffff',
     colorProduct: '',
     colorComponent: 'primary'
-  }
+  },
+  idTable: 0
 })

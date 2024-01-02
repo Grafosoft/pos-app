@@ -3,8 +3,7 @@ import {
   type FC,
   useEffect,
   useContext,
-  type ChangeEvent,
-  useMemo
+  type ChangeEvent
 } from 'react'
 import { TablesCard } from './TablesCard'
 import { IoAdd } from 'react-icons/io5'
@@ -48,6 +47,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
 
   const [nameInputView, setNameInputView] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isEmptyInputName, getIsEmptyInputName] = useState(false)
   const [newColorInput, setNewColorInput] = useState(
     ConvertRGBtoHex(color.colorApp)
   )
@@ -55,7 +55,8 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
     id: 0,
     count: 0,
     name: '',
-    metadata: ''
+    metadata: '',
+    data: ''
   })
   const [selectIconIndex, setSelectIconIndex] = useState('0')
 
@@ -74,17 +75,85 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
           ',0.2)'
         ),
         iconIndex: parseInt(selectIconIndex)
+      }),
+      data: JSON.stringify({
+        items: [
+          {
+            id: 11120,
+            quantity: 10,
+            value: 1500000,
+            price: 150000,
+            discount: 0,
+            description: '',
+            discountAmount: 0,
+            totalAmount: 178500,
+            items: {
+              id: 11120,
+              name: '202209210674'
+            },
+            tax: [
+              {
+                id: 104,
+                name: 'IVA 19',
+                value: 0,
+                percentage: 19
+              }
+            ],
+            image: null,
+            group: {
+              id: 14,
+              name: 'LINEA TRAJE DE BAÑO'
+            }
+          },
+          {
+            id: 11121,
+            quantity: 1,
+            value: 80000,
+            price: 80000,
+            discount: 0,
+            description: '',
+            discountAmount: 0,
+            totalAmount: 92800,
+            item: {
+              id: 11121,
+              name: '352000532681958'
+            },
+            tax: [
+              {
+                id: 103,
+                name: 'IVA 16',
+                value: 0,
+                percentage: 16
+              }
+            ],
+            image: null,
+            group: {
+              id: 14,
+              name: 'LINEA TRAJE DE BAÑO'
+            }
+          }
+        ]
       })
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nameInputView, newColorInput, selectIconIndex])
 
-  const isEmptyInputName = useMemo(() => {
-    if (nameInputView.length === 0) return true
+  useEffect(() => {
+    if (nameInputView.length !== 0) {
+      getIsEmptyInputName(false)
+    }
   }, [nameInputView])
+  useEffect(() => {
+    console.log(onclose)
+    console.log(onOpen)
+    console.log(onOpenChange)
+  }, [onOpen, onOpenChange])
 
   const handleCreateTable = (onClose: () => void) => {
     if (nameInputView.length !== 0) {
+      console.log('SE EJECUTRA')
+
+      getIsEmptyInputName(false)
       setIsLoading(true)
       setNameInputView('')
       setNewColorInput(ConvertRGBtoHex(color.colorApp))
@@ -97,6 +166,8 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
       )
       location.reload()
       // onClose()
+    } else {
+      getIsEmptyInputName(true)
     }
   }
 
@@ -106,9 +177,6 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
       style={{ minHeight: 'calc(100vh - 128px)' }}
     >
       <div className="grid sm:grid-cols-1 ms:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 2xl:grid-cols-7 grid-cols-1 gap-2 lg:gap-5 p-3 ">
-        {tables.map((element, index) => {
-          return <TablesCard key={index} tableElement={element} />
-        })}
         <div className="flex justify-center  h-[28vh] lg:h-[25vh] w-[27vh]">
           <Card
             onPress={onOpen}
@@ -119,6 +187,11 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
             <IoAdd size={110} color={'B3B3B3'} />
           </Card>
         </div>
+        {tables.map((element, index) => {
+          return (
+            <TablesCard key={index} isPressAble={true} tableElement={element} />
+          )
+        })}
 
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
           <ModalContent>
@@ -166,11 +239,15 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                           startContent={<div>Color</div>}
                           value={newColorInput}
                           onValueChange={setNewColorInput}
+                          id="inputColor"
                         />
                       </div>
                     </div>
                     <div className="w-full bg-[#F5F6FA] dark:bg-neutral-700 py-5 flex justify-center rounded-lg">
-                      <TablesCard tableElement={tableView} />
+                      <TablesCard
+                        isPressAble={false}
+                        tableElement={tableView}
+                      />
                     </div>
                   </div>
                   <Divider orientation="vertical" />
