@@ -34,7 +34,11 @@ export default function TableSpecific({ PropsServer }: Props) {
 
   // console.log(dataJson)
   const [productList, setProductList] = useState<ProductList[]>(
-    metadataTable.items.length === 0 ? [] : metadataTable.items
+    metadataTable.items !== undefined
+      ? metadataTable.items.length === 0
+        ? []
+        : metadataTable.items
+      : []
   )
 
   // FUNCTION VALIDATE APPCOLOR AND VALIDATE APP-API

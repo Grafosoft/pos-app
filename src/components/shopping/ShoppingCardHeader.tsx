@@ -13,7 +13,7 @@ export const ShoppingCardHeader: FC = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const { customerSearch } = useContext(ParametersContext)
 
-  const { idTable, functionApi } = useContext(UrlContext)
+  const { idTable } = useContext(UrlContext)
 
   const handleSaveButton = () => {}
 

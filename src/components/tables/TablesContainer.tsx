@@ -3,8 +3,7 @@ import {
   type FC,
   useEffect,
   useContext,
-  type ChangeEvent,
-  useMemo
+  type ChangeEvent
 } from 'react'
 import { TablesCard } from './TablesCard'
 import { IoAdd } from 'react-icons/io5'
@@ -48,6 +47,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
 
   const [nameInputView, setNameInputView] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isEmptyInputName, getIsEmptyInputName] = useState(false)
   const [newColorInput, setNewColorInput] = useState(
     ConvertRGBtoHex(color.colorApp)
   )
@@ -87,7 +87,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
             description: '',
             discountAmount: 0,
             totalAmount: 178500,
-            item: {
+            items: {
               id: 11120,
               name: '202209210674'
             },
@@ -138,12 +138,22 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nameInputView, newColorInput, selectIconIndex])
 
-  const isEmptyInputName = useMemo(() => {
-    if (nameInputView.length === 0) return true
+  useEffect(() => {
+    if (nameInputView.length !== 0) {
+      getIsEmptyInputName(false)
+    }
   }, [nameInputView])
+  useEffect(() => {
+    console.log(onclose)
+    console.log(onOpen)
+    console.log(onOpenChange)
+  }, [onOpen, onOpenChange])
 
   const handleCreateTable = (onClose: () => void) => {
     if (nameInputView.length !== 0) {
+      console.log('SE EJECUTRA')
+
+      getIsEmptyInputName(false)
       setIsLoading(true)
       setNameInputView('')
       setNewColorInput(ConvertRGBtoHex(color.colorApp))
@@ -156,6 +166,8 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
       )
       location.reload()
       // onClose()
+    } else {
+      getIsEmptyInputName(true)
     }
   }
 
@@ -176,7 +188,9 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
           </Card>
         </div>
         {tables.map((element, index) => {
-          return <TablesCard key={index} tableElement={element} />
+          return (
+            <TablesCard key={index} isPressAble={true} tableElement={element} />
+          )
         })}
 
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
@@ -230,7 +244,10 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                       </div>
                     </div>
                     <div className="w-full bg-[#F5F6FA] dark:bg-neutral-700 py-5 flex justify-center rounded-lg">
-                      <TablesCard tableElement={tableView} />
+                      <TablesCard
+                        isPressAble={false}
+                        tableElement={tableView}
+                      />
                     </div>
                   </div>
                   <Divider orientation="vertical" />

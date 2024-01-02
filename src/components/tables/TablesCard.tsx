@@ -8,9 +8,10 @@ import { useRouter } from 'next/router'
 
 interface Props {
   tableElement: Tables
+  isPressAble: boolean
 }
 
-export const TablesCard: FC<Props> = ({ tableElement }) => {
+export const TablesCard: FC<Props> = ({ tableElement, isPressAble }) => {
   const { color, apikey, name, companyId } = useContext(UrlContext)
   const validateObject =
     tableElement.metadata !== '' ? JSON.parse(tableElement.metadata) : {}
@@ -23,7 +24,9 @@ export const TablesCard: FC<Props> = ({ tableElement }) => {
   return (
     <div className="flex justify-center  h-[28vh] lg:h-[25vh] w-[27vh]">
       <Card
-        onPress={() => handlePressCardTable(tableElement.id)}
+        onPress={
+          isPressAble ? () => handlePressCardTable(tableElement.id) : () => {}
+        }
         className={`p-1 w-[25vh] ${
           tableElement.id !== 0 ? 'shadow-sm' : 'shadow-md'
         }`}
