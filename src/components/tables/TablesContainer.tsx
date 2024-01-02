@@ -225,6 +225,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                           startContent={<div>Color</div>}
                           value={newColorInput}
                           onValueChange={setNewColorInput}
+                          id="inputColor"
                         />
                       </div>
                     </div>

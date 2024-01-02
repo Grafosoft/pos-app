@@ -14,11 +14,8 @@ export const ShoppingCardHeader: FC = () => {
   const { customerSearch } = useContext(ParametersContext)
 
   const { idTable, functionApi } = useContext(UrlContext)
-  console.log(idTable, "ID TABLE EN CARDSHOPING")
 
-  const handleSaveButton = () =>{
-
-  }
+  const handleSaveButton = () => {}
 
   return (
     <div className="flex-col flex w-full p-5 bg-white dark:bg-black justify-center m-0 items-center  border-b dark:border-b-slate-800 shadow-sm">
@@ -35,9 +32,17 @@ export const ShoppingCardHeader: FC = () => {
           style={{ cursor: 'pointer' }}
           size="sm"
         />
-        <div className="" style={{ display: idTable === undefined ? 'none' : 'flex' }}>
-          <Button color="success" onPress={handleSaveButton} className="mt-5">
-            <TfiSave size={20} />
+        <div
+          className=""
+          style={{ display: idTable === undefined ? 'none' : 'flex' }}
+        >
+          <Button
+            color="success"
+            variant="flat"
+            onPress={handleSaveButton}
+            className="mt-5"
+          >
+            <TfiSave size={20} /* color={'black'}  */ />
           </Button>
         </div>
       </div>
