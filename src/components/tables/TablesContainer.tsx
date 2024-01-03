@@ -26,7 +26,6 @@ import { ConvertRGBtoHex, converterHexadecimalToRgb } from '@/utils/hexadeToRgb'
 
 import { icons } from '@/utils/selectTableIcons'
 import { UrlContext } from '@/context/UrlContext'
-import { GiTempleGate } from 'react-icons/gi'
 
 export interface Tables {
   id: number
@@ -174,10 +173,10 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
 
   return (
     <div
-      className="col-span-12 p-5 pb-0 "
+      className="col-span-12 py-5 pb-0 "
       style={{ minHeight: 'calc(100vh - 128px)' }}
     >
-      <div id="divContainerTables" className="p-3 "> 
+      <div id="divContainerTables" className="py-3 ">
         <div className="flex justify-center h-[25vh] w-[32vh]">
           <Card
             onPress={onOpen}
