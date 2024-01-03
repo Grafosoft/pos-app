@@ -48,6 +48,9 @@ export const ModalBill: FC<Props> = ({
   const context = useContext(ProductContext)
   const { productList } = context
 
+  // INVOICE PARAMETERS CONTEXT
+  const { parametersInfo, setParametersInfo } = useContext(ParametersContext)
+
   //* VARIABLES END FOR BILL
   const [valueTextArea, setValueTextArea] = useState('')
   const [wareHousesEnd, setWareHousesEnd] = useState<Tax[]>([])
@@ -76,8 +79,6 @@ export const ModalBill: FC<Props> = ({
   // Customer Context
   const { customerSearch } = useContext(ParametersContext)
 
-  // INVOICE PARAMETERS CONTEXT
-  const { parametersInfo, setParametersInfo } = useContext(ParametersContext)
   // -- USARLO AL ABRIR LA MODAL CON EL RESUMEN DE LA FACTURA --
 
   // Format Double

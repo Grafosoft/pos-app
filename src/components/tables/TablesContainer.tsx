@@ -43,7 +43,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   // import Context UrlContext
-  const { color, functionApi } = useContext(UrlContext)
+  const { color, functionApi, companyId, apikey } = useContext(UrlContext)
 
   const [nameInputView, setNameInputView] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -152,13 +152,16 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
 
       if (idTable === 0) {
         functionApi.post(
-          'https://lab.cuental.com/api/v1/pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27',
+          `https://lab.cuental.com/api/v1/pos-categories?companyId=${companyId}&apikey=${apikey}`,
           tableView
         )
       } else {
         functionApi.put(
-          'https://lab.cuental.com/api/v1/pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27',
-          tableView
+          `https://lab.cuental.com/api/v1/pos-categories/${idTable}?companyId=${companyId}&apikey=${apikey}`,
+          {
+            name: tableView.name,
+            metadata: tableView.metadata
+          }
         )
       }
 
