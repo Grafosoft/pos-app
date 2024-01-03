@@ -26,9 +26,9 @@ export const CardProduct: FC<Props> = ({ product }) => {
     getwidth(validateWidth)
   }, [])
   return (
-    <div className="flex justify-center  h-[32vh] lg:h-[30vh] w-[27vh] ">
+    <div className="flex justify-center  h-[32vh] lg:h-[30vh] w-[26vh] ">
       <Card
-        className="p-1  w-[27vh] shadow-sm"
+        className="p-1  w-[26vh] shadow-sm"
         isPressable
         onPress={handleSaveProduct}
       >

@@ -48,6 +48,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
   const [nameInputView, setNameInputView] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isEmptyInputName, getIsEmptyInputName] = useState(false)
+  const [idTable, getIdTable] = useState(0)
   const [newColorInput, setNewColorInput] = useState(
     ConvertRGBtoHex(color.colorApp)
   )
@@ -143,57 +144,74 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
       getIsEmptyInputName(false)
     }
   }, [nameInputView])
-  useEffect(() => {
-    console.log(onclose)
-    console.log(onOpen)
-    console.log(onOpenChange)
-  }, [onOpen, onOpenChange])
 
   const handleCreateTable = (onClose: () => void) => {
     if (nameInputView.length !== 0) {
       console.log('SE EJECUTRA')
-
-      getIsEmptyInputName(false)
       setIsLoading(true)
-      setNameInputView('')
-      setNewColorInput(ConvertRGBtoHex(color.colorApp))
-      setSelectIconIndex('0')
-      console.log(tableView)
 
-      functionApi.post(
-        'https://lab.cuental.com/api/v1/pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27',
-        tableView
-      )
+      if (idTable === 0) {
+        functionApi.post(
+          'https://lab.cuental.com/api/v1/pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27',
+          tableView
+        )
+      } else {
+        functionApi.put(
+          'https://lab.cuental.com/api/v1/pos-categories?companyId=6&apikey=4d6356d5-c17c-4539-a679-cc9c27537a27',
+          tableView
+        )
+      }
+
       location.reload()
-      // onClose()
+      onClose()
     } else {
       getIsEmptyInputName(true)
     }
   }
 
+  const hadleCloseModal = () => {
+    getIdTable(0)
+    getIsEmptyInputName(false)
+    setNameInputView('')
+    setNewColorInput(ConvertRGBtoHex(color.colorApp))
+    setSelectIconIndex('0')
+  }
   return (
     <div
       className="col-span-12 p-5 pb-0 "
       style={{ minHeight: 'calc(100vh - 128px)' }}
     >
-      <div className="grid sm:grid-cols-1 ms:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 2xl:grid-cols-7 grid-cols-1 gap-2 lg:gap-5 p-3 ">
-        <div className="flex justify-center  h-[28vh] lg:h-[25vh] w-[27vh]">
+      <div id="divContainerTables" className="p-3 ">
+        <div className="flex justify-center h-[25vh] w-[32vh]">
           <Card
             onPress={onOpen}
             isPressable
             radius="md"
-            className="flex cursor-pointer justify-center items-center h-[28vh] lg:h-[25vh] w-[25vh] border-4 dark:border-[#B3B3B3] border-dashed shadow-sm bg-[#F5F6FA] dark:bg-inherit"
+            className="flex cursor-pointer justify-center items-center w-[25vh] border-4 dark:border-[#B3B3B3] border-dashed shadow-sm bg-[#F5F6FA] dark:bg-inherit"
           >
             <IoAdd size={110} color={'B3B3B3'} />
           </Card>
         </div>
         {tables.map((element, index) => {
           return (
-            <TablesCard key={index} isPressAble={true} tableElement={element} />
+            <TablesCard
+              key={index}
+              tableElement={element}
+              onOpen={onOpen}
+              setNameInputView={setNameInputView}
+              setNewColorInput={setNewColorInput}
+              setSelectIconIndex={setSelectIconIndex}
+              getIdTable={getIdTable}
+            />
           )
         })}
 
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
+        <Modal
+          onClose={hadleCloseModal}
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          size="3xl"
+        >
           <ModalContent>
             {onClose => (
               <>
@@ -244,10 +262,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                       </div>
                     </div>
                     <div className="w-full bg-[#F5F6FA] dark:bg-neutral-700 py-5 flex justify-center rounded-lg">
-                      <TablesCard
-                        isPressAble={false}
-                        tableElement={tableView}
-                      />
+                      <TablesCard tableElement={tableView} />
                     </div>
                   </div>
                   <Divider orientation="vertical" />
@@ -264,7 +279,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
                       handleCreateTable(onClose)
                     }}
                   >
-                    Crear
+                    {idTable === 0 ? 'Crear' : 'Editar'}
                   </Button>
                 </ModalFooter>
               </>

@@ -29,7 +29,9 @@ export default function TableSpecific({ PropsServer }: Props) {
   const { companyId, apikey, name, tableData } = PropsServer
   // let dataJson = JSON.parse(tableData?.data)F
   const idTable = tableData.id
-  console.log(idTable)
+  console.log(tableData, 'DATA IN CONPONENT')
+
+  console.log(idTable, 'ID TABLA')
   const metadataTable = JSON.parse(tableData.metadata)
 
   // console.log(dataJson)
