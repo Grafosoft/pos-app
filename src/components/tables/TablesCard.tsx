@@ -1,32 +1,63 @@
-import { type FC, useContext } from 'react'
+import { type FC, useContext, Dispatch, SetStateAction } from 'react'
 import { Card, CardBody, CardHeader } from '@nextui-org/react'
 // import { MdTableBar } from 'react-icons/md'
 import type { Tables } from './TablesContainer'
 import { ImageRound } from '../imageRound/ImageRound'
 import { UrlContext } from '@/context/UrlContext'
 import { useRouter } from 'next/router'
+import { ConvertRGBtoHex } from '@/utils/hexadeToRgb'
 
 interface Props {
   tableElement: Tables
-  isPressAble?: boolean
+  onOpen?: () => void
+  setSelectIconIndex?: Dispatch<SetStateAction<string>>
+  setNewColorInput?: Dispatch<SetStateAction<string>>
+  setNameInputView?: Dispatch<SetStateAction<string>>
+  getIdTable?: Dispatch<SetStateAction<number>>
 }
 
-export const TablesCard: FC<Props> = ({ tableElement, isPressAble = true }) => {
+export const TablesCard: FC<Props> = ({
+  tableElement,
+  onOpen,
+  setNameInputView,
+  setNewColorInput,
+  setSelectIconIndex,
+  getIdTable
+}) => {
   const { color, apikey, name, companyId } = useContext(UrlContext)
   const validateObject =
     tableElement.metadata !== '' ? JSON.parse(tableElement.metadata) : {}
   const { push } = useRouter()
 
-  const handlePressCardTable = (idTable: number) => {
+  /*   const handlePressCardTable = (idTable: number) => {
     push(`/${name}/mesas/${idTable}?companyId=${companyId}&apikey=${apikey}`)
     return ''
+  } */
+
+  const openModalEditTable = () => {
+    console.log(tableElement)
+
+    if (
+      onOpen &&
+      setSelectIconIndex &&
+      setNewColorInput &&
+      setNameInputView &&
+      getIdTable
+    ) {
+      getIdTable(tableElement.id)
+      setNameInputView(tableElement.name)
+      setNewColorInput(ConvertRGBtoHex(validateObject.colorApp))
+      setSelectIconIndex(validateObject.iconIndex.toString())
+      onOpen()
+    }
+
+    return ''
   }
+
   return (
     <div className="flex justify-center h-[25vh] w-[32vh]">
       <Card
-        onPress={
-          isPressAble ? () => handlePressCardTable(tableElement.id) : () => {}
-        }
+        onPress={tableElement.id !== 0 ? () => openModalEditTable() : () => {}}
         className={`p-1 w-[25vh] ${
           tableElement.id !== 0 ? 'shadow-sm' : 'shadow-md'
         }`}
