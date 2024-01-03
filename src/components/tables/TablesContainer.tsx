@@ -26,6 +26,7 @@ import { ConvertRGBtoHex, converterHexadecimalToRgb } from '@/utils/hexadeToRgb'
 
 import { icons } from '@/utils/selectTableIcons'
 import { UrlContext } from '@/context/UrlContext'
+import { GiTempleGate } from 'react-icons/gi'
 
 export interface Tables {
   id: number
@@ -176,21 +177,19 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
       className="col-span-12 p-5 pb-0 "
       style={{ minHeight: 'calc(100vh - 128px)' }}
     >
-      <div className="grid sm:grid-cols-1 ms:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 2xl:grid-cols-7 grid-cols-1 gap-2 lg:gap-5 p-3 ">
-        <div className="flex justify-center  h-[28vh] lg:h-[25vh] w-[27vh]">
+      <div id="divContainerTables" className="p-3 "> 
+        <div className="flex justify-center h-[25vh] w-[32vh]">
           <Card
             onPress={onOpen}
             isPressable
             radius="md"
-            className="flex cursor-pointer justify-center items-center h-[28vh] lg:h-[25vh] w-[25vh] border-4 dark:border-[#B3B3B3] border-dashed shadow-sm bg-[#F5F6FA] dark:bg-inherit"
+            className="flex cursor-pointer justify-center items-center w-[25vh] border-4 dark:border-[#B3B3B3] border-dashed shadow-sm bg-[#F5F6FA] dark:bg-inherit"
           >
             <IoAdd size={110} color={'B3B3B3'} />
           </Card>
         </div>
         {tables.map((element, index) => {
-          return (
-            <TablesCard key={index} isPressAble={true} tableElement={element} />
-          )
+          return <TablesCard key={index} tableElement={element} />
         })}
 
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">

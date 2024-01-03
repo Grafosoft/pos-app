@@ -6,3 +6,9 @@
     border-radius: 20px;
     border: royalblue 20px;
 }
+
+#divContainerTables{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,27vh);
+    grid-row-gap: 20px;
+} 
