@@ -8,14 +8,22 @@ import { ModalClient } from '../modals/ModalClient'
 import { ParametersContext } from './ShoppingCart'
 import { TfiSave } from 'react-icons/tfi'
 import { UrlContext } from '@/context/UrlContext'
+import { ProductContext } from '@/context/ProductContext'
 
 export const ShoppingCardHeader: FC = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const { customerSearch } = useContext(ParametersContext)
+  const { customerSearch, parametersInfo } = useContext(ParametersContext)
+  const { productList } = useContext(ProductContext)
 
   const { idTable } = useContext(UrlContext)
 
-  const handleSaveButton = () => {}
+  const handleSaveButton = () => {
+    const dataBody = {
+      items: productList
+    }
+
+    console.log(parametersInfo)
+  }
 
   return (
     <div className="flex-col flex w-full p-5 bg-white dark:bg-black justify-center m-0 items-center  border-b dark:border-b-slate-800 shadow-sm">

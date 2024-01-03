@@ -31,15 +31,20 @@ export default function TableSpecific({ PropsServer }: Props) {
   const idTable = tableData.id
   console.log(tableData, 'DATA IN CONPONENT')
 
-  console.log(idTable, 'ID TABLA')
-  const metadataTable = JSON.parse(tableData.metadata)
+  const dataTable = JSON.parse(
+    tableData.data === undefined
+      ? '{}'
+      : tableData.data === ''
+        ? '{}'
+        : tableData.data.toString()
+  )
 
   // console.log(dataJson)
   const [productList, setProductList] = useState<ProductList[]>(
-    metadataTable.items !== undefined
-      ? metadataTable.items.length === 0
+    dataTable.items !== undefined
+      ? dataTable.items.length === 0
         ? []
-        : metadataTable.items
+        : dataTable.items
       : []
   )
 
