@@ -29,11 +29,12 @@ export const SwitchTheme: FC<Props> = ({ color }) => {
 
   return (
     <Button
-      className={`bg-[${color}]`}
+      // className={`bg-[${color}]`}
       size="sm"
       onClick={handleChange}
       isIconOnly
       disableAnimation
+      style={{ backgroundColor: `${color}` }}
     >
       {isActiveTheme ? (
         <TbSunHigh size={25} />

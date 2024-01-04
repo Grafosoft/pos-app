@@ -76,7 +76,6 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
   const { data } = await functionApi.get(
     `pos-categories/${id}?companyId=${companyId}&apikey=${apikey}`
   )
-  console.log(data)
 
   const PropsServer = {
     companyId: query.companyId,

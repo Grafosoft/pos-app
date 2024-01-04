@@ -12,17 +12,22 @@ import { ProductContext } from '@/context/ProductContext'
 
 export const ShoppingCardHeader: FC = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const { customerSearch, parametersInfo } = useContext(ParametersContext)
+  const { customerSearch } = useContext(ParametersContext)
   const { productList } = useContext(ProductContext)
 
-  const { idTable } = useContext(UrlContext)
+  const { idTable, functionApi, apikey, companyId } = useContext(UrlContext)
 
   const handleSaveButton = () => {
-    const dataBody = {
+    const dataProducstString = {
       items: productList
     }
-
-    console.log(parametersInfo)
+    functionApi.patch(
+      `pos-categories/${idTable}/data?companyId=${companyId}&apikey=${apikey}`,
+      {
+        data: JSON.stringify(dataProducstString)
+      }
+    )
+    console.log(dataProducstString)
   }
 
   return (
