@@ -90,9 +90,7 @@ export const TablesContainer: FC<Props> = ({ tables }) => {
 
   const handleCreateTable = (onClose: () => void) => {
     if (nameInputView.length !== 0) {
-      console.log('SE EJECUTRA')
       setIsLoading(true)
-
       if (idTable === 0) {
         functionApi.post(
           `https://lab.cuental.com/api/v1/pos-categories?companyId=${companyId}&apikey=${apikey}`,

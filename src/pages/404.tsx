@@ -1,13 +1,47 @@
+import { NavBar } from '@/components/navbar/NavBar'
+import {
+  type EstructureColor,
+  validateAppColor
+} from '@/utils/validateAppColor'
 import { Button, Image, Spacer } from '@nextui-org/react'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TbArrowBigLeftFilled } from 'react-icons/tb'
 
+interface ColorObject404 {
+  name: string
+  color: EstructureColor
+}
+
 export default function FourOhFour() {
+  const [color404, getColor404] = useState<ColorObject404>({
+    name: '',
+    color: {
+      colorApp: 'rgba(60,63,153,1)',
+      colorProduct: 'rgb(243, 232, 255)',
+      colorComponent: 'primary'
+    }
+  })
+
   const { back } = useRouter()
+  useEffect(() => {
+    const name = window.location.href.split('/')[3]
+    const color = validateAppColor(name)
+    getColor404({ name, color })
+  }, [])
 
   return (
     <>
+      <NavBar
+        name={color404.name ?? 'cuental'}
+        color={
+          color404.color ?? {
+            colorApp: 'rgba(60,63,153,1)',
+            colorProduct: 'rgb(243, 232, 255)',
+            colorComponent: 'primary'
+          }
+        }
+      />
       <div
         className="container grid grid-cols-1 lg:grid-cols-2 items-center"
         style={{
