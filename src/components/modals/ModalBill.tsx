@@ -8,6 +8,8 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Tab,
+  Tabs,
   Textarea
 } from '@nextui-org/react'
 import { SelectObject } from '@/components/objectSelect/ObjectsSelect'
@@ -177,128 +179,135 @@ export const ModalBill: FC<Props> = ({
               <ModalHeader className="flex flex-col gap-1">
                 Datos Finales
               </ModalHeader>
-              <ModalBody className="flex flex-col p-5 ">
-                <div className="flex gap-3">
-                  <SelectObject
-                    arrayFind={parametersInfo.numerations}
-                    textType="Numeración"
-                    typeSelect="dataSeller"
-                    newTax={numerationEnd}
-                    setNewTax={setNumerationEnd}
-                  />
-                  <SelectObject
-                    arrayFind={parametersInfo.warehouses}
-                    textType="Bodega"
-                    typeSelect="dataSeller"
-                    newTax={wareHousesEnd}
-                    setNewTax={setWareHousesEnd}
-                  />
-                </div>
-                <div>
-                  <SelectObject
-                    arrayFind={parametersInfo.sellers}
-                    textType="Vendedor"
-                    typeSelect="dataSeller"
-                    newTax={sellerEnd}
-                    setNewTax={setSellerEnd}
-                  />
-                </div>
-                <div>
-                  <Input
-                    size="sm"
-                    isReadOnly
-                    variant="faded"
-                    // label="Tercero"
-                    placeholder="Cliente"
-                    defaultValue={customerSearch.name}
-                    className="w-full"
-                    startContent={<TbUsers size={20} className="" />}
-                  />
-                </div>
-                <div className="p-2">
-                  <div className="flex justify-between">
-                    <p>Metodos de Pago</p>
+              <Tabs>
+                <Tab key={'Datos'} title={'Datos de la Factura'}>
+                  <ModalBody className="flex flex-col p-5 ">
+                    <div className="flex gap-3">
+                      <SelectObject
+                        arrayFind={parametersInfo.numerations}
+                        textType="Numeración"
+                        typeSelect="dataSeller"
+                        newTax={numerationEnd}
+                        setNewTax={setNumerationEnd}
+                      />
+                      <SelectObject
+                        arrayFind={parametersInfo.warehouses}
+                        textType="Bodega"
+                        typeSelect="dataSeller"
+                        newTax={wareHousesEnd}
+                        setNewTax={setWareHousesEnd}
+                      />
+                    </div>
+                    <div>
+                      <SelectObject
+                        arrayFind={parametersInfo.sellers}
+                        textType="Vendedor"
+                        typeSelect="dataSeller"
+                        newTax={sellerEnd}
+                        setNewTax={setSellerEnd}
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        size="sm"
+                        isReadOnly
+                        variant="faded"
+                        // label="Tercero"
+                        placeholder="Cliente"
+                        defaultValue={customerSearch.name}
+                        className="w-full"
+                        startContent={<TbUsers size={20} className="" />}
+                      />
+                    </div>
+                    <div className="p-2">
+                      <div className="flex justify-between">
+                        <p>Metodos de Pago</p>
+                        <Button
+                          size="sm"
+                          onClick={handlerAddPaymentMethod}
+                          variant="flat"
+                          isIconOnly
+                          color="success"
+                        >
+                          <RiAddFill size={17} />
+                        </Button>
+                      </div>
+                      <div className="overflow-scroll max-h-[180px]">
+                        {paymentArray.map(
+                          (element, index) =>
+                            parametersInfo.paymentMethods.length !== 0 && (
+                              <PaymentRow
+                                paymentArray={paymentArray}
+                                elementPayment={element}
+                                setPaymentArray={setPaymentArray}
+                                key={index}
+                              />
+                            )
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex p-2 items-center rounded-md gap-3 h-[80px] dark:bg-zinc-700 bg-slate-100 mt-2	">
+                      <InputBill
+                        variant="faded"
+                        size="sm"
+                        textTitle="Total"
+                        isReadOnly={true}
+                        defaultValue={formatDouble.format(
+                          subTotalProducts +
+                            totalTaxProducts -
+                            totalDiscountProducts
+                        )}
+                      />
+                      <InputBill
+                        variant="faded"
+                        size="sm"
+                        textTitle="Recibido"
+                        isReadOnly={true}
+                        defaultValue={'2000'}
+                      />
+                      <InputBill
+                        variant="faded"
+                        size="sm"
+                        textTitle="Cambio"
+                        isReadOnly={true}
+                        defaultValue={'2000'}
+                      />
+                    </div>
+                    <div className="w-full">
+                      <p className="dark:text-default-500 text-slate-500 text-sm ml-1 "></p>
+                      <Textarea
+                        label="Observaciones:"
+                        value={valueTextArea}
+                        onValueChange={setValueTextArea}
+                        // style={{fontSize :"20px"}}
+                        placeholder="Enter your description"
+                        className=""
+                      />
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
                     <Button
-                      size="sm"
-                      onClick={handlerAddPaymentMethod}
+                      color={color.colorComponent}
                       variant="flat"
-                      isIconOnly
-                      color="success"
+                      className="w-full rounded-md"
+                      onClick={handleGenereBill}
                     >
-                      <RiAddFill size={17} />
+                      Generar D.E./POS
                     </Button>
-                  </div>
-                  <div className="overflow-scroll max-h-[180px]">
-                    {paymentArray.map(
-                      (element, index) =>
-                        parametersInfo.paymentMethods.length !== 0 && (
-                          <PaymentRow
-                            paymentArray={paymentArray}
-                            elementPayment={element}
-                            setPaymentArray={setPaymentArray}
-                            key={index}
-                          />
-                        )
-                    )}
-                  </div>
-                </div>
-                <div className="flex p-2 items-center rounded-md gap-3 h-[80px] dark:bg-zinc-700 bg-slate-100 mt-2	">
-                  <InputBill
-                    variant="faded"
-                    size="sm"
-                    textTitle="Total"
-                    isReadOnly={true}
-                    defaultValue={formatDouble.format(
-                      subTotalProducts +
-                        totalTaxProducts -
-                        totalDiscountProducts
-                    )}
-                  />
-                  <InputBill
-                    variant="faded"
-                    size="sm"
-                    textTitle="Recibido"
-                    isReadOnly={true}
-                    defaultValue={'2000'}
-                  />
-                  <InputBill
-                    variant="faded"
-                    size="sm"
-                    textTitle="Cambio"
-                    isReadOnly={true}
-                    defaultValue={'2000'}
-                  />
-                </div>
-                <div className="w-full">
-                  <p className="dark:text-default-500 text-slate-500 text-sm ml-1 "></p>
-                  <Textarea
-                    label="Observaciones:"
-                    value={valueTextArea}
-                    onValueChange={setValueTextArea}
-                    // style={{fontSize :"20px"}}
-                    placeholder="Enter your description"
-                    className=""
-                  />
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  color={color.colorComponent}
-                  variant="flat"
-                  className="w-full rounded-md"
-                  onClick={handleGenereBill}
-                >
-                  Generar D.E./POS
-                </Button>
-                <Button
-                  color={color.colorComponent}
-                  variant="flat"
-                  className="w-full rounded-md"
-                  onClick={() => {}}
-                >
-                  Generar Factura
-                </Button>
-              </ModalFooter>
+                    <Button
+                      color={color.colorComponent}
+                      variant="flat"
+                      className="w-full rounded-md"
+                      onClick={() => {}}
+                    >
+                      Generar Factura
+                    </Button>
+                  </ModalFooter>
+                </Tab>
+                <Tab key={'paymentMethods'} title={'Metodo de pago'}>
+                  aqui deben ir los metodos de pago
+                </Tab>
+              </Tabs>
             </>
           )}
         </ModalContent>
