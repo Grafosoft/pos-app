@@ -14,11 +14,15 @@ function ColorToHex(color: number) {
 }
 
 export function ConvertRGBtoHex(color: string) {
-  const replaceColor = color.replace('rgba(', '').replace(')', '').split(',')
+  if (color !== undefined) {
+    const replaceColor = color.replace('rgba(', '').replace(')', '').split(',')
 
-  const red = parseInt(replaceColor[0])
-  const green = parseInt(replaceColor[1])
-  const blue = parseInt(replaceColor[2])
+    const red = parseInt(replaceColor[0])
+    const green = parseInt(replaceColor[1])
+    const blue = parseInt(replaceColor[2])
 
-  return '#' + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue)
+    return '#' + ColorToHex(red) + ColorToHex(green) + ColorToHex(blue)
+  } else {
+    return '#ffffff'
+  }
 }

@@ -76,7 +76,6 @@ export const PaymentSelect: FC<Props> = ({
     }
     return []
   }
-  console.log(paymentArray)
 
   return (
     <>

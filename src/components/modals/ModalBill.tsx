@@ -209,7 +209,7 @@ export const ModalBill: FC<Props> = ({
                     isReadOnly
                     variant="faded"
                     // label="Tercero"
-                    placeholder="Tercero"
+                    placeholder="Cliente"
                     defaultValue={customerSearch.name}
                     className="w-full"
                     startContent={<TbUsers size={20} className="" />}

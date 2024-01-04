@@ -89,7 +89,7 @@ export const ShoppingCardBody: FC = () => {
                       <p className="text-xl font-medium">
                         {TruncateText(
                           element.item.name,
-                          width < 1230 ? 28 : 60
+                          width < 1230 ? 27 : 60
                         )}
                       </p>
                       <p className="text-small text-default-500">

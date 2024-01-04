@@ -89,6 +89,8 @@ export const SelectObject: FC<Props> = ({
       <div className="w-full flex items-center gap-2">
         <Select
           size="sm"
+          /*           isInvalid={newTax.length === 0}
+          isRequired */
           label={`${textType}`}
           placeholder={textType}
           className="w-full"
