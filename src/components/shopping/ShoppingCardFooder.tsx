@@ -92,8 +92,8 @@ export const ShoppingCardFooder: FC = () => {
         </Button>
 
         <ModalBill
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
+          isOpenModalBill={isOpen}
+          onOpenChangeModalBill={onOpenChange}
           subTotalProducts={subTotalProducts}
           totalDiscountProducts={totalDiscountProducts}
           totalTaxProducts={totalTaxProducts}

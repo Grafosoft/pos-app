@@ -2,6 +2,7 @@ import { type FC, useContext, useEffect, useState } from 'react'
 import { type InvoiceParameters } from '@/interface/invoiceParameters'
 import {
   Button,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -10,7 +11,8 @@ import {
   ModalHeader,
   Tab,
   Tabs,
-  Textarea
+  Textarea,
+  useDisclosure
 } from '@nextui-org/react'
 import { SelectObject } from '@/components/objectSelect/ObjectsSelect'
 import { InputBill } from '../inputsBill/InputBill'
@@ -22,11 +24,10 @@ import { RiAddFill } from 'react-icons/ri'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import { ProductContext } from '@/context/ProductContext'
 import { UrlContext } from '@/context/UrlContext'
-import { MdQrCode2 } from 'react-icons/md'
 
 interface Props {
-  isOpen: boolean
-  onOpenChange: () => void
+  isOpenModalBill: boolean
+  onOpenChangeModalBill: () => void
   subTotalProducts: number
   totalDiscountProducts: number
   totalTaxProducts: number
@@ -41,8 +42,8 @@ export interface PaymentArray {
 }
 
 export const ModalBill: FC<Props> = ({
-  isOpen,
-  onOpenChange,
+  isOpenModalBill,
+  onOpenChangeModalBill,
   subTotalProducts,
   totalDiscountProducts,
   totalTaxProducts
@@ -50,6 +51,7 @@ export const ModalBill: FC<Props> = ({
   // CONTEX OF PRODUCTS
   const context = useContext(ProductContext)
   const { productList } = context
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   // INVOICE PARAMETERS CONTEXT
   const { parametersInfo, setParametersInfo } = useContext(ParametersContext)
@@ -167,12 +169,16 @@ export const ModalBill: FC<Props> = ({
     console.log(dataBillInJson)
   }
 
+  useEffect(() => {
+    console.log(paymentArray)
+  }, [paymentArray])
+
   return (
     <>
       <Modal
-        isOpen={isOpen}
+        isOpen={isOpenModalBill}
         isDismissable={false}
-        onOpenChange={onOpenChange}
+        onOpenChange={onOpenChangeModalBill}
         size="4xl"
         // onClose={handleCloseModal}
       >
@@ -249,27 +255,16 @@ export const ModalBill: FC<Props> = ({
                   <ModalBody className="p-5">
                     <div className="flex justify-between">
                       <p>Metodos de Pago</p>
-                      <div className="flex">
-                        <Button
-                          size="sm"
-                          color="warning"
-                          // onClick={handlerAddPaymentMethod}
-                          variant="flat"
-                          isIconOnly
-                          className="mx-2"
-                        >
-                          <MdQrCode2 color={'black'} size={27} />
-                        </Button>
-                        <Button
-                          size="sm"
-                          onClick={handlerAddPaymentMethod}
-                          variant="flat"
-                          isIconOnly
-                          color="success"
-                        >
-                          <RiAddFill size={17} />
-                        </Button>
-                      </div>
+
+                      <Button
+                        size="sm"
+                        onClick={handlerAddPaymentMethod}
+                        variant="flat"
+                        isIconOnly
+                        color="success"
+                      >
+                        <RiAddFill size={17} />
+                      </Button>
                     </div>
                     <div className="overflow-scroll max-h-[180px]">
                       {paymentArray.map(
@@ -279,6 +274,7 @@ export const ModalBill: FC<Props> = ({
                               paymentArray={paymentArray}
                               elementPayment={element}
                               setPaymentArray={setPaymentArray}
+                              onOpenModalQr={onOpen}
                               key={index}
                             />
                           )
@@ -318,7 +314,7 @@ export const ModalBill: FC<Props> = ({
                         value={valueTextArea}
                         onValueChange={setValueTextArea}
                         // style={{fontSize :"20px"}}
-                        placeholder="Enter your description"
+                        placeholder="Observaciones adicionales sobre la factura"
                         className=""
                       />
                     </div>
@@ -345,6 +341,27 @@ export const ModalBill: FC<Props> = ({
               </Tabs>
             </>
           )}
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          <>
+            <ModalHeader className="flex justify-center">
+              QR BANCOLOMBIA
+            </ModalHeader>
+            <ModalBody>
+              <div className="w-full flex justify-center items-center">
+                <Image
+                  width={700}
+                  height={400}
+                  alt="QR"
+                  // src="/images/downloadQR.png"
+                  src="/images/qr-Bancolombia.png"
+                />
+              </div>
+            </ModalBody>
+          </>
         </ModalContent>
       </Modal>
     </>

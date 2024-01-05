@@ -13,19 +13,21 @@ import { Button, Input } from '@nextui-org/react'
 import { type Tax } from '@/interface/products'
 import { type PaymentArray } from '../modals/ModalBill'
 import { TbTrash } from 'react-icons/tb'
-import { GiDialPadlock } from 'react-icons/gi'
 import { PaymentSelect } from '../objectSelect/PaymentSelect'
+import { MdQrCode2 } from 'react-icons/md'
 
 interface Props {
   paymentArray: PaymentArray[]
   setPaymentArray: Dispatch<SetStateAction<PaymentArray[]>>
   elementPayment: PaymentArray
+  onOpenModalQr: () => void
 }
 
 export const PaymentRow: FC<Props> = ({
   paymentArray,
   setPaymentArray,
-  elementPayment
+  elementPayment,
+  onOpenModalQr
 }) => {
   // INVOICE PARAMETERS CONTEXT
   const { parametersInfo } = useContext(ParametersContext)
@@ -138,13 +140,14 @@ export const PaymentRow: FC<Props> = ({
         </Button>
       ) : (
         <Button
-          isIconOnly
-          color="primary"
-          variant="flat"
           size="sm"
-          edaria-label="Take a photo"
+          color="warning"
+          onPress={onOpenModalQr}
+          variant="flat"
+          isIconOnly
+          className=""
         >
-          <GiDialPadlock size={17} />
+          <MdQrCode2 color={'black'} size={27} />
         </Button>
       )}
     </div>
