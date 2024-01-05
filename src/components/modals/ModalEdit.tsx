@@ -26,7 +26,7 @@ interface Props {
 
 export const ModalEdit: FC<Props> = ({ element }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [discountState, setDiscountState] = useState(0)
+  const [discountState, setDiscountState] = useState(element.discount)
   const [productDescription, setProductDescription] = useState(
     element.description
   )
@@ -62,7 +62,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
         element.description = productDescription
         element.totalAmount =
           element.value + (element.value * totalTaxPer(element.tax)) / 100
-        element.discount = discountState
+        element.discount = isNaN(discountState) ? 0 : discountState
         element.totalAmount = element.totalAmount - discountState
         element.tax = newTaxModifict
       }
@@ -86,6 +86,9 @@ export const ModalEdit: FC<Props> = ({ element }) => {
   }, [apikey, companyId, element.tax, functionApi])
 
   const handlerAddTax = () => {
+    console.log(element.discount)
+    console.log(element.discount === null ? '0' : element.discount.toString())
+
     const ValidateNewTax = newTax.find(element => element.id === 0)
     if (!ValidateNewTax) {
       const newTaxObject = [
@@ -143,7 +146,11 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                       type="number"
                       label="Descuento"
                       placeholder="0"
-                      defaultValue={element.discount.toString()}
+                      defaultValue={
+                        element.discount.toString() === '0'
+                          ? ''
+                          : element.discount.toString()
+                      }
                       labelPlacement="outside"
                       onValueChange={e => {
                         setDiscountState(parseInt(e))
