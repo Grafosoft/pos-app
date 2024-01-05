@@ -15,7 +15,8 @@ export const ShoppingCardHeader: FC = () => {
   const { customerSearch } = useContext(ParametersContext)
   const { productList } = useContext(ProductContext)
 
-  const { idTable, functionApi, apikey, companyId } = useContext(UrlContext)
+  const { idTable, functionApi, apikey, companyId, nameTable } =
+    useContext(UrlContext)
 
   const handleSaveButton = () => {
     const dataProducstString = {
@@ -32,7 +33,9 @@ export const ShoppingCardHeader: FC = () => {
 
   return (
     <div className="flex-col flex w-full p-5 bg-white dark:bg-black justify-center m-0 items-center  border-b dark:border-b-slate-800 shadow-sm">
-      <h1 className="text-2xl font-semibold">Factura de Venta</h1>
+      <h1 className="text-2xl font-semibold">
+        Factura de Venta {nameTable ? `- ${nameTable}` : ''}
+      </h1>
       <div className="flex items-center  gap-3 w-full ">
         <Input
           aria-label="Buscar Cliente"

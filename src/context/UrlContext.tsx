@@ -9,6 +9,7 @@ export interface VariablesUrl {
   functionApi: AxiosInstance
   color: EstructureColor
   idTable?: number
+  nameTable?: string
 }
 
 export const UrlContext = createContext<VariablesUrl>({

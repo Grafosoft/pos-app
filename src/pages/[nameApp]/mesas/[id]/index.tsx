@@ -29,6 +29,7 @@ export default function TableSpecific({ PropsServer }: Props) {
   const { companyId, apikey, name, tableData } = PropsServer
   // let dataJson = JSON.parse(tableData?.data)F
   const idTable = tableData.id
+  const nameTable = tableData.name
   // console.log(tableData, 'DATA IN CONPONENT')
 
   const dataTable = JSON.parse(
@@ -54,7 +55,15 @@ export default function TableSpecific({ PropsServer }: Props) {
 
   return (
     <UrlContext.Provider
-      value={{ companyId, apikey, functionApi, color, name, idTable }}
+      value={{
+        companyId,
+        apikey,
+        functionApi,
+        color,
+        name,
+        idTable,
+        nameTable
+      }}
     >
       <ProductContext.Provider value={{ productList, setProductList }}>
         <SaleView name={name} color={color} />
