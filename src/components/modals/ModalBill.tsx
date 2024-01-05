@@ -22,6 +22,7 @@ import { RiAddFill } from 'react-icons/ri'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import { ProductContext } from '@/context/ProductContext'
 import { UrlContext } from '@/context/UrlContext'
+import { MdQrCode2 } from 'react-icons/md'
 
 interface Props {
   isOpen: boolean
@@ -58,6 +59,8 @@ export const ModalBill: FC<Props> = ({
   const [wareHousesEnd, setWareHousesEnd] = useState<Tax[]>([])
   const [numerationEnd, setNumerationEnd] = useState<Tax[]>([])
   const [sellerEnd, setSellerEnd] = useState<Tax[]>([])
+
+  const [keySelectedTab, setKeySelectedTab] = useState('data')
 
   const [paymentArray, setPaymentArray] = useState<PaymentArray[]>([
     {
@@ -176,11 +179,20 @@ export const ModalBill: FC<Props> = ({
         <ModalContent>
           {onClose => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
+              <ModalHeader className="flex flex-col gap-1 pb-0">
                 Datos Finales
               </ModalHeader>
-              <Tabs>
-                <Tab key={'Datos'} title={'Datos de la Factura'}>
+              <Tabs
+                variant="underlined"
+                color="primary"
+                selectedKey={keySelectedTab}
+                onSelectionChange={e => {
+                  setKeySelectedTab(e.toString())
+                  return ''
+                }}
+                className="ml-2"
+              >
+                <Tab key={'data'} title={'1. Datos de la Factura'}>
                   <ModalBody className="flex flex-col p-5 ">
                     <div className="flex gap-3">
                       <SelectObject
@@ -219,9 +231,35 @@ export const ModalBill: FC<Props> = ({
                         startContent={<TbUsers size={20} className="" />}
                       />
                     </div>
-                    <div className="p-2">
-                      <div className="flex justify-between">
-                        <p>Metodos de Pago</p>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      color="success"
+                      variant="flat"
+                      className="w-full rounded-md"
+                      onClick={() => {
+                        setKeySelectedTab('paymentMethods')
+                      }}
+                    >
+                      Continuar
+                    </Button>
+                  </ModalFooter>
+                </Tab>
+                <Tab key={'paymentMethods'} title={'2. Metodo de pago'}>
+                  <ModalBody className="p-5">
+                    <div className="flex justify-between">
+                      <p>Metodos de Pago</p>
+                      <div className="flex">
+                        <Button
+                          size="sm"
+                          color="warning"
+                          // onClick={handlerAddPaymentMethod}
+                          variant="flat"
+                          isIconOnly
+                          className="mx-2"
+                        >
+                          <MdQrCode2 color={'black'} size={27} />
+                        </Button>
                         <Button
                           size="sm"
                           onClick={handlerAddPaymentMethod}
@@ -232,19 +270,19 @@ export const ModalBill: FC<Props> = ({
                           <RiAddFill size={17} />
                         </Button>
                       </div>
-                      <div className="overflow-scroll max-h-[180px]">
-                        {paymentArray.map(
-                          (element, index) =>
-                            parametersInfo.paymentMethods.length !== 0 && (
-                              <PaymentRow
-                                paymentArray={paymentArray}
-                                elementPayment={element}
-                                setPaymentArray={setPaymentArray}
-                                key={index}
-                              />
-                            )
-                        )}
-                      </div>
+                    </div>
+                    <div className="overflow-scroll max-h-[180px]">
+                      {paymentArray.map(
+                        (element, index) =>
+                          parametersInfo.paymentMethods.length !== 0 && (
+                            <PaymentRow
+                              paymentArray={paymentArray}
+                              elementPayment={element}
+                              setPaymentArray={setPaymentArray}
+                              key={index}
+                            />
+                          )
+                      )}
                     </div>
                     <div className="flex p-2 items-center rounded-md gap-3 h-[80px] dark:bg-zinc-700 bg-slate-100 mt-2	">
                       <InputBill
@@ -303,9 +341,6 @@ export const ModalBill: FC<Props> = ({
                       Generar Factura
                     </Button>
                   </ModalFooter>
-                </Tab>
-                <Tab key={'paymentMethods'} title={'Metodo de pago'}>
-                  aqui deben ir los metodos de pago
                 </Tab>
               </Tabs>
             </>
