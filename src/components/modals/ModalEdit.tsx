@@ -8,6 +8,7 @@ import {
   ModalFooter,
   ModalHeader,
   Spacer,
+  Textarea,
   useDisclosure
 } from '@nextui-org/react'
 import { CountData } from '../CountData/CountData'
@@ -26,6 +27,9 @@ interface Props {
 export const ModalEdit: FC<Props> = ({ element }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const [discountState, setDiscountState] = useState(0)
+  const [productDescription, setProductDescription] = useState(
+    element.description
+  )
 
   // ProductContext
   const context = useContext(ProductContext)
@@ -55,6 +59,7 @@ export const ModalEdit: FC<Props> = ({ element }) => {
 
     const arrayEditDiscount = productList.map((element, index) => {
       if (indexProduct === index) {
+        element.description = productDescription
         element.totalAmount =
           element.value + (element.value * totalTaxPer(element.tax)) / 100
         element.discount = discountState
@@ -66,7 +71,6 @@ export const ModalEdit: FC<Props> = ({ element }) => {
     setProductList(arrayEditDiscount)
     onClose()
   }
-
 
   const [taxSettings, setTaxSettings] = useState<Tax[]>([])
 
@@ -126,6 +130,15 @@ export const ModalEdit: FC<Props> = ({ element }) => {
                 <ModalHeader>{element.item.name}</ModalHeader>
                 <ModalBody>
                   <div className="p-3 flex flex-col items-center ">
+                    <Textarea
+                      label="Description"
+                      labelPlacement="outside"
+                      value={productDescription}
+                      onValueChange={setProductDescription}
+                      minRows={2}
+                      placeholder="Descripcion del producto"
+                      className="pb-2"
+                    />
                     <Input
                       type="number"
                       label="Descuento"

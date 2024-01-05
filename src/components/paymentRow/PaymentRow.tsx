@@ -76,7 +76,7 @@ export const PaymentRow: FC<Props> = ({
   }
 
   return (
-    <div className="flex justify-between p-2 gap-2 items-center">
+    <div className="flex justify-between py-2 gap-2 items-center">
       <PaymentSelect
         arrayFind={arrayFindPaymentMethodsIndex}
         textType="Pago"
