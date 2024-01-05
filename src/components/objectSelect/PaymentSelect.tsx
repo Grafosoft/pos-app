@@ -84,12 +84,12 @@ export const PaymentSelect: FC<Props> = ({
           size="sm"
           label={`${textType}`}
           placeholder={textType}
-          className="w-[20vh]"
+          className="max-w-[25vh] lg:max-w-[20vh]"
           selectedKeys={returnPaymentId()}
           defaultSelectedKeys={returnPaymentId()}
           onChange={handleSelectionChangeTax}
         >
-          {arrayFind.map((element, index) => {
+          {arrayFind.map(element => {
             return (
               <SelectItem key={element.id} value={element.id}>
                 {element.name}

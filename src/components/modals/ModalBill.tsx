@@ -63,6 +63,8 @@ export const ModalBill: FC<Props> = ({
   const [sellerEnd, setSellerEnd] = useState<Tax[]>([])
 
   const [keySelectedTab, setKeySelectedTab] = useState('data')
+  const [activateSummation, setActivateSummation] = useState(0)
+  const [totalRecieved, setTotalRecieved] = useState(0)
 
   const [paymentArray, setPaymentArray] = useState<PaymentArray[]>([
     {
@@ -134,10 +136,10 @@ export const ModalBill: FC<Props> = ({
       setPaymentArray(arrayFindPaymentMethodsIndex)
     }
   }
+  const total = subTotalProducts + totalTaxProducts - totalDiscountProducts
 
   const handleGenereBill = () => {
     console.log('GENERAMOS')
-    const total = subTotalProducts + totalTaxProducts - totalDiscountProducts
 
     const discountAmount = productList.reduce(
       (acumulador, element) => acumulador + element.discount,
@@ -170,8 +172,15 @@ export const ModalBill: FC<Props> = ({
   }
 
   useEffect(() => {
-    console.log(paymentArray)
-  }, [paymentArray])
+    console.log('Desde factura')
+    const totalRecievedSum = paymentArray.reduce((acumulador, element) => {
+      if (element.paymentMethod.name === 'Efectivo') {
+        return acumulador + element.value
+      }
+      return acumulador
+    }, 0)
+    setTotalRecieved(totalRecievedSum)
+  }, [activateSummation, paymentArray])
 
   return (
     <>
@@ -274,6 +283,7 @@ export const ModalBill: FC<Props> = ({
                               paymentArray={paymentArray}
                               elementPayment={element}
                               setPaymentArray={setPaymentArray}
+                              setActivateSummation={setActivateSummation}
                               onOpenModalQr={onOpen}
                               key={index}
                             />
@@ -286,29 +296,28 @@ export const ModalBill: FC<Props> = ({
                         size="sm"
                         textTitle="Total"
                         isReadOnly={true}
-                        defaultValue={formatDouble.format(
-                          subTotalProducts +
-                            totalTaxProducts -
-                            totalDiscountProducts
-                        )}
+                        defaultValue={formatDouble.format(total)}
                       />
                       <InputBill
                         variant="faded"
                         size="sm"
                         textTitle="Recibido"
                         isReadOnly={true}
-                        defaultValue={'2000'}
+                        defaultValue={formatDouble.format(totalRecieved)}
                       />
                       <InputBill
                         variant="faded"
                         size="sm"
                         textTitle="Cambio"
                         isReadOnly={true}
-                        defaultValue={'2000'}
+                        defaultValue={
+                          totalRecieved === 0
+                            ? '0'
+                            : formatDouble.format(totalRecieved - total)
+                        }
                       />
                     </div>
                     <div className="w-full">
-                      <p className="dark:text-default-500 text-slate-500 text-sm ml-1 "></p>
                       <Textarea
                         label="Observaciones:"
                         value={valueTextArea}

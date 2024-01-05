@@ -21,13 +21,15 @@ interface Props {
   setPaymentArray: Dispatch<SetStateAction<PaymentArray[]>>
   elementPayment: PaymentArray
   onOpenModalQr: () => void
+  setActivateSummation: Dispatch<SetStateAction<number>>
 }
 
 export const PaymentRow: FC<Props> = ({
   paymentArray,
   setPaymentArray,
   elementPayment,
-  onOpenModalQr
+  onOpenModalQr,
+  setActivateSummation
 }) => {
   // INVOICE PARAMETERS CONTEXT
   const { parametersInfo } = useContext(ParametersContext)
@@ -60,7 +62,13 @@ export const PaymentRow: FC<Props> = ({
   }
 
   useEffect(() => {
-    elementPayment.value = parseInt(valueInput)
+    if (isNaN(parseInt(valueInput))) {
+      elementPayment.value = 0
+      setActivateSummation(0)
+    } else {
+      elementPayment.value = parseInt(valueInput)
+      setActivateSummation(parseInt(valueInput))
+    }
     elementPayment.voucher = voucherInput
   }, [valueInput, voucherInput])
 
@@ -98,7 +106,6 @@ export const PaymentRow: FC<Props> = ({
         newArrayReturn={bankArray}
         setnewArrayReturn={setBankArray}
       />
-
       <Input
         label="Valor"
         type="number"
@@ -109,7 +116,9 @@ export const PaymentRow: FC<Props> = ({
           </div>
         }
         className=""
-        value={elementPayment.value.toString()}
+        value={
+          isNaN(elementPayment.value) ? '' : elementPayment.value.toString()
+        }
         // onValueChange={setValueInput}
         onChange={e => {
           handleVoucherAndValor(e, 'valor')
