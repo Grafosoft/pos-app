@@ -36,8 +36,6 @@ export const TablesCard: FC<Props> = ({
   }
 
   const openModalEditTable = () => {
-    console.log(tableElement)
-
     if (
       onOpen &&
       setSelectIconIndex &&

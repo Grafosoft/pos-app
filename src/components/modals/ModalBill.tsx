@@ -24,6 +24,8 @@ import { RiAddFill } from 'react-icons/ri'
 import { totalTaxPer } from '@/utils/totalPaxPer'
 import { ProductContext } from '@/context/ProductContext'
 import { UrlContext } from '@/context/UrlContext'
+import { GrFormNextLink } from 'react-icons/gr'
+import { IoArrowBackSharp } from 'react-icons/io5'
 
 interface Props {
   isOpenModalBill: boolean
@@ -172,7 +174,6 @@ export const ModalBill: FC<Props> = ({
   }
 
   useEffect(() => {
-    console.log('Desde factura')
     const totalRecievedSum = paymentArray.reduce((acumulador, element) => {
       if (element.paymentMethod.name === 'Efectivo') {
         return acumulador + element.value
@@ -208,7 +209,7 @@ export const ModalBill: FC<Props> = ({
                 className="ml-2"
               >
                 <Tab key={'data'} title={'1. Datos de la Factura'}>
-                  <ModalBody className="flex flex-col p-5 ">
+                  <ModalBody className="flex flex-col p-5  ">
                     <div className="flex gap-3">
                       <SelectObject
                         arrayFind={parametersInfo.numerations}
@@ -257,6 +258,7 @@ export const ModalBill: FC<Props> = ({
                       }}
                     >
                       Continuar
+                      <GrFormNextLink size={30} />
                     </Button>
                   </ModalFooter>
                 </Tab>
@@ -329,6 +331,17 @@ export const ModalBill: FC<Props> = ({
                     </div>
                   </ModalBody>
                   <ModalFooter>
+                    <Button
+                      color="success"
+                      variant="flat"
+                      className="w-full rounded-md"
+                      onClick={() => {
+                        setKeySelectedTab('data')
+                      }}
+                    >
+                      <IoArrowBackSharp size={23} />
+                      Atras
+                    </Button>
                     <Button
                       color={color.colorComponent}
                       variant="flat"

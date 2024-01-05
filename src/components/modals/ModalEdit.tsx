@@ -86,9 +86,6 @@ export const ModalEdit: FC<Props> = ({ element }) => {
   }, [apikey, companyId, element.tax, functionApi])
 
   const handlerAddTax = () => {
-    console.log(element.discount)
-    console.log(element.discount === null ? '0' : element.discount.toString())
-
     const ValidateNewTax = newTax.find(element => element.id === 0)
     if (!ValidateNewTax) {
       const newTaxObject = [
